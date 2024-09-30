@@ -29,7 +29,7 @@ where $x$, $y$, and $z$ are the coordinates of the point $p$ in the coordinate f
 
 A Cartesian coordinate frame is a coordinate frame that uses three mutually perpendicular lines to define the position and orientation of a robot in 3D space. The three lines are labeled as x, y, and z.
 
-The Cartesian coordinate frame is the most commonly used coordinate frame in robotics. The position of a point $p$ in the Cartesian coordinate frame can be represented by a vector \(\overrightarrow{p}\), which can be written as:
+The Cartesian coordinate frame is the most commonly used coordinate frame in robotics. The position of a point \(p\) in the Cartesian coordinate frame can be represented by a vector \(\overrightarrow{p}\), which can be written as:
 
 $$\overrightarrow{p}=x\hat{i}+y\hat{j}+z\hat{k}$$
 
@@ -56,17 +56,17 @@ where \(\hat{i}\), \(\hat{j}\), and \(\hat{k}\) are the unit vectors of the x, y
 
 Coordinates are a set of numbers that define the position of a point in 3D space. The coordinates of a point can be represented in different ways, including Cartesian coordinates, cylindrical coordinates, and spherical coordinates.
 
-In the Cartesian coordinate system, the coordinates of a point $p$ can be represented by a vector \(\overrightarrow{p}\), which can be written as:
+In the Cartesian coordinate system, the coordinates of a point \(p\) can be represented by a vector \(\overrightarrow{p}\), which can be written as:
 
 $$\overrightarrow{p}=x\hat{i}+y\hat{j}+z\hat{k}$$
 
-In the cylindrical coordinate system, the coordinates of a point $p$ can be represented by a vector \(\overrightarrow{p}\), which can be written as:
+In the cylindrical coordinate system, the coordinates of a point \(p\) can be represented by a vector \(\overrightarrow{p}\), which can be written as:
 
 $$\overrightarrow{p}=r\hat{\rho}+\theta\hat{\theta}+z\hat{k}$$
 
 where $r$ is the radial distance from the origin, \(\theta\) is the angular displacement from the x-axis, and $z$ is the height of the point above the xy-plane.
 
-In the spherical coordinate system, the coordinates of a point $p$ can be represented by a vector \(\overrightarrow{p}\), which can be written as:
+In the spherical coordinate system, the coordinates of a point \(p\) can be represented by a vector \(\overrightarrow{p}\), which can be written as:
 
 $$\overrightarrow{p}=r\hat{\rho}+\theta\hat{\theta}+\phi\hat{\phi}$$
 
