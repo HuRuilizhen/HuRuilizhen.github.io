@@ -23,7 +23,7 @@ Hello, I'm Ruilizhen HU, and you can also call me Ray! 🚀😊 I'm an enthusias
 - **Reading Manga**: I enjoy reading manga, especially series like "Noragami" (ノラガミ) and "The Seven Deadly Sins" (七つの大罪). These stories often inspire my creativity and offer a refreshing break from coding. 𐩔📖
 - **Listening to Music (especially LOFI)**: I find peace and focus in the calming rhythms of LOFI, which is perfect for those long coding sessions. 🎧🎶
 - **Traveling**: Exploring new cultures broadens my horizons and provides me with a fresh perspective on life and work. ✈️🌍
-- **Building**: I love to build cool stuffs, something like this website! 🚧
+- **Building**: I love to build cool stuffs, something like this website! 🚧🛠️
 
 ## Get in Touch
 Connect with me if you're interested in collaboration or just want to say hi!

@@ -4,7 +4,7 @@ title: "Processes"
 description: "Introduction to Processes in Operating System"
 date: 2024-10-02
 feature_image: images/operating-system.jpg
-tags: ['Operating-System']
+tags: ['operating-system']
 ---
 
 Processes are a fundamental concept in operating systems. They are used to manage resources and perform tasks. This blog will cover process concept, process scheduling, and process operations.
