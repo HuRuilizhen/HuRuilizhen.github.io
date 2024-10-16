@@ -1,0 +1,19 @@
+{
+    "links": [
+        {
+            "title": "GitHub",
+            "icon": "fa-github",
+            "url": "https://github.com/HuRuilizhen"
+        },
+        {
+            "title": "LinkedIn",
+            "icon": "fa-linkedin",
+            "url": "https://www.linkedin.com/in/ruilizhen-hu"
+        },
+        {
+            "title": "Reddit",
+            "icon": "fa-reddit",
+            "url": "https://www.reddit.com/user/Ray-FireDragonKing/"
+        }
+    ]
+}
