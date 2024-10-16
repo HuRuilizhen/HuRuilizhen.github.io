@@ -27,7 +27,7 @@ For more information, see official website [Docker](https://www.docker.com/).
 
 ---
 
-# How to install Docker? ⬇️
+# How to Install Docker? ⬇️
 
 I mainly focus on the setup on my developing machine (Macbook Air M2) and testing server (Ubuntu 22.04).
 
