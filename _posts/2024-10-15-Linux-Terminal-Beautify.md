@@ -3,7 +3,7 @@ layout: post
 title: "Linux Terminal Beautify"
 description: "A quick start on how to use Docker"
 date: 2024-10-15
-feature_image: images/deployment.jpg
+feature_image: images/terminal.png
 tags: ['command-line-interface', 'linux']
 ---
 
@@ -33,13 +33,13 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu` system and left it idle
 
     And here is a screenshot of what we have done:
 
-    {% include image_caption.html imageurl="/images/terminal-with-oh-my-zsh.png" title="Terminal with Oh My ZSH" caption="Terminal with Oh My ZSH"%}
+{% include image_caption.html imageurl="/images/terminal-with-oh-my-zsh.png" title="Terminal with Oh My ZSH" caption="Terminal with Oh My ZSH"%}
 
 - **Nerd Font**:
     With `Nerd Font` you can get a beautiful terminal with awesome icons. If you don't have `Nerd Font` installed, you can choose one [here](https://www.nerdfonts.com/font-downloads)
     \
     If you have `Nerd Font` installed, you can set it in `Terminal>Preferences>Profile>Custom Fonts` like below:
-    {% include image_caption.html imageurl="/images/terminal-with-nerd-font.png" title="Terminal with Nerd Font" caption="Terminal with Nerd Font"%}
+{% include image_caption.html imageurl="/images/terminal-with-nerd-font.png" title="Terminal with Nerd Font" caption="Terminal with Nerd Font"%}
 
 - **Powerlevel10k**
     Apowerfull theme I use for my terminal. It is a good choice for a good productivity. You can find it at [Powerlevel10k GitHub repo](https://github.com/romkatv/powerlevel10k). Using git to clone it is easy:
@@ -53,7 +53,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu` system and left it idle
     Restart your terminal or type `source ~/.zshrc`
     \
     With a screenshot, you can see terminal with `Powerlevel10k` theme:
-    {% include image_caption.html imageurl="/images/terminal-with-powerlevel10k.png" title="Terminal with Powerlevel10k" caption="Terminal with Powerlevel10k"%}
+{% include image_caption.html imageurl="/images/terminal-with-powerlevel10k.png" title="Terminal with Powerlevel10k" caption="Terminal with Powerlevel10k"%}
 
 ---
 
