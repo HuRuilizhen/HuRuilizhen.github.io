@@ -7,11 +7,13 @@ feature_image: images/terminal.png
 tags: ['command-line-interface', 'linux']
 ---
 
-Ever since I mistakenly refreshed my desktop to `Ubuntu` system and left it idle for a long time, I now try to turn it into a productivity tool. The first thing needs to be done is to beautify the terminal just like the one in my `Macbook Air`. Here is how I did it: 💻
+Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left it idle for a long time, I now try to turn it into a productivity tool. The first thing needs to be done is to beautify the terminal just like the one in my `Macbook Air`. Here is how I did it: 💻
 
 <!--more-->
 
 ---
+
+# Shell Setup
 
 - **ZSH**
 
@@ -35,7 +37,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu` system and left it idle
 
 {% include image_caption.html imageurl="/images/terminal-with-oh-my-zsh.png" title="Terminal with Oh My ZSH" caption="Terminal with Oh My ZSH"%}
 
-- **Nerd Font**:
+- **Nerd Font**
     With `Nerd Font` you can get a beautiful terminal with awesome icons. If you don't have `Nerd Font` installed, you can choose one [here](https://www.nerdfonts.com/font-downloads)
     
     If you have `Nerd Font` installed, you can set it in `Terminal>Preferences>Profile>Custom Fonts` like below:
@@ -74,9 +76,92 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu` system and left it idle
 
     - Set `plugins=(... zsh-syntax-highlighting)` in `~/.zshrc`
     - Restart your terminal or type `source ~/.zshrc`
+---
+
+# Command Line Tool Setup
+
+- **bat**
+    Which is short for better cat. Basically, it is a cat with syntax highlighting, line numbers, and pages.
+
+    ```bash
+    sudo apt install bat
+    ```
+
+    Here is a screenshot of using `bat` to show `README.md` file:
+
+{% include image_caption.html imageurl="/images/terminal-with-bat.png" title="Terminal with bat" caption="Terminal with bat"%}
+
+- **fzf**
+    A command-line fuzzy finder that helps you select files and commands. I don't recommend using apt to install `fzf`, since you must do key-binding for it manually. Therefore, git clone it from [GitHub](https://github.com/junegunn/fzf).
+
+    ```bash
+    git clone –depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ```
+
+    - Then install `fzf` using `~/.fzf/install`
+    - Restart your terminal or type `source ~/.zshrc`
+
+    | Key Bindings               | Actions                         |
+    | -------------------------- | ------------------------------- |
+    | `<C-t>`                    | Find files                      |
+    | `<C-r>`                    | Find commands                   |
+    | `<command> <file path>/**` | Combine fzf with other commands |
+
+- **eza**
+    Better ls command with colors and icons. Make your terminal look more interesting.
+
+    ```bash
+    sudo apt install eza
+    ```
+
+    And setting alias `ls` to `eza` in `~/.zshrc`
+
+    ```bash
+    # --- eza ---
+    alias ls="eza --color=always --long --git --icons=always --no-time --no-user --no-permissions"
+    alias ll="eza --color=always --long --git --icons=always --header"
+    ```
+    Then restart your terminal or type `source ~/.zshrc`, and try `ls` and `ll`.
+
+{% include image_caption.html imageurl="/images/terminal-with-eza-ls.png" title="Terminal with eza ls" caption="Terminal with eza ls"%}
+
+{% include image_caption.html imageurl="/images/terminal-with-eza-ll.png" title="Terminal with eza ll" caption="Terminal with eza ll"%}
+
+- **tldr**
+    A command-line man page reader but more user-friendly.
+
+    ```bash
+    sudo apt install tldr
+    ```
+    
+    See different commands with `tldr` using `tldr <command>`, here is an example comparing `tldr` and `man`:
+
+{% include image_caption.html imageurl="/images/terminal-with-tldr.png" title="Terminal with tldr" caption="Terminal with tldr"%}
+
+{% include image_caption.html imageurl="/images/terminal-with-man.png" title="Terminal with man" caption="Terminal with man"%}    
+
+- **fastfetch**
+
+    A command-line system information tool that is easy to use and fast. The install process is a bit different from others. We need to add `ppa:zhangsongcui3371/fastfetch` to our sources, and then install it.
+
+    ```bash
+    sudo add-apt-repository ppa:zhangsongcui3371/fastfetch
+    sudo apt update
+    sudo apt install fastfetch
+    ```
+
+    By the way, we can directly install `fastfetch` by typing `brew install fastfetch` in MacOS. Here are some screenshots of using `fastfetch` to show system information (Apple Silicon and Linux):
+
+{% include image_caption.html imageurl="/images/fastfetch-apple-silicon.jpg" title="Apple Silicon System Info" caption="Apple Silicon System Info"%}
+
+{% include image_caption.html imageurl="/images/fastfetch-linux.png" title="Linux System Info" caption="Linux System Info"%}
 
 ---
 
 Reference: 
 
 📑 [How to make Linux terminal look awesome](https://www.geeksforgeeks.org/how-to-make-linux-terminal-look-awesome/)
+
+📑 [7 Amazing Cli Tools](https://www.josean.com/posts/7-amazing-cli-tools)
+
+📑 [Fastfetch Setup in Ubuntu](https://launchpad.net/~zhangsongcui3371/+archive/ubuntu/fastfetch)
