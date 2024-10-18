@@ -37,7 +37,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu` system and left it idle
 
 - **Nerd Font**:
     With `Nerd Font` you can get a beautiful terminal with awesome icons. If you don't have `Nerd Font` installed, you can choose one [here](https://www.nerdfonts.com/font-downloads)
-    \
+    
     If you have `Nerd Font` installed, you can set it in `Terminal>Preferences>Profile>Custom Fonts` like below:
 {% include image_caption.html imageurl="/images/terminal-with-nerd-font.png" title="Terminal with Nerd Font" caption="Terminal with Nerd Font"%}
 
@@ -48,12 +48,32 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu` system and left it idle
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
     ```
 
-    Then set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
-    \
-    Restart your terminal or type `source ~/.zshrc`
-    \
+    - Then set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
+    - Restart your terminal or type `source ~/.zshrc`
+    
     With a screenshot, you can see terminal with `Powerlevel10k` theme:
+
 {% include image_caption.html imageurl="/images/terminal-with-powerlevel10k.png" title="Terminal with Powerlevel10k" caption="Terminal with Powerlevel10k"%}
+
+- **zsh-autosuggestions**
+    A plugin that suggests commands based on what you have typed. 
+
+    ```bash
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    ```
+
+    - Then set `plugins=(... zsh-autosuggestions)` in `~/.zshrc`
+    - Restart your terminal or type `source ~/.zshrc`
+
+- **zsh-syntax-highlighting**
+    A plugin that highlights your command syntax. It is a must-have plugin.
+
+    ```bash
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    ```
+
+    - Set `plugins=(... zsh-syntax-highlighting)` in `~/.zshrc`
+    - Restart your terminal or type `source ~/.zshrc`
 
 ---
 
