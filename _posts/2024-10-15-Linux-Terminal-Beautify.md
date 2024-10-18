@@ -38,12 +38,14 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 {% include image_caption.html imageurl="/images/terminal-with-oh-my-zsh.png" title="Terminal with Oh My ZSH" caption="Terminal with Oh My ZSH"%}
 
 - **Nerd Font**
+
     With `Nerd Font` you can get a beautiful terminal with awesome icons. If you don't have `Nerd Font` installed, you can choose one [here](https://www.nerdfonts.com/font-downloads)
     
     If you have `Nerd Font` installed, you can set it in `Terminal>Preferences>Profile>Custom Fonts` like below:
 {% include image_caption.html imageurl="/images/terminal-with-nerd-font.png" title="Terminal with Nerd Font" caption="Terminal with Nerd Font"%}
 
 - **Powerlevel10k**
+  
     Apowerfull theme I use for my terminal. It is a good choice for a good productivity. You can find it at [Powerlevel10k GitHub repo](https://github.com/romkatv/powerlevel10k). Using git to clone it is easy:
 
     ```bash
@@ -58,6 +60,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 {% include image_caption.html imageurl="/images/terminal-with-powerlevel10k.png" title="Terminal with Powerlevel10k" caption="Terminal with Powerlevel10k"%}
 
 - **zsh-autosuggestions**
+  
     A plugin that suggests commands based on what you have typed. 
 
     ```bash
@@ -68,6 +71,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
     - Restart your terminal or type `source ~/.zshrc`
 
 - **zsh-syntax-highlighting**
+  
     A plugin that highlights your command syntax. It is a must-have plugin.
 
     ```bash
@@ -76,11 +80,13 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 
     - Set `plugins=(... zsh-syntax-highlighting)` in `~/.zshrc`
     - Restart your terminal or type `source ~/.zshrc`
+  
 ---
 
 # Command Line Tool Setup
 
 - **bat**
+  
     Which is short for better cat. Basically, it is a cat with syntax highlighting, line numbers, and pages.
 
     ```bash
@@ -92,6 +98,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 {% include image_caption.html imageurl="/images/terminal-with-bat.png" title="Terminal with bat" caption="Terminal with bat"%}
 
 - **fzf**
+  
     A command-line fuzzy finder that helps you select files and commands. I don't recommend using apt to install `fzf`, since you must do key-binding for it manually. Therefore, git clone it from [GitHub](https://github.com/junegunn/fzf).
 
     ```bash
@@ -108,6 +115,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
     | `<command> <file path>/**` | Combine fzf with other commands |
 
 - **eza**
+  
     Better ls command with colors and icons. Make your terminal look more interesting.
 
     ```bash
@@ -128,6 +136,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 {% include image_caption.html imageurl="/images/terminal-with-eza-ll.png" title="Terminal with eza ll" caption="Terminal with eza ll"%}
 
 - **tldr**
+  
     A command-line man page reader but more user-friendly.
 
     ```bash
