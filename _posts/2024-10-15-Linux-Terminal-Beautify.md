@@ -114,6 +114,18 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
     | `<C-r>`                    | Find commands                   |
     | `<command> <file path>/**` | Combine fzf with other commands |
 
+    - Additionally, if you want to make `fzf` work with `editor`, you can add following lines in `~/.zshrc`:
+    ```bash
+    function open-editor-with-fzf() {
+        local file=$(find . -type f | fzf --preview="cat {}")
+        if [[ -n $file ]]; then
+            ${EDITOR:-nvim} "$file"
+        fi
+    }
+    zle -N open-editor-with-fzf
+    bindkey "^E" open-editor-with-fzf
+    ```
+
 - **eza**
   
     Better ls command with colors and icons. Make your terminal look more interesting.
@@ -167,6 +179,29 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 
 ---
 
+# Editor Setup
+
+- **Neovim**
+    AstroNvim is an aesthetically pleasing and feature-rich neovim config that is extensible and easy to use with a great set of plugins. To install it, you need to install `neovim` first.
+    ```bash
+    sudo apt install neovim
+    ```
+    - Then clean up cache and state files:
+    ```bash
+    mv ~/.local/share/nvim ~/.local/share/nvim.bak
+    mv ~/.local/state/nvim ~/.local/state/nvim.bak
+    mv ~/.cache/nvim ~/.cache/nvim.bak
+    ```
+    - Clone [AstroNvim](https://github.com/AstroNvim/AstroNvim) repository
+    ```bash
+    git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
+    # remove template's git connection to set up your own later
+    rm -rf ~/.config/nvim/.git
+    nvim
+    ```
+
+---
+
 Reference: 
 
 📑 [How to make Linux terminal look awesome](https://www.geeksforgeeks.org/how-to-make-linux-terminal-look-awesome/)
@@ -174,3 +209,5 @@ Reference:
 📑 [7 Amazing Cli Tools](https://www.josean.com/posts/7-amazing-cli-tools)
 
 📑 [Fastfetch Setup in Ubuntu](https://launchpad.net/~zhangsongcui3371/+archive/ubuntu/fastfetch)
+
+📑 [AstroNvim Official Document](https://docs.astronvim.com/)
