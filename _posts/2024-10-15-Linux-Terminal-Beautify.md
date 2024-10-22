@@ -230,6 +230,8 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 
     - You can also use `:Codeium Enable` and `:Codeium Disable` to turn on/off the plugin.
     - More info see: [Codeium GitHub Repository](https://github.com/Exafunction/codeium.vim)
+
+{% include image_caption.html imageurl="/images/nvim-codeium.jpg" title="Codeium Setting in Neovim" caption="Codeium Setting in Neovim"%}
 ---
 
 Reference: 
