@@ -54,6 +54,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 
     - Then set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
     - Restart your terminal or type `source ~/.zshrc`
+    - Set the same terminal font in VSCode `"terminal.integrated.fontFamily": "'0xProto Nerd Font'"` (optional)
     
     With a screenshot, you can see terminal with `Powerlevel10k` theme:
 
@@ -200,6 +201,35 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
     nvim
     ```
 
+- **Integrate with AI Tools** 
+
+    Codeium is a powerful code assistant that provides an AI-powered code completion, code refactoring, and code formatting. I usually use it in my daily work before with `VSCode`. Let's do it in `Neovim`, add a new file named `codeium.lua` in `~/.config/nvim/lua/plugins/` and add the following lines:
+
+    ```lua
+    return {
+      'Exafunction/codeium.vim',
+      event = 'BufEnter'
+    }
+    ```
+
+    - Then install the plugin, by typing `SPC + p + i` in `Neovim` (`normal` mode)
+
+    - Before you start using codeium you need to auth your account type `:Codeium Auth` in `Neovim` (`command` mode)
+
+    - Look for more help info you can use `:help codeium`. Here list some useful commands:
+
+    | Action                      | Function                       | Default Binding |
+    | --------------------------- | ------------------------------ | --------------- |
+    | Clear current suggestion    | `codeium#Clear()`              | `<C-]>`         |
+    | Next suggestion             | `codeium#CycleCompletions(1)`  | `<M-]>`         |
+    | Previous suggestion         | `codeium#CycleCompletions(-1)` | `<M-[>`         |
+    | Insert suggestion           | `codeium#Accept()`             | `<Tab>`         |
+    | Manually trigger suggestion | `codeium#Complete()`           | `<M-Bslash>`    |
+    | Accept word from suggestion | `codeium#AcceptNextWord()`     | `<C-k>`         |
+    | Accept line from suggestion | `codeium#AcceptNextLine()`     | `<C-l>`         |
+
+    - You can also use `:Codeium Enable` and `:Codeium Disable` to turn on/off the plugin.
+    - More info see: [Codeium GitHub Repository](https://github.com/Exafunction/codeium.vim)
 ---
 
 Reference: 
@@ -211,3 +241,7 @@ Reference:
 📑 [Fastfetch Setup in Ubuntu](https://launchpad.net/~zhangsongcui3371/+archive/ubuntu/fastfetch)
 
 📑 [AstroNvim Official Document](https://docs.astronvim.com/)
+
+📑 [Codeium in Vim/Neovim](https://codeium.com/vim_tutorial)
+
+📑 [Codeium Github Repository](https://github.com/Exafunction/codeium.vim)

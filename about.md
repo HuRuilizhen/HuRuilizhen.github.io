@@ -12,6 +12,7 @@ Hello, I'm Ruilizhen HU, and you can also call me Ray! 🚀😊 I'm an enthusias
 - Major: Computer Science & Technology
 
 ## Skills and Interests
+- Familiar with C/C++ 🐧, Python 🐍, Java ☕️, Rust 🦀
 - Passionate about Machine Learning 🤖
 - Expertise in Traditional Algorithms 🔍
 - Experienced in Frontend & Backend Development 💻
