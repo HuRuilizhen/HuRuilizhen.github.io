@@ -54,9 +54,7 @@ An operating system (OS) provides the interface between the users of a computer 
 **Layered Model** is a hierarchical model of an operating system, with the following layers:
 
 - **Hardware Layer (Bottom Layer)**: Provides the basic computing, storage, and I/O capabilities.
-
 - **Kernel Layer (Middle Layer)**: Core of the OS, including process management, memory management, file system, device drivers, and network communication.  It sits between the hardware and the applications, providing essential services and enhancing security and stability.
-
 - **User Interface and Application Layer (Top Layer)**: Interacts with the hardware indirectly by calling kernel-provided services, allowing users and applications to perform tasks without needing to know the underlying hardware details.
 
 User applications don’t communicate directly with low-level hardware components, and instead delegate such tasks to the kernel via **System Calls**. Key features include:

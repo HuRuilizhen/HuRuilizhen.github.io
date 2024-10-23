@@ -25,15 +25,10 @@ Execution of program started via GUI mouse clicks, command line entry of its nam
 ## Process Structure
 
 - **Process ID (PID)**: This is a unique identifier assigned to each process. It is used to identify the process in the system.
-
 - **Program Code/Text Segment**: This is the set of machine instructions that the program actually executes. It is read-only because there is no need to modify the compiled code.
-
 - **Stack**: This is a Last-In-First-Out (LIFO) data structure used to store information during function calls, such as local variables, function parameters, and return addresses. Each time a function is called, a new stack frame is pushed onto the top of the stack; when the function returns, the corresponding stack frame is popped off.
-
 - **Data Segment**: This part contains initialized global and static variables. These variables are allocated space before the program starts executing and persist throughout the program's lifetime.
-
 - **Heap**: Unlike the data segment, the heap is a region of memory that is dynamically allocated during the program's execution as needed. Programmers use language-specific functions (such as `malloc` and `free` in C) to request and release this memory. The heap typically grows from lower to higher memory addresses.
-
 - **Current Activity**: These information are stored in the process control block (PCB) of the process. See `Process Control Block` for more details.
 
 {% include image_caption.html imageurl="/images/process-structure.png" title="Process Structure" caption="Process Structure" %}
@@ -55,29 +50,23 @@ When a process executes, it is in one of the following states:
 Each process in an operating system is represented by a data structure known as the **Task Control Block (TCB)** or **Process Control Block (PCB)**. This block contains all the information necessary to manage and control the execution of a process. The key components include:
 
 - **Process State**: The current state of the process.
-
 - **Program Counter (PC)**: The address of the next instruction to be executed. This is crucial for resuming the process after it has been preempted or interrupted.
-
 - **CPU Registers**: The contents of all registers that are specific to the process, including:
   - **General-purpose registers**: Used for arithmetic and logical operations.
   - **Status registers**: Store the status of the CPU, such as flags indicating overflow, zero, carry, etc.
   - **Stack pointer (SP)**: Points to the top of the stack.
   - **Base pointer (BP)**: Used to reference parameters and local variables in the stack frame.
-
 - **CPU Scheduling Information**: Information used by the scheduler to determine when and how the process should be executed, including:
   - **Priority**: A value that determines the relative importance of the process.
   - **Scheduling queue pointers**: Pointers to the scheduling queues (e.g., ready queue, wait queue) where the process is placed.
-
 - **Memory Management Information**: Details about the memory allocated to the process, including:
   - **Virtual memory space**: The total address space available to the process.
   - **Page tables**: Maps virtual addresses to physical addresses.
   - **Segmentation information**: If the memory is divided into segments, this includes the base and limit of each segment.
-
 - **Accounting Information**: Data used for resource management and billing, including:
   - **CPU usage**: The amount of CPU time consumed by the process.
   - **Elapsed clock time**: The total time since the process started.
   - **Time limits**: Maximum allowed CPU time, wall-clock time, etc.
-
 - **I/O Status Information**: Information about the I/O operations associated with the process, including:
   - **Allocated I/O devices**: Devices that are currently assigned to the process.
   - **List of open files**: Files that the process has opened and is using.
@@ -118,7 +107,6 @@ To achieve these goals, the process scheduler maintains several different schedu
 - **Ready Queue**:
    - **Definition**: The ready queue contains all processes that are ready and waiting to execute. These processes are already in main memory and have all the necessary conditions to start executing.
    - **Function**: When the CPU is idle or the currently running process is preempted, the scheduler selects a process from the ready queue to execute.
-
 - **Wait Queues**:
    - **Definition**: Wait queues contain processes that are waiting for an event (such as I/O completion). These processes cannot execute temporarily because they depend on external events.
    - **Function**: Once the required event occurs, the process is moved to the ready queue, ready to execute again.
@@ -151,9 +139,7 @@ When the scheduler decides to switch from one process to another, it needs to sa
 
 # Operation on Processes 📝
 
-System must provide mechanisms for:
-- Process creation
-- Process termination
+System must provide mechanisms for `Process Creation` and `Process Termination`.
 
 ## Process Creation
 
@@ -202,5 +188,14 @@ System must provide mechanisms for:
 - **Zombie Process**: When a child process terminates, if the parent process does not call `wait()` to retrieve its status information, the child process becomes a zombie. A zombie process has already terminated, but its PCB still exists in the system until the parent process calls `wait()` or the parent process itself terminates.
 - **Orphan Process**: When the parent process terminates without calling `wait()`, the child process becomes an orphan. In this case, the operating system typically sets the parent of these orphan processes to the `init` process (PID 1) to ensure they are properly managed and cleaned up.
 
-
 ---
+
+Related Posts 👇
+
+📑 [Operating System Overview](https://huruilizhen.github.io/Operating-System-Overview)
+
+📑 [Threads](https://huruilizhen.github.io/Threads)
+
+📑 [File System](https://huruilizhen.github.io/File-System)
+
+📑 [Memory Management](https://huruilizhen.github.io/Memory-Management)
