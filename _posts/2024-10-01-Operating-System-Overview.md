@@ -78,9 +78,7 @@ User applications don’t communicate directly with low-level hardware component
 A process is a running instance of an application. It is a collection of instructions that are executed by the operating system.
 
 - The actual contents of all programs are initially stored in persistent storage, such as a hard drive.
-
 - In order to be executed, a program must be loaded into RAM and uniquely identified as a process. Hence, multiple copies of the same program can be run as different processes.
-
 - It is identified by a unique nonnegative integer, called the process ID (PID). Users associate its CPU time, memory usage, user ID (UID), program name, etc. with the process ID.
 
 ## File System
@@ -110,12 +108,12 @@ The RAM of computer is its **address space**. It contains the program code, data
 - **Heap**: Used for dynamically allocating memory during program execution.
 
 | Page  |
-| ----- |
+| :---: |
 | Stack |
-| ⬇     |
-| ⬆     |
+|   ⬇   |
+|   ⬆   |
 | Heap  |
-| BSS   |
+|  BSS  |
 | Data  |
 | Text  |
 

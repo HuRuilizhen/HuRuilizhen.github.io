@@ -213,9 +213,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
     ```
 
     - Then install the plugin, by typing `SPC + p + i` in `Neovim` (`normal` mode)
-
     - Before you start using codeium you need to auth your account type `:Codeium Auth` in `Neovim` (`command` mode)
-
     - Look for more help info you can use `:help codeium`. Here list some useful commands:
 
     | Action                      | Function                       | Default Binding |
