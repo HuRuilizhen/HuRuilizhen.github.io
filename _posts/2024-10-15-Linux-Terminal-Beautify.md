@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux Terminal Beautify"
-description: "A quick start on how to use Docker"
+description: "A quick start on how to beautify the terminal in Linux"
 date: 2024-10-15
 feature_image: images/terminal.png
 tags: ['command-line-interface', 'linux']
