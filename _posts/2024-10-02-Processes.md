@@ -194,6 +194,8 @@ Related Posts 👇
 
 📑 [Operating System Overview](https://huruilizhen.github.io/Operating-System-Overview)
 
+📑 [Operating System Security](https://huruilizhen.github.io/Operating-System-Security)
+
 📑 [Threads](https://huruilizhen.github.io/Threads)
 
 📑 [File System](https://huruilizhen.github.io/File-System)
