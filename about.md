@@ -22,7 +22,8 @@ Hello, I'm Ruilizhen HU, and you can also call me Ray! 🚀😊 I'm an enthusias
 
 ## Hobbies
 - **Reading Manga**: I enjoy reading manga, especially series like "Noragami" (ノラガミ) and "The Seven Deadly Sins" (七つの大罪). These stories often inspire my creativity and offer a refreshing break from coding. 𐩔📖
-- **Listening to Music (especially LOFI)**: I find peace and focus in the calming rhythms of LOFI, which is perfect for those long coding sessions. 🎧🎶
+- **Playing RPGs**: I'm a huge fan of RPGs like "Octopath Traveler" (オクタパストラベラー) and "Trangle Strategy" (トラングランドストラテジー). They provide me with a sense of adventure and challenge. 🎮🌟
+- **Listening to Music**: I find peace and focus in the calming rhythms of LOFI, which is perfect for those long coding sessions. 🎧🎶
 - **Traveling**: Exploring new cultures broadens my horizons and provides me with a fresh perspective on life and work. ✈️🌍
 - **Building**: I love to build cool stuffs, something like this website! 🚧🛠️
 
@@ -49,4 +50,4 @@ Feel free to reach out if you're interested in collaborating or just want to say
 
 Best regards, Ray
 
-> *Last Updated: September 28th, 2024*
+> *Last Updated: November 11th, 2024*
