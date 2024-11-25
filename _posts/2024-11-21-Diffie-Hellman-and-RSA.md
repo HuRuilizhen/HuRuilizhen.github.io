@@ -97,21 +97,25 @@ To understand the Diffie-Hellman key exchange protocol, it is important to have 
 A **group** $ G $ is a set of elements $ G = \{ g_1, g_2, \ldots, g_n \} $ assoiated with a binary operation $ \circ $ called the group operation and meet the following requirements: 
 
 - **Close**
+
 $$
     \forall g_i, g_j \in G \rightarrow g_i \circ g_j \in G
 $$
 
 - **Associative**
+
 $$
     \forall g_i, g_j, g_k \in G \rightarrow (g_i \circ g_j) \circ g_k = g_i \circ (g_j \circ g_k)
 $$
 
 - **Identity**
+
 $$
     \forall g_i \in G, \exists g_0 \in G \rightarrow g_0 \circ g_i = g_i \circ g_0 = g_i
 $$
 
 - **Inverses**
+
 $$
     \forall g_i \in G, \exists g_i^{-1} \in G \rightarrow g_i \circ g_i^{-1} = g_i^{-1} \circ g_i = g_0
 $$
@@ -121,6 +125,7 @@ The **order of a group** $ G $ is the number of elements in the group. If the or
 If a group $ G $ also satisfies commutative, then it is called a **commutative group** or a **abelian group**.
 
 - **Commutative**
+
 $$
     \forall g_i, g_j \in G \rightarrow g_i \circ g_j = g_j \circ g_i
 $$
@@ -128,6 +133,7 @@ $$
 If a group $ G $ also satisfies following properties, then it is called a **cyclic group**. We call $ g' $ the **generator** of the group.
 
 - **Cyclic**
+
 $$
     \forall g_i \in G, \exists g' \in G, \exists n \in \mathbb{N} \rightarrow g_i = g'^n
 $$
@@ -208,6 +214,7 @@ To overcome this limitation, the following method can be used to enable Alice an
 5. Bob then uses $T_A'$ to compute $K_{BA} = T_A'^{S_B} \mod p_B$. He then uses $K_{BA}$ to decrypt the message using the secret key cipher.
 
 We can show that $T_{AB}$ and $T_{BA}$ are the same as following:
+
 $$
     T_{AB} = T_B^{S_A'} \mod p_B = (g_B^{S_B})^{S_A'} \mod p_B = (g_B^{S_A'})^{S_B} \mod p_B = T_A'^{S_B} \mod p_B = T_{BA}
 $$
@@ -215,16 +222,16 @@ $$
 ## Diffie-Hellman and Safe Primes
 
 - **Basic Concepts**:
-  - **Diffie-Hellman Protocol**: Works with any prime \( p \) and any generator \( g \), but without additional mathematical properties, the security is lower.
-  - **Safe Prime**: A prime \( p \) is a safe prime if \( (p - 1)/2 \) is also a prime.
+  - **Diffie-Hellman Protocol**: Works with any prime $ p $ and any generator $ g $, but without additional mathematical properties, the security is lower.
+  - **Safe Prime**: A prime $ p $ is a safe prime if $ (p - 1)/2 $ is also a prime.
 
 - **Why Use Safe Primes**:
   - **Enhanced Security**: Using safe primes increases the difficulty for attackers to solve the discrete logarithm problem, especially in resisting small subgroup attacks.
-  - **Mathematical Properties**: Safe primes ensure that \( p - 1 \) has a large prime factor, which helps improve the security of the protocol.
+  - **Mathematical Properties**: Safe primes ensure that $ p - 1 $ has a large prime factor, which helps improve the security of the protocol.
 
 - **Specific Requirements**:
-  - **Choosing a Safe Prime**: Ensure \( p \) is a prime and \( (p - 1)/2 \) is also a prime.
-  - **Choosing a Generator**: Select a generator \( g \), typically a power of 2, such as \( g = 2 \) or \( g = 3 \), to ensure the generated subgroup has good mathematical properties.
+  - **Choosing a Safe Prime**: Ensure $ p $ is a prime and $ (p - 1)/2 $ is also a prime.
+  - **Choosing a Generator**: Select a generator $ g $, typically a power of 2, such as $ g = 2 $ or $ g = 3 $, to ensure the generated subgroup has good mathematical properties.
 
 ---
 
