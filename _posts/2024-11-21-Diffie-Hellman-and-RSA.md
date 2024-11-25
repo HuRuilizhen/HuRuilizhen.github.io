@@ -17,6 +17,13 @@ Diffie-Hellman and RSA are two popular algorithms for secure communication. They
   - [Key Distribution Problem](#key-distribution-problem)
   - [Digital Signature Problem](#digital-signature-problem)
 - [Introduction of Diffie-Hellman and RSA](#introduction-of-diffie-hellman-and-rsa)
+- [Diffie-Hellman Key Exchange Protocol](#diffie-hellman-key-exchange-protocol)
+  - [Prerequisites Mathematics](#prerequisites-mathematics)
+  - [Procedures](#procedures)
+  - [Challenge from MITM Attack](#challenge-from-mitm-attack)
+  - [Encryption with Diffie-Hellman](#encryption-with-diffie-hellman)
+  - [Diffie-Hellman and Safe Primes](#diffie-hellman-and-safe-primes)
+- [RSA Algorithm](#rsa-algorithm)
 - [Elliptic Curve Cryptography](#elliptic-curve-cryptography)
   - [Known Subexponential Algorithms](#known-subexponential-algorithms)
   - [Elliptic Curve Cryptography (ECC)](#elliptic-curve-cryptography-ecc)
@@ -78,6 +85,155 @@ However, at the time, Diffie and Hellman did not immediately propose a specific,
 | Forward Secrecy        | Provides forward secrecy                 | Does not provide forward secrecy                    |
 | Computational Overhead | Low                                      | High                                                |
 | Applicable Scenarios   | Key negotiation over insecure networks   | Scenarios requiring long-term security              |
+
+---
+
+# Diffie-Hellman Key Exchange Protocol
+
+## Prerequisites Mathematics
+
+To understand the Diffie-Hellman key exchange protocol, it is important to have a solid understanding of basic number theory and group theory. We will start by defining some basic terms:
+
+<details>
+<summary>Group and  Generator</summary>
+
+A **group** $ G $ is a set of elements $ G = \{ g_1, g_2, \ldots, g_n \} $ assoiated with a binary operation $ \circ $ called the group operation and meet the following requirements: 
+
+- **Close**
+$$
+    \forall g_i, g_j \in G \rightarrow g_i \circ g_j \in G
+$$
+
+- **Associative**
+$$
+    \forall g_i, g_j, g_k \in G \rightarrow (g_i \circ g_j) \circ g_k = g_i \circ (g_j \circ g_k)
+$$
+
+- **Identity**
+$$
+    \forall g_i \in G, \exists g_0 \in G \rightarrow g_0 \circ g_i = g_i \circ g_0 = g_i
+$$
+
+- **Inverses**
+$$
+    \forall g_i \in G, \exists g_i^{-1} \in G \rightarrow g_i \circ g_i^{-1} = g_i^{-1} \circ g_i = g_0
+$$
+
+The **order of a group** $ G $ is the number of elements in the group. If the order of a group $ G $ is finite, it is called a **finite group**, otherwise it is called an **infinite group**. We denote the order of a group $ G $ with the symbol $\text{order}(G)$ or $|G|$.
+
+If a group $ G $ also satisfies commutative, then it is called a **commutative group** or a **abelian group**.
+
+- **Commutative**
+$$
+    \forall g_i, g_j \in G \rightarrow g_i \circ g_j = g_j \circ g_i
+$$
+
+If a group $ G $ also satisfies following properties, then it is called a **cyclic group**. We call $ g' $ the **generator** of the group.
+
+- **Cyclic**
+$$
+    \forall g_i \in G, \exists g' \in G, \exists n \in \mathbb{N} \rightarrow g_i = g'^n
+$$
+
+If $ |G| $ is finite, then it is called a **finite cyclic group**, otherwise it is called an **infinite cyclic group**.
+
+**A cyclic group $ G $ is necessarily abelian**, because the power operation is commutative. Start with a generator $ g' $:
+
+$$
+    \forall g_i, g_j \in G, \exists n_i, n_j \in \mathbb{N} \rightarrow g_i = g'^{n_i}, g_j = g'^{n_j}
+$$
+
+By the close property, we have:
+
+$$
+    g_i \circ g_j \in G \rightarrow g'^{n_i + n_j} \in G \rightarrow g'^{n_j} \circ g'^{n_i} \in G \rightarrow g_j \circ g_i \in G
+$$
+</details>
+
+</br>
+
+Here we have defined all things we need to understand the Diffie-Hellman key exchange protocol. Now, let's focus on  **Multiplicative Group Modulo \( p \)**. Consider the multiplicative group modulo \( p \), denoted \( \mathbb{Z}_p^* \), where \( p \) is a prime. This group contains all integers from 1 to \( p-1 \) that are coprime with \( p \). The order of \( \mathbb{Z}_p^* \) is \( p-1 \). If \( g \) is a generator of \( \mathbb{Z}_p^* \), then the powers of \( g \) generate all elements of \( \mathbb{Z}_p^* \). That is, for any \( a \in \mathbb{Z}_p^* \), there exists an integer \( k \) such that \( a = g^k \mod p \).
+
+The **Discrete Logarithm Problem (DLP)** is an important problem in number theory and forms the basis of the security of many public-key cryptography algorithms, such as the Diffie-Hellman key exchange and the ElGamal encryption algorithm. Simply put, the difficulty of computing discrete logarithms refers to the high computational complexity of solving the discrete logarithm problem, making it practically infeasible to solve within a reasonable time frame in real-world applications.
+
+
+Suppose we have a finite cyclic group $ G $ and a generator $ g $. For any group element $ y \in G $, the discrete logarithm problem can be stated as follows: given $ y $ and $ g $, find an integer $ x $ such that:
+
+$$ y = g^x \mod p $$
+
+where \( p \) is a large prime number, and \( g \) is a primitive root modulo \( p \). This problem is NP-hard.
+
+## Procedures
+
+1. First, Alice and Bob agree on a large prime $p$, and $g$, such that $g$ is a generator mod $n$. The numbers **don't have to be secret**.
+2. Alice chooses a random large integer x and sends Bob $X$, where
+$$
+    X = g^x \mod p
+$$
+3. Bob chooses a random large integer $y$ and sends Alice $Y$, where
+$$
+    Y = g^y \mod p
+$$
+4. Alice computes
+$$
+    K = Y^x \mod p
+$$
+5. Bob computes
+$$
+    K = X^y \mod p
+$$
+
+The shared secret $K$ is a number that is only known to both Alice and Bob. We can show that the shared secret is the same as the discrete logarithm of $K$ with respect to $g$ modulo $n$:
+$$
+    K = Y^x \mod p = g^{yx} \mod p = g^{xy} \mod p = X^y \mod p = K
+$$
+
+An attacker can obtain the values of $X$, $Y$, $g$, and $p$. However, to derive the secret key $K$, they must solve the discrete logarithm problem: given $X$, $g$, and $p$, determine $x$ such that $X = g^x \mod p$. This task is computationally challenging, ensuring the security of the key.
+
+## Challenge from MITM Attack
+
+One major issue with the Diffie-Hellman protocol is the lack of authentication, which makes it vulnerable to man-in-the-middle attacks. The basic idea of a man-in-the-middle attack is that the attacker (Eve) intercepts and modifies the messages between the two communicating parties (Alice and Bob), thereby establishing separate shared keys with each party without their knowledge.
+
+{% include image_caption.html imageurl="/images/DH-MITM.png" title="MITM Attack on Diffie-Hellman" caption="MITM Attack on Diffie-Hellman"%}
+
+There are a number of techniques to defend against such an attack:
+- Each person can have a "somewhat permanent" public and secret number, instead of creating one for each message exchange. This can be considered to be a kind of Digital Phonebook.
+- If Alice and Bob share some kind of secret which then can use to authenticate each other, then they can use this secret to verify each other's messages indeed came from the person they expected.
+
+## Encryption with Diffie-Hellman
+
+One disadvantage of the Diffie-Hellman protocol is that for communication to occur, Alice and Bob need to perform an active key exchange, which means they must both be online simultaneously. This can be inconvenient in certain situations.
+
+To overcome this limitation, the following method can be used to enable Alice and Bob to communicate securely at any time without needing to be online simultaneously.
+
+1. Alice computes a personal public key, consisting of $(p_A, g_A, T_A)$ where $T_A = g_A^{S_A} \mod p_A$, and publishes on a reliable public place. $S_A$ is a secret number known only to Alice. 
+2. Bob does the same, publishing $(p_B, g_B, T_B)$.
+3. If Alice wants to send Bob an encrypted message, she picks a random number $S_A'$ and computes $K_{AB} = T_B^{S_A'} \mod p_B$. Also, she computes $T_A' = g_B^{S_A'} \mod p_B$. $T_{AB}$ is the shared secret between Alice and Bob.
+4. She uses $K_{AB}$ to encrypt the message using any secret key cipher (such as AES). She then needs to send $T_A'$.
+5. Bob then uses $T_A'$ to compute $K_{BA} = T_A'^{S_B} \mod p_B$. He then uses $K_{BA}$ to decrypt the message using the secret key cipher.
+
+We can show that $T_{AB}$ and $T_{BA}$ are the same as following:
+$$
+    T_{AB} = T_B^{S_A'} \mod p_B = (g_B^{S_B})^{S_A'} \mod p_B = (g_B^{S_A'})^{S_B} \mod p_B = T_A'^{S_B} \mod p_B = T_{BA}
+$$
+
+## Diffie-Hellman and Safe Primes
+
+- **Basic Concepts**:
+  - **Diffie-Hellman Protocol**: Works with any prime \( p \) and any generator \( g \), but without additional mathematical properties, the security is lower.
+  - **Safe Prime**: A prime \( p \) is a safe prime if \( (p - 1)/2 \) is also a prime.
+
+- **Why Use Safe Primes**:
+  - **Enhanced Security**: Using safe primes increases the difficulty for attackers to solve the discrete logarithm problem, especially in resisting small subgroup attacks.
+  - **Mathematical Properties**: Safe primes ensure that \( p - 1 \) has a large prime factor, which helps improve the security of the protocol.
+
+- **Specific Requirements**:
+  - **Choosing a Safe Prime**: Ensure \( p \) is a prime and \( (p - 1)/2 \) is also a prime.
+  - **Choosing a Generator**: Select a generator \( g \), typically a power of 2, such as \( g = 2 \) or \( g = 3 \), to ensure the generated subgroup has good mathematical properties.
+
+---
+
+# RSA Algorithm
 
 ---
 
