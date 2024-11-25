@@ -147,7 +147,7 @@ $$
 $$
 
 
-Here we have defined all things we need to understand the Diffie-Hellman key exchange protocol. Now, let's focus on  **Multiplicative Group Modulo \( p \)**. Consider the multiplicative group modulo \( p \), denoted \( \mathbb{Z}_p^* \), where \( p \) is a prime. This group contains all integers from 1 to \( p-1 \) that are coprime with \( p \). The order of \( \mathbb{Z}_p^* \) is \( p-1 \). If \( g \) is a generator of \( \mathbb{Z}_p^* \), then the powers of \( g \) generate all elements of \( \mathbb{Z}_p^* \). That is, for any \( a \in \mathbb{Z}_p^* \), there exists an integer \( k \) such that \( a = g^k \mod p \).
+Here we have defined all things we need to understand the Diffie-Hellman key exchange protocol. Now, let's focus on  **Multiplicative Group Modulo $ p $**. Consider the multiplicative group modulo $ p $, denoted $ \mathbb{Z}_p^* $ where $ p $ is a prime. This group contains all integers from 1 to $ p-1 $ that are coprime with $ p $. The order of $ \mathbb{Z}_p^* $ is $ p-1 $. If $ g $ is a generator of $ \mathbb{Z}_p^* $, then the powers of $ g $ generate all elements of $ \mathbb{Z}_p^* $ That is, for any $ a \in \mathbb{Z}_p^* $, there exists an integer $ k $ such that $ a = g^k \mod p $.
 
 The **Discrete Logarithm Problem (DLP)** is an important problem in number theory and forms the basis of the security of many public-key cryptography algorithms, such as the Diffie-Hellman key exchange and the ElGamal encryption algorithm. Simply put, the difficulty of computing discrete logarithms refers to the high computational complexity of solving the discrete logarithm problem, making it practically infeasible to solve within a reasonable time frame in real-world applications.
 
@@ -156,7 +156,7 @@ Suppose we have a finite cyclic group $ G $ and a generator $ g $. For any group
 
 $$ y = g^x \mod p $$
 
-where \( p \) is a large prime number, and \( g \) is a primitive root modulo \( p \). This problem is NP-hard.
+where $ p $ is a large prime number, and $ g $ is a primitive root modulo $ p $. This problem is NP-hard.
 
 ## Procedures
 
