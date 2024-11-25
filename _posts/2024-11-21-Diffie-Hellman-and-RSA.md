@@ -94,9 +94,6 @@ However, at the time, Diffie and Hellman did not immediately propose a specific,
 
 To understand the Diffie-Hellman key exchange protocol, it is important to have a solid understanding of basic number theory and group theory. We will start by defining some basic terms:
 
-<details>
-<summary>Group and  Generator</summary>
-
 A **group** $ G $ is a set of elements $ G = \{ g_1, g_2, \ldots, g_n \} $ assoiated with a binary operation $ \circ $ called the group operation and meet the following requirements: 
 
 - **Close**
@@ -148,9 +145,7 @@ By the close property, we have:
 $$
     g_i \circ g_j \in G \rightarrow g'^{n_i + n_j} \in G \rightarrow g'^{n_j} \circ g'^{n_i} \in G \rightarrow g_j \circ g_i \in G
 $$
-</details>
 
-</br>
 
 Here we have defined all things we need to understand the Diffie-Hellman key exchange protocol. Now, let's focus on  **Multiplicative Group Modulo \( p \)**. Consider the multiplicative group modulo \( p \), denoted \( \mathbb{Z}_p^* \), where \( p \) is a prime. This group contains all integers from 1 to \( p-1 \) that are coprime with \( p \). The order of \( \mathbb{Z}_p^* \) is \( p-1 \). If \( g \) is a generator of \( \mathbb{Z}_p^* \), then the powers of \( g \) generate all elements of \( \mathbb{Z}_p^* \). That is, for any \( a \in \mathbb{Z}_p^* \), there exists an integer \( k \) such that \( a = g^k \mod p \).
 
