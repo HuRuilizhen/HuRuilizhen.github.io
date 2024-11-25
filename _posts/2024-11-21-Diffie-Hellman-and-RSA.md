@@ -116,7 +116,7 @@ $$
     \forall g_i \in G, \exists g_i^{-1} \in G \rightarrow g_i \circ g_i^{-1} = g_i^{-1} \circ g_i = g_0
 $$
 
-The **order of a group** $ G $ is the number of elements in the group. If the order of a group $ G $ is finite, it is called a **finite group**, otherwise it is called an **infinite group**. We denote the order of a group $ G $ with the symbol $\text{order}(G)$ or $|G|$.
+The **order of a group** $ G $ is the number of elements in the group. If the order of a group $ G $ is finite, it is called a **finite group**, otherwise it is called an **infinite group**. We denote the order of a group $ G $ with the symbol $\text{order}(G)$ or $\|G\|$.
 
 If a group $ G $ also satisfies commutative, then it is called a **commutative group** or a **abelian group**.
 
@@ -132,7 +132,7 @@ $$
     \forall g_i \in G, \exists g' \in G, \exists n \in \mathbb{N} \rightarrow g_i = g'^n
 $$
 
-If $ |G| $ is finite, then it is called a **finite cyclic group**, otherwise it is called an **infinite cyclic group**.
+If $\|G\|$ is finite, then it is called a **finite cyclic group**, otherwise it is called an **infinite cyclic group**.
 
 **A cyclic group $ G $ is necessarily abelian**, because the power operation is commutative. Start with a generator $ g' $:
 
