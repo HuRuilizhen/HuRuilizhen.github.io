@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Diffie-Hellman and RSA"
-description: ""
+description: "Discussion of Diffie-Hellman and RSA"
 date: 2024-11-21
 feature_image: images/cryptography.png
 tags: ['cryptography', 'security', 'discrete-mathematics']
