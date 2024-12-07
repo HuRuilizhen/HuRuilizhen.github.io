@@ -61,33 +61,38 @@ Normally, the bootstrap program loads the operating system at boot time. One des
 
 ## Question 3: What is the main advantage of the microkernel approach to system design? How do user programs and system services interact in a microkernel architecture? What are the disadvantages of using the microkernel approach?
 
-The main advantage of the microkernel approach to system design is its modularity and high reliability. In a microkernel architecture, only essential services for basic operation are implemented in the kernel, while all other services operate as separate processes in user space. This separation leads to several benefits:
+**The main advantage** of the microkernel approach to system design is its modularity and high reliability. In a microkernel architecture, only essential services for basic operation are implemented in the kernel, while all other services operate as separate processes in user space. This separation leads to several benefits:
 
 - **Modularity**: Services can be added, removed, or updated independently without affecting the core system.
+  - **Easier Maintenance**: If a service fails, only that specific service is affected, rather than the entire system.
+  - **Increased Flexibility**: Services can be added or removed without affecting the rest of the system.
 - **High Reliability**: If a service fails, it does not necessarily cause the entire system to crash, as failures are contained within the specific service.
+- **Fast Bootup**: Due to small kernel size, booting the system is much faster than with a monolithic kernel, as the kernel does not need to be loaded from disk.
 
-**Interaction between User Programs and System Services:**
-In a microkernel architecture, user programs interact with system services primarily through message-passing mechanisms. When a user program needs to access a service, it sends a message to the appropriate service process. The message contains the type of request and any necessary parameters. The service process receives the message, processes the request, and responds by sending a message back to the user program. This method enhances flexibility but introduces overhead due to crossing the boundary between user and kernel space.
+**Interaction between User Programs and System Services:** In a microkernel architecture, user programs interact with system services primarily through message-passing mechanisms. When a user program needs to access a service, it sends a message to the appropriate service process. The message contains the type of request and any necessary parameters. The service process receives the message, processes the request, and responds by sending a message back to the user program. This method enhances flexibility but introduces overhead due to crossing the boundary between user and kernel space.
 
-**Disadvantages of Using the Microkernel Approach:**
-While offering significant advantages, the microkernel approach also has drawbacks:
+> <font color="red">In a traditional monolithic kernel architecture, the operating system services and functionalities are mostly integrated directly into the kernel. 
+> 
+> This means that user programs can interact with these in-kernel services directly via system call interfaces without requiring additional message-passing mechanisms.</font>
+
+**Disadvantages of Using the Microkernel Approach:** While offering significant advantages, the microkernel approach also has drawbacks:
 
 - **Performance Loss**: Frequent message passing and context switching can lead to lower performance compared to monolithic kernels, as each inter-process communication involves transitions from user to kernel space and back.
 - **Increased Complexity**: Ensuring correct message passing and synchronization among different services adds complexity to system design. Development and debugging become more challenging as errors can occur across multiple separated services rather than being centralized in one kernel.
 - **Resource Consumption**: Each service running as an independent process consumes certain resources, potentially leading to higher resource usage overall.
 
-Other approaches, such as the multithreaded kernel, can also be used to achieve similar functionality, but with different trade-offs:
+**Other approaches**, such as the multithreaded kernel, can also be used to achieve similar functionality, but with different trade-offs:
 - **Monolithic Kernel:**
-  - A monolithic kernel is the traditional design approach for an operating system kernel, where all operating system services—such as device drivers, file system management, network protocol stacks—are included and run within the kernel space. The advantage of this design is high efficiency because all operations are executed in kernel mode, reducing the overhead associated with switching between user mode and kernel mode.
-  - However, its disadvantages are also evident: since all services operate within the same address space, if one service crashes or has a flaw, it can affect the stability and security of the entire system.
+  - A monolithic kernel is the traditional design approach for an operating system kernel, where all operating system services—such as device drivers, file system management, network protocol stacks—are included and run within the kernel space. <u>The advantage of this design is high efficiency because all operations are executed in kernel mode, reducing the overhead associated with switching between user mode and kernel mode.</u>
+  - However, its disadvantages are also evident: since all services operate within the same address space, <u>if one service crashes or has a flaw, it can affect the stability and security of the entire system.</u>
 
 - **Hybrid Kernel:**
   - The hybrid kernel attempts to combine the benefits of both monolithic kernels and microkernels to achieve a balance between performance and modularity. In this architecture, certain core services remain in kernel space, while other services are moved into user space to run as separate processes.
   - Such a design increases system stability (since not all services run in kernel space) while retaining a degree of performance benefits. Windows NT, macOS, and some versions of Linux utilize a hybrid kernel design.
 
 - **Exokernel:**
-  - An exokernel represents a more radical design philosophy that provides only a minimal hardware abstraction layer, performing almost no resource management or protection itself but delegating these responsibilities to library operating systems (LibOS) at the application level. This means applications can directly control hardware resources, potentially offering higher performance and flexibility.
-  - Despite providing high flexibility and potential performance gains, the exokernel also increases programming complexity, as developers must handle many low-level details themselves, which can be quite challenging for non-experts.
+  - An exokernel represents a more radical design philosophy that provides **only a minimal hardware abstraction layer**, performing almost no resource management or protection itself but delegating these responsibilities to library operating systems (LibOS) at the application level. This means applications can directly control hardware resources, potentially offering higher performance and flexibility.
+  - Despite providing high flexibility and potential performance gains, the exokernel also increases programming complexity, as **developers must handle many low-level details** themselves, which can be quite challenging for non-experts.
 
 ## Question 4: Why does an operating system design, in general, use layered approach? Please state its advantages and disadvantages.
 
