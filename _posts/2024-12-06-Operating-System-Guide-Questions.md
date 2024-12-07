@@ -25,11 +25,18 @@ This post contains a list of high level overview questions to help prepare for t
   - [Question 9: Why does an operating system have both the user mode and the kernel mode for processes? What are the advantages and disadvantages of the design?](#question-9-why-does-an-operating-system-have-both-the-user-mode-and-the-kernel-mode-for-processes-what-are-the-advantages-and-disadvantages-of-the-design)
   - [Question 10: Please list and describe three major activities of the operating system with regard to memory management, and three major activities of the operating system with regard to secondary storage management.](#question-10-please-list-and-describe-three-major-activities-of-the-operating-system-with-regard-to-memory-management-and-three-major-activities-of-the-operating-system-with-regard-to-secondary-storage-management)
   - [Question 11: Can the segmentation and paging mechanisms cooperate with each other? Please give your reasons.](#question-11-can-the-segmentation-and-paging-mechanisms-cooperate-with-each-other-please-give-your-reasons)
-  - [Question 12: What is a Thrashing?  How to resolve this problem?](#question-12-what-is-a-thrashing--how-to-resolve-this-problem)
+  - [Question 12: What is a Thrashing? How to resolve this problem?](#question-12-what-is-a-thrashing-how-to-resolve-this-problem)
   - [Question 13: What is Table Lookaside Buffer (TLB)? How it works?](#question-13-what-is-table-lookaside-buffer-tlb-how-it-works)
   - [Question 14: What are the major purposes of Table Lookaside Buffer (TLB)? How it works if the memory hierarchy includes L1, L2 and L3 caches?](#question-14-what-are-the-major-purposes-of-table-lookaside-buffer-tlb-how-it-works-if-the-memory-hierarchy-includes-l1-l2-and-l3-caches)
-  - [Question 15: What is Interrupt?  What are its usages?](#question-15-what-is-interrupt--what-are-its-usages)
+  - [Question 15: What is Interrupt? What are its usages?](#question-15-what-is-interrupt-what-are-its-usages)
+  - [Question 16: How to use interrupt and polling mechanisms to do process manipulation?](#question-16-how-to-use-interrupt-and-polling-mechanisms-to-do-process-manipulation)
+  - [Question 17: Why do we need Direct Memory Access (DMA) mechanism? How does DMA mechanism perform data transfer among memory and I/O devices?](#question-17-why-do-we-need-direct-memory-access-dma-mechanism-how-does-dma-mechanism-perform-data-transfer-among-memory-and-io-devices)
+  - [Question 18: How to use Memory Mapped I/O mechanism to perform file access operations?](#question-18-how-to-use-memory-mapped-io-mechanism-to-perform-file-access-operations)
   - [Question 19: Some file systems are good for small file manipulations while others are good for large file operations. How to design a file system that is good for both small and large file manipulations.](#question-19-some-file-systems-are-good-for-small-file-manipulations-while-others-are-good-for-large-file-operations-how-to-design-a-file-system-that-is-good-for-both-small-and-large-file-manipulations)
+  - [Question 20: What are the advantages of the variant of linked allocation that uses a FAT to chain together the blocks of a file?](#question-20-what-are-the-advantages-of-the-variant-of-linked-allocation-that-uses-a-fat-to-chain-together-the-blocks-of-a-file)
+  - [Question 21: Explain the role of mmap mechanism. What’s the difference between MAP\_SHARED and MAP\_PRIVATE? When should the mechanism increase and decrease the reference counter of a file?](#question-21-explain-the-role-of-mmap-mechanism-whats-the-difference-between-map_shared-and-map_private-when-should-the-mechanism-increase-and-decrease-the-reference-counter-of-a-file)
+  - [Question 22: Discuss situations in which the least frequently used (LFU) page replacement algorithm generates fewer page faults than the least recently used (LRU) page-replacement algorithm. Also discuss under what circumstances the opposite holds.](#question-22-discuss-situations-in-which-the-least-frequently-used-lfu-page-replacement-algorithm-generates-fewer-page-faults-than-the-least-recently-used-lru-page-replacement-algorithm-also-discuss-under-what-circumstances-the-opposite-holds)
+  - [Question 23: Describe the Life Cycle of an I/O request.](#question-23-describe-the-life-cycle-of-an-io-request)
 
 ---
 
@@ -266,7 +273,7 @@ When segmentation and paging are used together:
 
 For example, in modern operating systems like Linux, a hybrid memory management approach that incorporates both segmentation and paging is adopted. The Linux kernel uses a minimal number of segments (usually only two: user space and kernel space) and then implements paging within these segments. This method maintains the efficiency brought by paging while taking advantage of the protection and isolation features provided by segmentation.
 
-## Question 12: What is a Thrashing?  How to resolve this problem? 
+## Question 12: What is a Thrashing? How to resolve this problem?
 
 **Thrashing** is a phenomenon in computer operating systems' memory management that occurs in paging systems. It happens when the system spends an excessive amount of time swapping pages into and out of memory, rather than executing useful instructions. In this state, CPU utilization drops significantly while disk I/O activity increases, leading to degraded overall performance.
 
@@ -320,7 +327,7 @@ In modern computer architectures, alongside the TLB, we have multiple levels of 
 
 In summary, within a multi-level cache memory hierarchy, the role of the TLB is to ensure that the address translation process remains as efficient as possible, maintaining low latency even within complex memory systems.
 
-## Question 15: What is Interrupt?  What are its usages?
+## Question 15: What is Interrupt? What are its usages?
 
 An interrupt is a hardware mechanism in computers that allows external devices or specific events within the system to break into the CPU's normal instruction flow as it executes programs. When an interrupt occurs, the CPU pauses its current work, saves its state, and transfers control to an interrupt service routine (ISR) to handle the event. After handling the interrupt, the CPU returns to where it left off and resumes normal execution.
 
@@ -339,6 +346,59 @@ The primary usages of interrupts include but are not limited to:
 
 In summary, the interrupt mechanism is crucial for the efficient operation of modern computing systems. It enhances system flexibility and efficiency, improves reliability, and supports real-time performance.
 
+## Question 16: How to use interrupt and polling mechanisms to do process manipulation?
+
+In an operating system, interrupts and polling are two mechanisms used for detecting changes in the state of external devices or receiving signals from hardware. They can also be applied to process control and scheduling. Here's how these two mechanisms can be used for process manipulation:
+
+**Interrupt Mechanism**: An interrupt is a method of asynchronous event handling where, upon occurrence of a specific event such as user input, arrival of a network packet, or timer expiration, the CPU pauses its current task and executes a dedicated piece of code called an Interrupt Service Routine (ISR). After completing the ISR, the CPU returns to the task it was executing before the interruption.
+
+**Process Manipulation Using Interrupts**: When an interrupt occurs, the operating system may create new processes or adjust the state of existing ones as needed. For instance, a keyboard interrupt might prompt the OS to start a new text editor process; or, an interrupt indicating that a disk read/write operation has completed can transition a process waiting on that I/O from a blocked state to a ready state.
+
+**Polling Mechanism**: Polling is a synchronous event-handling method where the CPU periodically checks if certain conditions are met, such as querying device registers to see if new data is available. If the condition is satisfied, appropriate actions are taken; otherwise, the checking continues until the condition is met.
+
+**Process Manipulation Using Polling**: In polling mode, the operating system might regularly check whether a resource is available and decide whether to wake up processes waiting for that resource based on the outcome of the checks. For example, a process could be waiting for a network interface to receive packets, and the OS uses polling to monitor the status of the network interface, setting the process to a runnable state once new data arrives.
+
+**Choosing Between the Two Mechanisms**: The choice between using interrupts or polling depends on the specific application scenario. Generally, **interrupts are better suited for low-frequency but time-sensitive tasks** because they can respond immediately when an event occurs. Polling, on the other hand, is more appropriate for **high-frequency checking scenarios**, although it can lead to higher CPU overhead, it simplifies programming logic and reduces hardware complexity.
+
+## Question 17: Why do we need Direct Memory Access (DMA) mechanism? How does DMA mechanism perform data transfer among memory and I/O devices?
+
+We need the Direct Memory Access (DMA) mechanism because it significantly enhances the performance and efficiency of computer systems. Without DMA, the CPU would have to handle each data transfer request personally, which typically involves reading data from an I/O device into a register and then writing it into memory. This approach not only consumes a large number of CPU cycles but also adds latency to the system.
+
+**The Role of DMA Mechanism**: DMA allows for direct data transfers between I/O devices and system memory without involving the CPU. By doing so, the CPU can focus on other tasks, such as running user applications or handling other interrupt requests. Additionally, DMA can reduce competition between the CPU and the bus, as the DMA controller can take over the bus control to perform data transfers when the CPU is not using the bus.
+
+**How DMA Works**
+
+1. **Initialization**: When a data transfer is needed, the operating system configures the DMA controller by specifying how much data to transfer, the source address (usually the buffer in an I/O device), the destination address (usually a memory address), and the direction of the transfer (read or write).
+2. **Starting the Transfer**: Once all settings are done, the DMA controller begins the data transfer. It requests bus control either when the CPU is idle or according to a predetermined priority scheme and carries out the actual data transfer.
+3. **Completion of Transfer**: After the data transfer is complete, the DMA controller sends an interrupt signal to the CPU, informing it that the data transfer has ended. At this point, the CPU can check the status and continue with other tasks.
+
+**Data Transfer Modes**
+
+DMA supports several different modes of data transfer, including:
+
+- **Burst Mode**: Transfers as much data as possible in one go until the entire block is transferred. This mode is suitable for rapid transfers of large blocks of data.
+- **Cycle Stealing Mode**: Only transfers a small amount of data at a time to minimize the impact on the CPU. This mode is appropriate for small amounts of data or applications requiring high real-time performance.
+- **Transparent Mode**: Attempts to perform data transfers when the CPU is not using the bus to ensure minimal impact on the CPU.
+
+> <font color="red">The DMA mechanism does indeed require the use of the system bus to perform data transfers</font>
+
+## Question 18: How to use Memory Mapped I/O mechanism to perform file access operations?
+
+Memory-Mapped I/O (MMIO) allows the CPU to access memory and I/O devices through the same address space. Under this mechanism, the registers of I/O devices are mapped into the CPU's address space, so these devices can be operated using standard memory read/write instructions.
+
+When discussing the use of MMIO for file access operations, we're actually referring to a feature provided by the operating system called Memory-Mapped Files. This feature makes the contents of a file or part of a file accessible as if they were loaded into memory, allowing programs to read and write large files more efficiently by avoiding explicit data copying steps that occur in traditional file I/O.
+
+To use memory-mapped files, you generally follow these steps:
+
+1. **Create or Open File**: First, you need to create a new file or open an existing one via a system call.
+2. **Map File to Memory**: Then, use a system call (such as the `mmap` function on Unix/Linux, or `CreateFileMapping` and `MapViewOfFile` functions on Windows) to map the file or a portion of it into the process's virtual address space.
+3. **Access File Content**: Once the file is mapped, you can perform read or write operations directly on the mapped region as if you were manipulating ordinary memory.
+4. **Synchronize Modifications (Optional)**: If modifications have been made to the mapped region, you may need to ensure that these changes are written back to the file on disk. This is typically handled automatically by the operating system, but in some cases, you might need to manually call a function like `msync` to ensure this.
+5. **Unmap the Region**: When you no longer need to access the file, you should unmap the region (e.g., with the `munmap` function) to release resources.
+6. **Close the File**: Finally, close the file descriptor or handle.
+
+Using memory-mapped files can simplify code and improve performance for certain types of file access patterns, especially when dealing with large files.
+
 ## Question 19: Some file systems are good for small file manipulations while others are good for large file operations. How to design a file system that is good for both small and large file manipulations.
 
 Designing a file system that can efficiently handle both small and large files is challenging because small files and large files have significantly different storage and access patterns. Small files tend to be numerous with individually smaller sizes, whereas large files are fewer but require potentially contiguous storage for efficient read/write performance. To create a file system that excels at handling both types of files, consider the following strategies:
@@ -352,6 +412,80 @@ Designing a file system that can efficiently handle both small and large files i
 - **Log-Structured File Systems**: Employ log-structured file systems (LFS) to minimize fragmentation and accelerate write operations. LFS writes new data and metadata sequentially, which helps boost performance for large file operations.
 - **Compression and Deduplication**: Apply file-level compression and deduplication techniques, which not only save storage space but also reduce I/O load, especially when dealing with large files containing much redundant content. 
 
+## Question 20: What are the advantages of the variant of linked allocation that uses a FAT to chain together the blocks of a file?
+
+The **File Allocation Table** (FAT) is a data structure used in computer file systems to manage the allocation of space on a disk or other storage device. It was originally designed by Microsoft in 1977 for early versions of MS-DOS and later became one of the most commonly used file systems in personal computers.
+
+The primary function of FAT is to track the location of files on the disk and the space they occupy. Specifically:
+
+- **Recording Cluster Chains**: Each file may consist of multiple data blocks, called clusters, which can be scattered across different locations on the disk. FAT maintains a table that records the position of each cluster and indicates where the next cluster in the chain is located. This allows the operating system to read the entire file by following this chain.
+  
+- **Free Space Management**: In addition to tracking used clusters, FAT is responsible for marking which clusters are free, meaning available for storing new data. When saving new files or expanding existing ones, the operating system consults the FAT to locate available free clusters.
+
+- **Error Recovery**: Some versions of FAT implement redundancy mechanisms, such as keeping two copies of the FAT (the main FAT and a backup FAT), so information can be recovered from the other copy if one gets corrupted.
+
+- **Support for Various File Systems**: Over time, different versions of FAT have emerged, including FAT12, FAT16, and FAT32, each supporting different maximum volume sizes and individual file sizes. For example, FAT32 can support partitions up to 2TB in size (depending on the operating system) with individual files as large as 4GB.
+
+The simplicity of the FAT file system has led to its widespread use in various portable storage devices, such as USB drives and SD cards, because nearly all modern operating systems can read and write this format.
+
+Using a File Allocation Table (FAT) to chain together the blocks of a file is a variant of linked allocation that offers several advantages:
+
+1. **Efficient Sequential Access**: The FAT records the location of the next cluster for each cluster, which allows files to be read sequentially without additional indirect lookups. This structure is very efficient for file read/write operations in sequential access patterns.
+2. **Reduced Fragmentation**: Compared to contiguous allocation, a FAT system does not require all blocks of a file to be stored in consecutive locations on disk. Thus, even if the disk becomes highly fragmented, files can continue to grow as long as there's available space.
+3. **Simple Deletion and Expansion**: When deleting a file, it's only necessary to mark the corresponding FAT entries as free; when expanding a file, find new free clusters and update the linking information in the FAT. Such operations are relatively simple and fast.
+4. **Support for Random Access**: Although initially designed for sequential access, random access to any position within a file can also be achieved by traversing the FAT from the root directory or the starting cluster of the file.
+5. **Better Fault Tolerance**: Some versions of FAT (like FAT32) include redundant copies of the FAT, so if the primary table is damaged, data can be recovered from the backup, improving the robustness and reliability of the system.
+6. **Strong Compatibility**: The FAT format is widely used across various operating systems and devices due to its simplicity and ease of implementation. For example, USB drives, SD cards often use FAT file systems to ensure cross-platform compatibility.
+7. **Optimization for Small Files**: For smaller files, FAT can optimize by allocating fewer large clusters, thereby reducing overhead while maintaining good performance.
+
+The FAT-based linked allocation method thus provides a balance between simplicity, efficiency, and functionality, making it suitable for many applications where these factors are important.
+
+## Question 21: Explain the role of mmap mechanism. What’s the difference between MAP_SHARED and MAP_PRIVATE? When should the mechanism increase and decrease the reference counter of a file? 
+
+**The Role of the mmap Mechanism**: The `mmap` (memory-mapped file) mechanism is a method for mapping files or other objects into a process's address space. By using `mmap`, applications can access file data directly in memory without resorting to traditional system calls like `read` and `write` for I/O operations. This not only improves performance but also simplifies the programming interface since file contents can be read from and written to as if they were regular memory.
+
+- **MAP_SHARED**: When the `MAP_SHARED` flag is used, any modifications made to the mapped region are immediately reflected in the underlying file, and these changes are visible to all processes that map the same file. This means that if one process modifies content in a shared mapping, all other processes mapping the same file will see those changes.
+- **MAP_PRIVATE**: In contrast, `MAP_PRIVATE` creates a private copy of the mapping where modifications do not affect the original file. Instead, when the first write attempt is made to the region, a "copy-on-write" (COW) occurs. The operating system creates a copy of the page for the current process, ensuring that changes do not impact other processes or the file itself.
+
+**Increasing and Decreasing the File Reference Counter**: For `mmap`, when a file is mapped, the kernel typically increments the file's reference counter to ensure that even if the user closes the file descriptor, the file won't be deleted or its metadata changed as long as there are still mappings held by processes. When the mapping is removed (for example, by calling `munmap`), the reference counter is correspondingly decremented. Once the reference count drops to 0, indicating no processes need this file anymore, it becomes safe to release associated resources or allow operations such as file deletion.
+
+## Question 22: Discuss situations in which the least frequently used (LFU) page replacement algorithm generates fewer page faults than the least recently used (LRU) page-replacement algorithm. Also discuss under what circumstances the opposite holds.
+
+**Situations Where LFU Generates Fewer Page Faults Than LRU**: The Least Frequently Used (LFU) page replacement algorithm can generate fewer page faults than the Least Recently Used (LRU) under certain circumstances. Here are some scenarios where this might occur:
+
+1. **Repetitive Access Patterns**: If a program's access pattern includes a significant amount of repetition, with some pages being accessed frequently and others rarely, LFU will tend to retain the frequently used pages, thereby reducing page faults.
+2. **Periodic Workloads**: For workloads that exhibit periodic behavior, such as data processing tasks that heavily access specific pages at fixed intervals, LFU can adapt better to this pattern because it takes into account the long-term frequency of page usage, not just recent usage.
+3. **Locality in Multi-Level Cache Systems**: In a complex storage hierarchy with multiple cache levels, each having different access characteristics, LFU can help maintain good locality for hot data in higher-level caches, thus reducing the overall page fault rate.
+
+**Circumstances Where LRU Generates Fewer Page Faults Than LFU**：
+However, there are other scenarios where LRU may outperform LFU
+
+1. **Sequential or Near-Sequential Access**: For applications that scan memory regions in an almost linear fashion, such as database queries or video players reading files, LRU typically performs better. In these cases, pages recently accessed are likely to be accessed soon again, so keeping them in memory is advantageous.
+2. **Short-Term Locality**: If an application exhibits strong short-term locality, meaning it focuses on accessing a set of pages for a short period before moving on to another set, LRU can quickly adapt to this change by always retaining the most recently accessed set of pages, which helps minimize page faults.
+3. **Non-Deterministic Access Patterns**: When a program's access pattern is highly random and unpredictable, LRU tends to offer better performance because it considers only recent history rather than long-term history, making it more responsive to sudden changes.
+
+In summary, the choice between page replacement strategies depends on the characteristics of the workload and the behavior patterns of the applications. Ideally, a good page replacement algorithm should balance well across different workloads and dynamically adjust its behavior based on real-world conditions.
+
+> <font color="red">LRU algorithm selects the pages that have not been accessed for the longest period of time to be evicted.</font>
+> 
+> <font color="red">LFU prioritizes evicting the pages that have been accessed the least since they were loaded.</font>
+
+## Question 23: Describe the Life Cycle of an I/O request.
+
+The lifecycle of an I/O request describes the process from initiation, processing to completion of a device request. This process involves multiple levels, including the application layer, the operating system kernel, and the hardware level. Below are the main steps in the lifecycle of an I/O request:
+
+1. **Application Initiates Request**: An application issues a read or write request to the operating system via system calls (such as `read` or `write`).
+2. **System Call Interface**: The application's request reaches the operating system kernel through the system call interface where it is translated and subjected to preliminary checks, such as verifying permissions and validating parameters.
+3. **File System Operations**: If the request involves the file system, the operating system locates the file's position on the disk and may need to update metadata of the file system, like inode information.
+4. **Buffer Management**: To improve efficiency, the operating system typically maintains a buffer or cache in memory to store recently accessed data. If the requested data is already in the cache, it can be returned directly to the application without further action; otherwise, proceed to the next step.
+5. **Device Scheduling**: The operating system passes the I/O request to the appropriate driver which is responsible for interacting with the specific hardware. This step might involve queuing to wait for the device to become available or optimizing the order of requests according to certain algorithms.
+6. **Actual I/O Operation**: The driver sends commands to the hardware controller to perform the actual data transfer. For a disk, this could mean moving the head to the correct position and starting to read or write data.
+7. **Interrupt Handling**: Once the hardware has completed its operation, it generates an interrupt to notify the CPU. The CPU responds to the interrupt by calling the corresponding Interrupt Service Routine (ISR), which informs the operating system that the data is ready or has been successfully written.
+8. **Completion and Return Results**: Once all data has been correctly processed, the operating system notifies the application that the operation is complete and provides any necessary results or status information.
+9. **Cleanup**: Finally, the operating system performs some cleanup work, such as releasing resources and updating internal structures.
+
+This lifecycle ensures that I/O operations are managed efficiently and effectively, providing a bridge between user applications and hardware devices.
+
 ---
 
 Related Posts / Websites 👇
@@ -361,3 +495,9 @@ Related Posts / Websites 👇
 📑 [Ray - Threads](https://huruilizhen.github.io/Threads)
 
 📑 [Ray - Processes](https://huruilizhen.github.io/Processes)
+
+📑 [Ray - File System](https://huruilizhen.github.io/File-System)
+
+📑 [Ray - Main Memory and Virtual Memory](https://huruilizhen.github.io/Main-Memory-and-Virtual-Memory)
+
+🤖 [Tongyi - CS Reviewer](https://lxblog.com/qianwen/share?shareId=47df3ae5-ed35-4c98-87f9-60f7e2dcf97a&type=agentCard)
