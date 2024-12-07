@@ -135,16 +135,12 @@ In a computer system, a process can be in one of the following five states durin
 
 - **New**:
     When a new process is created, it enters the New state. At this stage, the operating system allocates necessary resources for the process and records its information in the process table, but the process is not yet ready to execute.
-
 - **Ready**:
     Once initialization is complete and all required resources are ready, the process transitions to the Ready state. Here, the process is prepared to run but awaits CPU time to begin execution. Processes in the Ready state are placed in one or more queues, awaiting selection by the scheduler.
-
 - **Running**:
     When the scheduler selects a Ready process and assigns it to the CPU for execution, it moves into the Running state. This is the only state where the process actually executes instructions. On a single-core processor, only one process can be in the Running state at any given moment, whereas multi-core processors allow multiple processes to run concurrently.
-
 - **Blocked (or Waiting)**:
     If a running process needs to wait for an event to occur (such as I/O completion, user input, semaphore, etc.), it transitions from the Running state to the Blocked state. In this state, the process cannot proceed until the awaited event occurs. For example, after initiating a disk read/write request, the process might enter the Blocked state until data transfer is complete.
-
 - **Terminated (or Exit)**:
     When a process completes its tasks or encounters an unrecoverable error and ends, it enters the Terminated state. In this state, the operating system reclaims all resources used by the process and clears all associated information. Terminated processes no longer participate in system scheduling and execution.
 
@@ -167,19 +163,14 @@ When an operating system needs to switch from one process to another, it must sa
 
 1. **Save the Current Process's Context**:
     The kernel first saves all state information of the currently running process, including the contents of CPU registers (such as the program counter, instruction register, general-purpose registers, etc.), memory management information (page tables), and any other relevant data. This information is usually saved in the process's Process Control Block (PCB).
-
 1. **Update Scheduling Information**:
     The kernel updates the scheduling information for the current process, such as changing its state from "Running" to "Ready" or "Blocked" and adjusting its priority or other scheduling parameters as needed.
-
 2. **Select the Next Process**:
     The scheduler chooses the next process to execute based on certain algorithms (like First-Come-First-Served, Shortest Job Next, Round Robin, etc.). This may involve evaluating the priority, waiting time, and other factors of ready processes.
-
 3. **Load the New Process's Context**:
     Once the new process is selected, the kernel loads its context, restoring all previously saved state information from its PCB back into the CPU registers and other relevant locations. This includes setting the program counter to point to the start address of the new process code and reconfiguring the Memory Management Unit (MMU) to reflect the new process's address space.
-
 4. **Begin Execution of the New Process**:
     Finally, the kernel hands control over to the new process, allowing it to continue executing as if it had never been interrupted.
-
 5. **Handle Synchronization and Resource Management**:
     In some cases, a context switch also involves handling synchronization issues (such as locks, semaphores) and resource management (such as file descriptors, network connections) to ensure the new process can safely access required resources without conflicting with the old process.
 
@@ -195,7 +186,6 @@ Operating systems introduce User Mode and Kernel Mode to provide enhanced securi
 
 - **User Mode**:
     Programs running in user mode do not have direct access to hardware or system resources. They can only request privileged operations through system calls to the operating system. This ensures that regular applications cannot directly modify critical system data or hardware states, thereby enhancing system stability and security.
-
 - **Kernel Mode**:
     Code executing in kernel mode has the highest level of privilege, allowing direct access to all hardware resources and memory regions. The core parts of the operating system and drivers typically run in this mode. Due to their high privileges, these components must be carefully written to prevent errors from causing system-wide crashes.
 
@@ -203,10 +193,8 @@ Operating systems introduce User Mode and Kernel Mode to provide enhanced securi
 
 - **Enhanced Security**:
     User mode restricts direct access by applications to hardware and core system functionalities, reducing the likelihood of damage caused by malware or programming errors.
-  
 - **Improved Stability**:
     By separating non-privileged tasks from privileged ones, even if a program in user mode fails, it does not directly impact the kernel or other critical system components, thus improving overall system stability.
-  
 - **Simplified Debugging and Support**:
     Errors are isolated within specific modes, making issues easier to locate and fix. For instance, if a user program crashes, it won't affect other user programs or the kernel itself.
 
@@ -214,10 +202,8 @@ Operating systems introduce User Mode and Kernel Mode to provide enhanced securi
 
 - **Performance Overhead**:
     Each transition from user mode to kernel mode for a system call introduces additional overhead, including saving the current context, switching modes, and restoring the context, which can reduce system responsiveness.
-  
 - **Increased Complexity**:
     Designing and implementing two distinct privilege levels adds complexity to the system. Developers need to understand and correctly handle transitions between modes, increasing programming difficulty.
-  
 - **Potential Bottlenecks**:
     Frequent switches between the two modes, especially for applications requiring rapid responses, can become performance bottlenecks. Additionally, poor design can lead to deadlocks or other synchronization issues.
 
@@ -231,21 +217,17 @@ Also see my blog on [Ray - Processes](https://huruilizhen.github.io/Processes)
 
 - **Memory Allocation and Deallocation**:
     The operating system is responsible for allocating required memory space to processes and reclaiming it when the process ends or no longer needs these resources. This involves dynamically allocating and releasing memory blocks to ensure efficient use of limited physical memory resources. Various algorithms (such as Best Fit, First Fit) are used to decide how to allocate free memory blocks to requesting processes.
-
-**Address Translation**:
+- **Address Translation**:
     To protect each process's independence and simplify programming models, the OS implements virtual memory mechanisms. It uses hardware support (like MMU, Memory Management Unit) to translate program-used virtual addresses into actual physical addresses. This translation not only enhances security in multitasking but also allows programs to access a larger address space than the actual physical memory, known as virtual memory.
-
-**Page Replacement and Swapping**:
+- **Page Replacement and Swapping**:
     When available physical memory is insufficient, the OS must decide which pages should be moved out of memory to make room for new or active pages. Page replacement algorithms (such as LRU, Least Recently Used) are used to select suitable pages for replacement. Additionally, entire processes can be swapped out to a swap area on disk (Swapping), making more memory available for higher-priority processes.
 
 **Three Major Activities in Secondary Storage Management**
 
 - **File System Management**:
     The OS provides an abstract interface for managing file and directory structures. This includes creating, deleting, reading, writing files, as well as renaming and moving files and directories. The file system also maintains metadata about files (such as permissions, timestamps) and ensures data consistency and integrity.
-
 - **Storage Allocation and Deallocation**:
     Similar to memory management, the OS manages the allocation and reclamation of storage space on disk. It handles partitioning, volume, and file allocation strategies on disk to ensure efficient use of disk space. When files are deleted or updated, the OS adjusts the storage layout on disk accordingly to avoid fragmentation issues.
-
 - **Data Protection and Recovery**:
     The OS employs various measures to protect data stored in secondary storage from hardware failures, software errors, or other anomalies. Examples include implementing backup mechanisms, logging, snapshot features, and redundant storage technologies (such as RAID). Moreover, the OS must provide effective recovery tools and services to quickly restore data in case of data loss or corruption.
 
