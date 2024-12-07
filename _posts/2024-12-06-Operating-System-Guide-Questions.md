@@ -24,6 +24,12 @@ This post contains a list of high level overview questions to help prepare for t
   - [Question 8: Describe the actions taken by a kernel to context-switch between processes.](#question-8-describe-the-actions-taken-by-a-kernel-to-context-switch-between-processes)
   - [Question 9: Why does an operating system have both the user mode and the kernel mode for processes? What are the advantages and disadvantages of the design?](#question-9-why-does-an-operating-system-have-both-the-user-mode-and-the-kernel-mode-for-processes-what-are-the-advantages-and-disadvantages-of-the-design)
   - [Question 10: Please list and describe three major activities of the operating system with regard to memory management, and three major activities of the operating system with regard to secondary storage management.](#question-10-please-list-and-describe-three-major-activities-of-the-operating-system-with-regard-to-memory-management-and-three-major-activities-of-the-operating-system-with-regard-to-secondary-storage-management)
+  - [Question 11: Can the segmentation and paging mechanisms cooperate with each other? Please give your reasons.](#question-11-can-the-segmentation-and-paging-mechanisms-cooperate-with-each-other-please-give-your-reasons)
+  - [Question 12: What is a Thrashing?  How to resolve this problem?](#question-12-what-is-a-thrashing--how-to-resolve-this-problem)
+  - [Question 13: What is Table Lookaside Buffer (TLB)? How it works?](#question-13-what-is-table-lookaside-buffer-tlb-how-it-works)
+  - [Question 14: What are the major purposes of Table Lookaside Buffer (TLB)? How it works if the memory hierarchy includes L1, L2 and L3 caches?](#question-14-what-are-the-major-purposes-of-table-lookaside-buffer-tlb-how-it-works-if-the-memory-hierarchy-includes-l1-l2-and-l3-caches)
+  - [Question 15: What is Interrupt?  What are its usages?](#question-15-what-is-interrupt--what-are-its-usages)
+  - [Question 19: Some file systems are good for small file manipulations while others are good for large file operations. How to design a file system that is good for both small and large file manipulations.](#question-19-some-file-systems-are-good-for-small-file-manipulations-while-others-are-good-for-large-file-operations-how-to-design-a-file-system-that-is-good-for-both-small-and-large-file-manipulations)
 
 ---
 
@@ -232,6 +238,119 @@ Also see my blog on [Ray - Processes](https://huruilizhen.github.io/Processes)
     The OS employs various measures to protect data stored in secondary storage from hardware failures, software errors, or other anomalies. Examples include implementing backup mechanisms, logging, snapshot features, and redundant storage technologies (such as RAID). Moreover, the OS must provide effective recovery tools and services to quickly restore data in case of data loss or corruption.
 
 These structured descriptions outline key activities in both memory and secondary storage management, highlighting the essential roles played by the operating system in ensuring efficient and secure resource utilization.
+
+## Question 11: Can the segmentation and paging mechanisms cooperate with each other? Please give your reasons.
+
+Segmentation and paging mechanisms can indeed cooperate with each other, and this combination is known as a segmented paging system. In such a system, memory management combines the logical advantages of segmentation with the physical management benefits of paging.
+
+**Characteristics of Segmentation**
+
+- **Logical Partitioning**: Segmentation allows programs to be divided into multiple logical parts, such as code segments, data segments, stack segments, etc. Each segment has its own address space and can grow or shrink independently.
+- **Sharing and Protection**: Different processes can share certain segments, like the code segments containing library functions. Meanwhile, each segment can have different access permissions, providing a protection mechanism.
+
+**Characteristics of Paging**
+
+- **Fixed-Sized Pages**: Paging divides the virtual address space into fixed-size blocks called pages, while physical memory is also divided into equally sized blocks called frames.
+- **Reducing External Fragmentation**: Because pages and frames are the same size, there is no external fragmentation; all unused memory is internal fragmentation, which can be managed through appropriate page replacement algorithms.
+
+**How Segmentation and Paging Collaborate**
+
+When segmentation and paging are used together:
+
+1. **Multi-Level Address Translation**: Each segment has its own segment table, with entries pointing to a page table. The page table then maps logical pages to physical frames. Thus, a logical address requires two-level table lookups (first the segment table, then the page table) to obtain the corresponding physical address.
+2. **More Flexible Memory Management**: Segmentation provides the ability to logically separate different types of code and data, while paging ensures efficient use of memory by reducing fragmentation issues.
+3. **Simplified Sharing**: Segmentation can simplify the sharing of code and data because it can simply point multiple processes to the same segment table entry.
+4. **Enhanced Protection**: Segmentation allows setting access permissions for each segment, thereby enhancing system security.
+
+**Practical Application Example**
+
+For example, in modern operating systems like Linux, a hybrid memory management approach that incorporates both segmentation and paging is adopted. The Linux kernel uses a minimal number of segments (usually only two: user space and kernel space) and then implements paging within these segments. This method maintains the efficiency brought by paging while taking advantage of the protection and isolation features provided by segmentation.
+
+## Question 12: What is a Thrashing?  How to resolve this problem? 
+
+**Thrashing** is a phenomenon in computer operating systems' memory management that occurs in paging systems. It happens when the system spends an excessive amount of time swapping pages into and out of memory, rather than executing useful instructions. In this state, CPU utilization drops significantly while disk I/O activity increases, leading to degraded overall performance.
+
+**Causes of Thrashing**
+
+- **Large Working Set**: If a process's working set (the set of pages it accesses over some interval of time) is larger than the available physical memory, the process will frequently generate page faults.
+- **Too Many Multiprogrammed Processes**: When too many processes are running concurrently and each process does not have enough allocated physical memory frames to hold its working set, thrashing can occur.
+
+**Solutions for Resolving Thrashing**
+- **Reduce the Number of Concurrent Processes**: Lowering the number of processes running concurrently gives more physical memory to each process to accommodate their working sets.
+- **Adjust Page Size**: Increasing the page size can reduce the number of pages, potentially lowering the frequency of page replacements. However, this should be decided based on specific application scenarios and hardware support.
+- **Use More Intelligent Page Replacement Algorithms**: Advanced page replacement algorithms like LRU (Least Recently Used), Optimal, etc., can help predict which pages should be kept or replaced more effectively.
+
+## Question 13: What is Table Lookaside Buffer (TLB)? How it works?
+
+The Translation Lookaside Buffer (TLB) is a hardware cache used in modern computer systems to improve the efficiency of address translation. The TLB stores recently used mappings from virtual addresses to physical addresses. When the processor needs to translate a virtual address into a physical one, it first checks whether this mapping information is already present in the TLB.
+
+**How TLB Works**
+
+1. **Address Translation**: In operating systems that use paging, each process has its own page table that records the mapping between the process's virtual address space and physical memory. Each time the CPU generates a virtual address, the OS must look up the page table to find the corresponding physical address.
+
+2. **TLB Hit**: If the translation for this virtual address is found in the TLB (a TLB hit), the physical address can be obtained directly from the TLB without needing to access the slower main memory page table, thus greatly speeding up address translation.
+
+3. **TLB Miss**: If the virtual address is not in the TLB (a TLB miss), the page table must be accessed to complete the address translation, and typically the newly acquired mapping is added to the TLB for faster access in the future.
+
+4. **Replacement Policy**: Because the capacity of the TLB is limited, when inserting new entries, old ones might need to be removed. For this purpose, the TLB uses a replacement algorithm, such as Least Recently Used (LRU), to decide which entry should be replaced.
+
+5. **TLB Flush**: Upon certain events, like context switches or pages being swapped out of memory, the operating system may request the contents of the TLB to be flushed to ensure the mapping information in the TLB remains up-to-date.
+
+**Advantages of TLB**
+
+- **Performance Improvement**: By reducing the number of accesses to main memory, it speeds up address translations.
+- **Power Saving**: Reduces the frequency of main memory accesses, contributing to lower overall power consumption.
+
+In short, a translation lookaside buffer (TLB) is a memory cache that stores the recent translations of virtual memory to physical memory. It is used to reduce the time taken to access a user memory location. It can be called an address-translation cache. It is a part of the chip's memory-management unit (MMU).
+
+## Question 14: What are the major purposes of Table Lookaside Buffer (TLB)? How it works if the memory hierarchy includes L1, L2 and L3 caches?
+
+The major purposes of the Translation Lookaside Buffer (TLB) include:
+
+- **Accelerating Address Translation**: The TLB caches recently used mappings from virtual addresses to physical addresses, thereby reducing the number of memory accesses required to look up page tables. This can significantly speed up address translations.
+- **Improving System Performance**: By decreasing the frequency of main memory accesses, it not only increases the speed at which CPU instructions are executed but also reduces overall system latency.
+- **Reducing Power Consumption**: As a result of fewer accesses to main memory, there is a reduction in energy consumption.
+
+In modern computer architectures, alongside the TLB, we have multiple levels of cache (such as L1, L2, and L3), forming a hierarchical memory system. In this architecture, the workflow of the TLB is as follows:
+
+1. **CPU Generates Virtual Address**: When the CPU needs to access data or instructions, it generates a virtual address.
+2. **TLB Lookup**: The system first queries the TLB to see if there is an existing mapping for the virtual address to a physical address (a TLB hit). If such a mapping exists, the physical address is used directly for access; if not (a TLB miss), the process moves on to the next step.
+3. **Multi-Level Cache Lookup**: In case of a TLB miss, the system attempts to find the required data or instruction in the fast but smaller L1 cache first. If the L1 cache does not contain the item, the search proceeds through the progressively slower but larger L2 and L3 caches.
+4. **Access Memory and Update TLB**: If all cache levels fail to provide the needed data or instruction, the system will eventually have to access main memory. Once the data or instruction is retrieved from main memory, its copy is usually placed in the closest level of cache (like L1), and the corresponding mapping from virtual to physical address is added to the TLB to facilitate faster access to the same data or instruction in the future.
+
+In summary, within a multi-level cache memory hierarchy, the role of the TLB is to ensure that the address translation process remains as efficient as possible, maintaining low latency even within complex memory systems.
+
+## Question 15: What is Interrupt?  What are its usages?
+
+An interrupt is a hardware mechanism in computers that allows external devices or specific events within the system to break into the CPU's normal instruction flow as it executes programs. When an interrupt occurs, the CPU pauses its current work, saves its state, and transfers control to an interrupt service routine (ISR) to handle the event. After handling the interrupt, the CPU returns to where it left off and resumes normal execution.
+
+Interrupts can be categorized into two main types:
+
+- **Hardware Interrupts**: Triggered by external hardware devices, such as pressing a key on the keyboard, moving a mouse, or when a network adapter receives a packet.
+- **Software Interrupts**: Actively triggered by the operating system or applications through executing specific instructions, used for requesting services from the operating system, like creating processes or opening files.
+
+The primary usages of interrupts include but are not limited to:
+
+- **Improving Response Time**: Enabling the computer to respond quickly to external events, such as user inputs or sensor signals, without having to constantly poll the status of these devices.
+- **Enabling Multitasking**: Assisting the operating system in managing multiple concurrently running tasks, allowing each task to get a slice of CPU time at appropriate moments.
+- **Error Handling**: Used for detecting and responding to system errors, such as division by zero, out-of-bounds memory access, and other exceptional conditions.
+- **Synchronizing Operations**: Coordinating communications between hardware components operating at different speeds, ensuring they correctly pass information back and forth.
+- **Timer Functionality**: Leveraging periodic interrupts generated by timers to implement timing, delays, and other functionalities.
+
+In summary, the interrupt mechanism is crucial for the efficient operation of modern computing systems. It enhances system flexibility and efficiency, improves reliability, and supports real-time performance.
+
+## Question 19: Some file systems are good for small file manipulations while others are good for large file operations. How to design a file system that is good for both small and large file manipulations.
+
+Designing a file system that can efficiently handle both small and large files is challenging because small files and large files have significantly different storage and access patterns. Small files tend to be numerous with individually smaller sizes, whereas large files are fewer but require potentially contiguous storage for efficient read/write performance. To create a file system that excels at handling both types of files, consider the following strategies:
+
+- **Hybrid Block Sizes**: Use varying block sizes to accommodate different file types. Smaller blocks reduce internal fragmentation for small files, while larger blocks improve transfer efficiency for large files.
+- **Indirect Index Structures**: Provide indirect indexing structures (such as UNIX's inodes or Windows NTFS's B+ trees) for large files to manage non-contiguous storage effectively.
+- **Metadata Optimization**: Optimize the metadata structure of the file system to ensure rapid lookup and updating of file information. For example, cache recently used metadata or keep frequently accessed metadata in memory.
+- **Small File Consolidation**: Reduce excessive disk seek times caused by many small files by considering packing multiple small files into larger blocks for storage, maintaining a mapping table to track each small file's location.
+- **Preallocate Space**: Allow applications to preallocate the required disk space for files, reducing fragmentation issues as files grow.
+- **Adaptive Algorithms**: Dynamically adjust filesystem parameters based on file access patterns. For instance, if heavy small-file operations are detected, temporarily change certain configurations to prioritize these operations.
+- **Log-Structured File Systems**: Employ log-structured file systems (LFS) to minimize fragmentation and accelerate write operations. LFS writes new data and metadata sequentially, which helps boost performance for large file operations.
+- **Compression and Deduplication**: Apply file-level compression and deduplication techniques, which not only save storage space but also reduce I/O load, especially when dealing with large files containing much redundant content. 
 
 ---
 
