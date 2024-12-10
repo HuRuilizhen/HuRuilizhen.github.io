@@ -23,6 +23,9 @@ Cloud computing allows companies to store their infrastructures remotely via the
 - [Containerization](#containerization)
   - [Comparison with Virtualization](#comparison-with-virtualization)
   - [Container Orchestration](#container-orchestration)
+- [Distributed Storage Systems](#distributed-storage-systems)
+  - [Google File System \& Hadoop Distributed File System](#google-file-system--hadoop-distributed-file-system)
+  - [Limitations](#limitations)
 
 ---
 
@@ -233,5 +236,68 @@ A core challenge in container orchestration is **effectively allocating resource
 - **Scaling Capabilities**: When traffic increases, applications may require more instances to handle requests. The orchestration tool should support horizontal scaling, automatically launching new container replicas according to predefined policies, and conversely reducing scale when demand decreases to save resources.
 
 **Kubernetes** is one of the most popular container orchestration platforms, developed by Google and donated to the Cloud Native Computing Foundation (CNCF). It offers a robust feature set for managing complex containerized application environments, including self-healing, rolling updates, service discovery, load balancing, and more.
+
+---
+
+# Distributed Storage Systems
+
+Consider following conditions: (Target Environment)
+- Thousands of computers
+- Failures are the norm
+- Files are huge, but not many
+- Write-once, read-many
+- I/O bandwidth is more important than latency
+
+Distributed storage systems are architectures that **spread data across multiple independent computing nodes**, typically composed of inexpensive **commodity PCs**, each equipped with disk and CPU. Unlike traditional vertical scaling (**Scale-Up**), distributed storage systems adopt a horizontal scaling (**Scale-Out**) approach, expanding system performance and capacity by adding more nodes. This method not only provides **higher aggregate storage capacity** but also offers **high I/O bandwidth proportional** to the number of machines, enabling **parallelized data processing**, thereby significantly enhancing overall efficiency. Key features of distributed storage systems include:
+
+- Scalability
+- High Storage Capacity
+- High I/O Bandwidth
+- Parallelized Data Processing
+- Fault Tolerance and Reliability
+- Cost-effectiveness
+
+## Google File System & Hadoop Distributed File System
+
+GFS and HDFS are two renowned distributed file systems designed to build highly reliable storage systems atop inexpensive and unreliable hardware. Both systems were developed to address the needs of large-scale data storage and processing, particularly in internet companies handling massive volumes of logs, clickstreams, and other big datasets.
+
+Distributed file systems need to run on thousands of computers, **failures are common**, **files are large but not numerous**, and are **written once** and **read many times**. Additionally, **I/O bandwidth is more important than latency**. 
+
+Hence, the main design of distributed file systems are:
+- File stores as/divided into **large chunks** (blocks)
+  - **Large chunk size**: 64/128 MB
+  - **Reduced Metadata Management Overhead**: Larger chunks reduce the number of chunks that need to be tracked within the filesystem, lowering metadata management and maintenance costs.
+  - **Improved Transfer Efficiency**: For large-scale data transfers, larger chunks can minimize the number of network requests, thereby enhancing overall transfer efficiency.
+  - **Suitability for Large Files**: Given that files are typically very large, larger chunks better match this workload characteristic, requiring fewer chunks per file, simplifying management and retrieval processes.
+  - **Reduced Addressing Overhead**: Larger chunks mean each chunk contains more data, reducing the time and resources needed to locate and access specific data.
+- Reliability through **replications**
+  - 1 replication in the same rack, 2+ replications in different racks
+  - **Local Fast Recovery**: A replica within the same rack provides rapid data recovery capabilities, especially in the event of localized hardware failures.
+  - **Cross-Rack Redundancy**: Multiple replicas in different racks ensure data remains safe and reliable even if an entire rack fails. This layout also disperses risk, increasing system fault tolerance.
+  - **Network Partition Tolerance**: Even if network connections between some racks fail, as long as replicas in other racks remain accessible, the system can continue to provide services.
+- **Single master** to coordinate access
+  - **Keep metadata only**, file data stored in chunkservers.  
+  - **Reduced Master Node Load**: The master node only manages metadata without directly handling actual data storage, significantly reducing its workload and improving performance and response times.
+  - Simplified Recovery Process: If the master node fails, only metadata needs to be recovered, avoiding concerns about massive file data loss or corruption.
+  - **Enhanced Scalability**: As the system scales, additional chunkservers can independently store more file data without increasing pressure on the master node.
+  - **Optimized I/O Path**: Clients can directly retrieve data from chunkservers rather than going through the master node, optimizing I/O paths and boosting read/write performance.
+
+{% include image_caption.html imageurl="/images/distributed-storage-systems.png" title="Distributed Storage Systems" caption="distributed storage systems" %}
+
+## Limitations
+
+Distributed file systems like GFS (Google File System) and HDFS (Hadoop Distributed File System) are optimized for specific workloads and environments, which also introduces certain limitations:
+
+- **Assumes Write-Once, Read-Many Workloads**
+  - Not suitable for frequent writes: These systems assume that data is rarely modified or appended after being written once, making them less efficient for handling datasets that require frequent updates. For instance, they may not perform well with real-time updating log files or frequently changing database records, where other systems designed specifically for such workloads might be more appropriate.
+  - Metadata management challenges: Frequent write operations necessitate frequent metadata updates by the master node, potentially leading to the metadata server becoming a bottleneck and increasing complexity and maintenance costs.
+
+- **Assumes a Modest Number of Large Files**
+  - Small file problem: wasted storage space and metadata server overload. Internal fragmentation and metadata management overhead increase with small files.
+  - Metadata server load: affects performance
+
+- **Emphasizes Throughput Over Latency**
+  - High-latency operations: sacrificed response time
+  - Not suitable for low-latency requirements: interactive applications, instant messaging services
 
 ---
