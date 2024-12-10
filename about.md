@@ -42,19 +42,17 @@ Connect with me if you're interested in collaboration or just want to say hi!
 - **Bronze Medalist** at National Olympiad in Informatics 2021 🥉
 - **Silver Medalist** at China Collegiate Programming Contest 2022 Weihai Regional 🥈
 
----
-
-Here are some of the sites and people I admire 🍻:
+## Friends & Colleagues
 
 - [Yuan_Tuo's Site](http://imwcr.cn)
 - [CApopcornT's Pot](https://fried-jimihua.github.io)
 
 ---
 
-This blogweb is powered by [Jekyll](https://jekyllrb.com/) and [GitHub Pages](https://pages.github.com/). And I will update it as I get more time at [Ray's Blog](https://huruilizhen.github.io). You can also view my corresponding REPO on GitHub: [HuRuilizhen.github.io](https://github.com/HuRuilizhen/HuRuilizhen.github.io)
+This blogweb is powered by [Jekyll](https://jekyllrb.com/) and [GitHub Pages](https://pages.github.com/). And I will update it as I get more time at [HuRuilizhen.github.io](https://huruilizhen.github.io). For related repository, see [HuRuilizhen/HuRuilizhen.github.io](https://github.com/HuRuilizhen/HuRuilizhen.github.io)
 
 Feel free to reach out if you're interested in collaborating or just want to say hi! Let's create something amazing together! 🚀
 
 Best regards, Ray
 
-> *Last Updated: November 11th, 2024*
+> *Last Updated: December 10th, 2024*
