@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About RAY
+title: About
 description: Simple Introduction about Author
 feature_image: images/about.jpeg
 ---
@@ -8,8 +8,8 @@ feature_image: images/about.jpeg
 Hello, I'm Ruilizhen HU, and you can also call me Ray! 🚀😊 I'm an enthusiastic undergraduate student at The Chinese University of Hong Kong, Shenzhen Campus, majoring in Computer Science & Technology. My academic journey is filled with a passion for machine learning, traditional algorithms, and full-stack development. 💻🔥
 
 ## Education
-- **Undergraduate Student** at The Chinese University of Hong Kong, Shenzhen Campus (Class of 2022)
-- Major: Computer Science & Technology
+- CS Bachelor @ CUHK Shenzhen (2022 - 2026)
+- EECS Exchange Student @ NTU Singapore (2025 Spring)
 
 ## Skills and Interests
 - Familiar with C/C++ 🐧, Python 🐍, Java ☕️, Rust 🦀
