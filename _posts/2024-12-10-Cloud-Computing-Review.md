@@ -21,6 +21,8 @@ Cloud computing allows companies to store their infrastructures remotely via the
   - [Purpose of Virtualization](#purpose-of-virtualization)
   - [Principles of Virtualization](#principles-of-virtualization)
 - [Containerization](#containerization)
+  - [Comparison with Virtualization](#comparison-with-virtualization)
+  - [Container Orchestration](#container-orchestration)
 
 ---
 
@@ -161,3 +163,55 @@ Depending on how sensitive instructions are handled and whether hardware support
 # Containerization
 
 {% include image_caption.html imageurl="/images/containers.png" title="Containerization" caption="containerization" %}
+
+Containerization is a **lightweight virtualization technology** that allows developers to **package an application and its dependencies into a standalone unit** called a container. Containers **share** the host machine's operating system **kernel** but each has its **own** file system, CPU, memory, process space, and other **resources**. This design makes containers more **lightweight** and **efficient** compared to traditional VMs, with **faster startup** times and **better portability** across different environments. The core components of containerization include:
+
+- **Container Engine**: Such as **Docker** Engine, which is software for creating and running containers.
+- **Image**: A read-only template containing the application code and all its dependencies.
+- **Container**: One or more processes instantiated from an image, having isolated working spaces.
+
+The advantage of containerization lies in ensuring that applications run **consistently across any environment**, from a developer's laptop to production servers. Additionally, since containers are **isolated** from each other, if one container encounters issues, it does not affect others.
+
+> Also see my blog on [Ray - Docker Setup](https://huruilizhen.github.io/Docker-Setup) and [Ray - Docker Quick Start](https://huruilizhen.github.io/Docker-Quick-Start)
+
+## Comparison with Virtualization
+
+- **Resource Utilization**
+   - **Containerization**: Containers share the host OS kernel, thus they consume fewer resources and start up quickly, making them suitable for rapid deployment and scaling of microservices architectures.
+   - **Virtualization**: Each VM has its own copy of the OS, increasing resource consumption and potentially leading to slower startup times.
+- **Startup Time**
+   - **Containerization**: Because there's no need to boot a full OS, containers can start within seconds.
+   - **Virtualization**: VMs require booting an entire OS, which can take several minutes.
+- **Isolation Level**
+  - **Containerization**: While containers provide a certain level of application isolation, they share the same kernel, meaning that if there's a vulnerability in the kernel, all containers could be affected.
+  - **Virtualization**: Each VM has its own independent OS kernel, providing stronger security and isolation.
+- **Management Complexity**
+  - **Containerization**: Containers are generally easier to manage and deploy, especially when using orchestration tools like **Kubernetes** for automated management.
+  - **Virtualization**: Managing multiple VMs can add complexity, especially concerning network configuration, storage allocation, etc.
+- **Applicability**
+  - **Containerization**: Ideal for microservices architecture, CI/CD pipelines, and application environments that require frequent updates and iterations.
+  - **Virtualization**: Better suited for scenarios requiring fully isolated environments or running multiple different operating systems, such as hosting various Web applications or legacy systems.
+
+|                           | Containerization                       | Virtualization                                  |
+| ------------------------- | -------------------------------------- | ----------------------------------------------- |
+| **Resource Utilization**  | Fewer resources, quick startup         | More resources, slower startup                  |
+| **Startup Time**          | Within seconds                         | Minutes                                         |
+| **Isolation Level**       | Shared kernel, less isolation          | Independent kernel, more isolation              |
+| **Management Complexity** | Easier to manage                       | More complex to manage                          |
+| **Applicability**         | Microservices, CI/CD, frequent updates | Legacy systems, multiple OSes, strong isolation |
+
+In summary, both containerization and virtualization have their strengths and weaknesses, and the choice between them depends on specific business needs and technical stacks. For use cases seeking **high performance**, **fast deployment**, and **good portability**, **containerization** is usually the better option; for situations requiring **strong isolation** and support for multiple operating systems, **virtualization** is more appropriate.
+
+## Container Orchestration
+
+Container orchestration involves **managing** and **organizing** both **hosts** and Docker **containers** running on a **cluster**. As containerized applications become more prevalent, managing a large number of containers and their dependencies becomes increasingly complex. Container orchestration tools simplify this process by **automating deployment, scaling, and service discovery**, ensuring that applications run efficiently and reliably.
+
+A core challenge in container orchestration is **effectively allocating resources**, deciding **where to schedule containers** to meet their CPU, RAM, and disk requirements, and **how to track node status** for dynamic scaling.
+
+- **Scheduling Decisions**: The orchestration tool must intelligently select the most suitable node for each container. This involves evaluating available resources on each node (such as CPU cores, remaining memory, storage space) and considering other factors like network latency, topology, and affinity rules.
+- **Resource Monitoring and Management**: To **maintain system health**, the orchestration tool must continuously monitor the status of all nodes, including **resource usage** and **performance metrics**. If a node becomes overloaded or fails, the tool should **automatically migrate** containers to healthy nodes and **dynamically add or remove nodes** based on load conditions.
+- **Scaling Capabilities**: When traffic increases, applications may require more instances to handle requests. The orchestration tool should support horizontal scaling, automatically launching new container replicas according to predefined policies, and conversely reducing scale when demand decreases to save resources.
+
+**Kubernetes** is one of the most popular container orchestration platforms, developed by Google and donated to the Cloud Native Computing Foundation (CNCF). It offers a robust feature set for managing complex containerized application environments, including self-healing, rolling updates, service discovery, load balancing, and more.
+
+---
