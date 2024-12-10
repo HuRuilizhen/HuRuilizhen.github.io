@@ -95,6 +95,26 @@ Cloud service models are divided into multiple levels according to the level of 
 | **MLaaS**      | Machine learning infrastructure and pre-trained models | Simplified MaaL deployment, cost-effective      | Data privacy issues, limited model flexibility | Image recognition, NLP, predictive analytics |
 | **Other XaaS** | Specialized services (e.g., storage, database)         | Focused solutions, cost flexibility             | Vendor dependence, management complexity       | Database services, cloud storage             |
 
+**FaaS** and **MLaaS** are also referred to as **Serverless**. Serverless Architecture and **Traditional Server-based Architecture** differ significantly in several aspects, primarily including:
+
+- **Server Management**: <font color="red">Core Differences</font>
+  - Serverless Architecture: Developers **do not manage any server hardware or operating systems**. Cloud service providers take full responsibility for server configuration, security, and maintenance.
+  - Traditional Server-based Architecture: Developers **must manage** servers themselves, including installing operating systems, updating software, monitoring performance, and handling disaster recovery.
+- **Cost Structure**:
+  - Serverless Architecture: Operates on a **pay-as-you-go model** where users only pay for the actual compute resources used. This model is especially suitable for applications with fluctuating traffic, as it can dynamically adjust resources based on need.
+  - Traditional Server-based Architecture: Typically involves **fixed monthly or annual fees** regardless of resource utilization. Over time, if resources are not fully utilized, it may lead to cost inefficiencies.
+- **Scalability**:
+  - Serverless Architecture: **Offers automatic scalability**, increasing or decreasing instance numbers based on traffic changes to ensure the application always meets current demands.
+  - Traditional Server-based Architecture: While scalability can be automated, it often requires **additional configuration and management** and may not be as flexible as serverless architectures.
+- **Deployment Speed**:
+  - Serverless Architecture: Reduces **the time spent setting up environments**, allowing new features to be deployed more quickly.
+  - Traditional Server-based Architecture: Requires more time to **prepare and configure server environments**, potentially delaying feature releases.
+- **Development Complexity**:
+    - Serverless Architecture: Developers can **focus on writing business logic code** without worrying about underlying infrastructure issues.
+    - Traditional Server-based Architecture: Developers must consider **effective server resource management and optimization** alongside coding.
+
+
+
 ---
 
 # Virtualization
