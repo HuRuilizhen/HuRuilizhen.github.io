@@ -504,5 +504,3 @@ Related Posts / Websites 👇
 📑 [Ray - File System](https://huruilizhen.github.io/File-System)
 
 📑 [Ray - Main Memory and Virtual Memory](https://huruilizhen.github.io/Main-Memory-and-Virtual-Memory)
-
-🤖 [Tongyi - CS Reviewer](https://lxblog.com/qianwen/share?shareId=e5b06bb7-590b-4ae0-9906-3ae18d8fe71f&type=agentCard)
