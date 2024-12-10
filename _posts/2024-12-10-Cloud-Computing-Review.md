@@ -26,6 +26,7 @@ Cloud computing allows companies to store their infrastructures remotely via the
 - [Distributed Storage Systems](#distributed-storage-systems)
   - [Google File System \& Hadoop Distributed File System](#google-file-system--hadoop-distributed-file-system)
   - [Limitations](#limitations)
+- [MapReduce](#mapreduce)
 
 ---
 
@@ -282,7 +283,7 @@ Hence, the main design of distributed file systems are:
   - **Enhanced Scalability**: As the system scales, additional chunkservers can independently store more file data without increasing pressure on the master node.
   - **Optimized I/O Path**: Clients can directly retrieve data from chunkservers rather than going through the master node, optimizing I/O paths and boosting read/write performance.
 
-{% include image_caption.html imageurl="/images/distributed-storage-systems.png" title="Distributed Storage Systems" caption="distributed storage systems" %}
+{% include image_caption.html imageurl="/images/distributed-storage-system.png" title="Distributed Storage System" caption="distributed storage system" %}
 
 ## Limitations
 
@@ -301,3 +302,46 @@ Distributed file systems like GFS (Google File System) and HDFS (Hadoop Distribu
   - Not suitable for low-latency requirements: interactive applications, instant messaging services
 
 ---
+
+# MapReduce
+
+MapReduce is a programming model and its associated implementation for **processing and generating large datasets**. Programmers only need to specify two functions: **map** and **reduce**, while the execution framework handles all other details. Core functions include:
+
+- $map: (k, v) \rightarrow [<k_2, v_2>]$
+  - Takes an input key-value pair $(k, v)$ and outputs **a list of new key-value pairs** $[<k_2, v_2>]$.
+  - The map function is responsible for transforming the input data into **intermediate results**, often involving splitting, filtering, or preliminary calculations on the input data.
+- $reduce: (k_2, [v_2]) \rightarrow [<k_3, v_3>]$
+  - Receives a key $k_2$ and **a list of values** $[v_2]$ **associated with that key**, outputting a list of new key-value pairs $[<k_3, v_3>]$
+  - The reduce function **aggregates the intermediate results**, such as **summing up values**, **counting occurrence**s, or performing other aggregation operations. **All values with the same key are processed together**.
+
+There are also some function variants, such as:
+- $combine: (k, [v]) \rightarrow <k, v>$
+  - Acts as a **local optimization version of reduce**. The combine function can perform **partial aggregation** on the **map output** locally on each node, **reducing** the amount of data transferred to the reduce phase.
+  - It enhances **efficiency**, especially in scenarios with limited network bandwidth.
+- $partition: (k, \# partitions)$
+  - Determines **how intermediate key-value pairs are assigned to different reduce tasks**. Typically, a hash function is used to decide which partition a key should be sent to.
+  - This function **ensures load balancing** and controls the distribution of final outputs.
+
+The execution framework handles the following tasks:
+1. **Data Splitting**: Divides the input data into multiple chunks for different map tasks to process.
+2. **Task Scheduling**: Arranges map and reduce tasks to run on various nodes within the cluster.
+3. **Error Recovery**: If a task fails, the framework restarts it to ensure the successful completion of the entire job.
+4. **Status Updates and Monitoring**: Provides real-time status information and performance monitoring to help users track job progress.
+
+
+MapReduce model simplifies large-scale data processing by **separating business logic from underlying complexities, allowing developers to focus on writing core algorithms** without worrying about the specifics of distributed computing implementations.
+
+In distributed computing environments, particularly within frameworks like MapReduce, the ideal scaling characteristics are:
+
+- **Twice the Data, Twice the Running Time**: When the input data size doubles, the job completion time should also double.
+- **Twice the Resources, Half the Running Time**: When the available computational resources (such as the number of nodes) double, the job completion time should halve.
+
+However, achieving these ideal scaling characteristics in practice is often challenging due to **Challenges of Synchronization and Communication**:
+- **Synchronization Requires Communication**: In distributed systems, multiple tasks need to coordinate and synchronize to ensure **correctness** and **consistency**. This synchronization typically involves inter-node communication, such as sending heartbeat messages, status updates, or intermediate results.
+- **Communication Impacts Performance**: Network communication between nodes is often a bottleneck. Compared to local processing speeds, network latency and bandwidth limitations significantly degrade overall performance. Excessive communication not only increases latency but can also lead to network congestion, further slowing down system execution.
+
+Therefore, to mitigate the negative effects of communication, optimization strategies should focus on **Avoid Communication, Perform Local Aggregation as Much as Possible**:
+
+Perform **preliminary aggregation or compression** of data during the map phase to reduce network load. Run a **local reduce function** on each node to aggregate data with the same key before sending it over the network. This what we call **Combiner**.
+
+{% include image_caption.html imageurl="/images/map-reduce.png" title="Map Reduce" caption="Map Reduce" %}
