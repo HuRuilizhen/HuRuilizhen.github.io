@@ -32,8 +32,6 @@ navigation:
     url: /
   - text: About
     url: /about
-  - text: Friends
-    url: /friend
   - text: Tags
     url: /tags
 
@@ -41,7 +39,7 @@ navigation:
 disqus: justgoodthemes
 
 # Colors
-accent_color: '#2d72d9'
+accent_color: '#C73B45'
 
 # Site footer
 footer:
