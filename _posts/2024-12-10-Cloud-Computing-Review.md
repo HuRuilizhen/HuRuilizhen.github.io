@@ -26,7 +26,9 @@ Cloud computing allows companies to store their infrastructures remotely via the
 - [Distributed Storage Systems](#distributed-storage-systems)
   - [Google File System \& Hadoop Distributed File System](#google-file-system--hadoop-distributed-file-system)
   - [Limitations](#limitations)
-- [MapReduce](#mapreduce)
+- [Distributed Computing Systems](#distributed-computing-systems)
+  - [MapReduce](#mapreduce)
+  - [From MapReduce to Spark](#from-mapreduce-to-spark)
 
 ---
 
@@ -303,7 +305,15 @@ Distributed file systems like GFS (Google File System) and HDFS (Hadoop Distribu
 
 ---
 
-# MapReduce
+# Distributed Computing Systems
+
+Like Distributed Storage Systems, Distributed Computing Systems also require **distributed computing infrastructure** to support distributed computing tasks. These systems typically consist of:
+
+- **Master Nodes**: The central nodes responsible for **coordinating** the execution of distributed computing tasks, such as scheduling, resource allocation, and monitoring.
+- **Worker Nodes**: These nodes **perform the actual** computation and provide **resources** to the master nodes for task execution.
+- **Client Nodes**: These nodes **request** and **receive** the results of distributed computing tasks from the master nodes.
+
+## MapReduce
 
 MapReduce is a programming model and its associated implementation for **processing and generating large datasets**. Programmers only need to specify two functions: **map** and **reduce**, while the execution framework handles all other details. Core functions include:
 
@@ -318,7 +328,7 @@ There are also some function variants, such as:
 - $combine: (k, [v]) \rightarrow <k, v>$
   - Acts as a **local optimization version of reduce**. The combine function can perform **partial aggregation** on the **map output** locally on each node, **reducing** the amount of data transferred to the reduce phase.
   - It enhances **efficiency**, especially in scenarios with limited network bandwidth.
-- $partition: (k, \# partitions)$
+- $partition: (k, N_{partitions})$
   - Determines **how intermediate key-value pairs are assigned to different reduce tasks**. Typically, a hash function is used to decide which partition a key should be sent to.
   - This function **ensures load balancing** and controls the distribution of final outputs.
 
@@ -345,3 +355,74 @@ Therefore, to mitigate the negative effects of communication, optimization strat
 Perform **preliminary aggregation or compression** of data during the map phase to reduce network load. Run a **local reduce function** on each node to aggregate data with the same key before sending it over the network. This what we call **Combiner**.
 
 {% include image_caption.html imageurl="/images/map-reduce.png" title="Map Reduce" caption="Map Reduce" %}
+
+## From MapReduce to Spark
+
+To better understand the transition from MapReduce to Spark, we will delve into the differences between the two, the improvements introduced by Spark, and the specific workflows. Here's a detailed analysis:
+
+- **Limitations of MapReduce**:
+  - **Disk I/O Bottleneck**: In MapReduce, **intermediate results** are written to **disk** after **each task**. Even simple iterative algorithms result in **numerous disk read/write** operations, leading to performance degradation.
+  - **Less Flexible Execution Model**: The task scheduling in MapReduce is **batch-oriented**, meaning **all map tasks must complete before any reduce tasks can begin**. This strict sequential execution limits job flexibility and efficiency.
+  - **High Cost of Fault Recovery**: If a node fails during a MapReduce job, it may require **rolling back** the entire job or **relying on checkpoint files** to recover lost data. This increases the cost and complexity of fault recovery.
+- **Improvements Introduced by Spark**:
+  - **In-Memory Data Sharing**: Spark allows **intermediate results to remain in memory**, reducing unnecessary disk I/O. This is particularly important for iterative algorithms (such as machine learning training) and interactive queries, where repeated access to the same dataset is required without reloading from disk each time.
+  - **More Flexible Execution Model**: Spark introduces **Resilient Distributed Datasets** (RDDs), which support various transformation operations (map, filter, join, etc.). These operations can be combined at different stages, forming a more flexible task scheduling approach. Additionally, Spark supports complex **computational graphs**, allowing tasks to dynamically adjust based on actual needs.
+  - **Efficient Fault Recovery Mechanism**: Spark achieves **efficient fault recovery** by maintaining **lineage information for RDDs**. When certain partitions are lost, the system can **recompute these partitions based on their lineage**, without needing to redo the entire job or rely on checkpoint files. This not only reduces the cost of fault recovery but also simplifies system implementation. 
+
+| **Feature**     | **MapReduce**                                        | **Spark**                                                                     |
+| --------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Data Storage    | Intermediate results written to disk                 | Intermediate results kept in memory                                           |
+| Execution Model | Strictly staged (Map -> Shuffle -> Reduce)           | Elastic task scheduling, supporting complex computational graphs              |
+| Fault Recovery  | May require rollback or reliance on checkpoint files | Efficient recovery based on lineage information                               |
+| API             | Lower-level, primarily supporting Java               | Provides higher-level abstractions, supporting multiple programming languages |
+
+An RDD (Resilient Distributed Dataset) is a fundamental abstraction in Apache Spark that represents **an immutable, partitioned collection of data items**. RDDs provide efficient operations on large datasets and fault tolerance, serving as the backbone for Spark's big data processing capabilities. Here’s a summary of key aspects of RDDs:
+
+
+- **Set of Partitions**: An RDD consists of a set of logical partitions, each **representing a portion of the dataset**. These partitions can be distributed across different nodes in a cluster and processed in parallel.
+- **List of Dependencies on Parent RDDs**: Each RDD maintains a list of dependencies on its parent RDD(s). This lineage information tracks how the RDD was derived from other RDDs. In case a partition is lost, it can be **recomputed based on this lineage** without needing to roll back the entire job.
+- **Function to compute a partition given its parents**: For each partition, an RDD defines a function that specifies how to compute the contents of that partition given its parent RDD(s). This function is **executed dynamically when needed**, meaning computation only occurs when the data is actually accessed, known as lazy evaluation.
+- **Partitioner (Hash, Range)**: RDDs may optionally **specify a partitioner** to determine which partition an item should belong to. Common partitioning strategies include hash partitioning and range partitioning. If no partitioner is specified, **hash partitioning** is used by default.
+- **Preferred Locations for Each Partition**: RDDs can also specify preferred locations for each partition, indicating which nodes are best suited to store and process the data. Typically, **these locations are chosen based on where the data physically resides**, reducing network overhead and improving efficiency.
+
+
+Still, let's look at a real-world example of using MapReduce in Spark. Here's a Python script that uses Spark to perform word count on a text file:
+
+```python
+from pyspark import SparkConf, SparkContext
+
+conf = SparkConf().setAppName('Word Counts')
+sc = SparkContext(conf=conf)
+
+# Load the text file
+lines = sc.textFile('hdfs:///user/hadoop/wordcount/input.txt')
+
+# Split the lines into words and count the occurrences of each word
+word_counts = lines.flatMap(lambda x: x.split(' ')) \
+                   .map(lambda x: (x, 1)) \
+                   .reduceByKey(lambda x, y: x + y)
+
+# Save the word counts to a text file
+word_counts.saveAsTextFile('hdfs:///user/hadoop/wordcount/output')
+```
+
+RDD (Resilient Distributed Dataset) is the basic abstraction of Spark and represents an immutable, partitioned data collection. **DataFrame is an RDD with schema information**, which provides a higher-level API and a more efficient execution method. DataFrame not only maintains the immutability and lineage information tracking of RDD, but also introduces rich built-in functions, optimized query execution, and **support for multiple data sources**, making data analysis **simpler** and **more efficient**. Here is a comparison between RDD and DataFrame:
+
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import explode, split, col
+
+spark = SparkSession.builder.appName('Word Counts').getOrCreate()
+
+lines_df = spark.read.text('hdfs:///user/hadoop/wordcount/input.txt')
+
+words_df = lines_df.withColumn('word', explode(split(col('value'), ' '))).select('word')
+
+word_counts_df = words_df.groupBy('word').count()
+
+word_counts_df.write.csv('hdfs:///user/hadoop/wordcount/output', header=True)
+
+spark.stop()
+```
+
+---
