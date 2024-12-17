@@ -4,7 +4,7 @@ title: "Web Security Overview"
 description: "Overview of web security"
 date: 2024-12-12
 feature_image: images/security.png
-tags: [, 'web-development', 'security']
+tags: ['web-development', 'security']
 ---
 
 Web security is a broad topic that covers a wide range of topics related to the security of web applications. It involves the protection of websites, web applications, and web services from unauthorized access, use, disclosure, disruption, modification, or destruction. It also involves the protection of user data and ensuring the integrity of the system by preventing unauthorized access and malicious activities.
