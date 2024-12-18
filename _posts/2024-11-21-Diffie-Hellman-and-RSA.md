@@ -24,6 +24,9 @@ Diffie-Hellman and RSA are two popular algorithms for secure communication. They
   - [Encryption with Diffie-Hellman](#encryption-with-diffie-hellman)
   - [Diffie-Hellman and Safe Primes](#diffie-hellman-and-safe-primes)
 - [RSA Algorithm](#rsa-algorithm)
+  - [Prerequisites Mathematics](#prerequisites-mathematics-1)
+  - [Procedures](#procedures-1)
+  - [Practical Considerations](#practical-considerations)
 - [Elliptic Curve Cryptography](#elliptic-curve-cryptography)
   - [Known Subexponential Algorithms](#known-subexponential-algorithms)
   - [Elliptic Curve Cryptography (ECC)](#elliptic-curve-cryptography-ecc)
@@ -38,7 +41,7 @@ Diffie-Hellman and RSA are two popular algorithms for secure communication. They
 In traditional symmetric encryption systems, both communicating parties need to share a secret key. This key must be securely distributed to all message senders and receivers before communication begins. However, this key distribution process has the following issues:
 
 - **Security Issues**: If the key is intercepted during transmission, the security of the entire communication will be severely compromised.
-- **Management Complexity**: As the number of users increases, the number of keys that need to be managed grows exponentially. For example, if there are \( n \) users, each pair of users requires an independent key, resulting in a total of \( \frac{n(n-1)}{2} \) keys that need to be managed.
+- **Management Complexity**: As the number of users increases, the number of keys that need to be managed grows exponentially. For example, if there are $ n $ users, each pair of users requires an independent key, resulting in a total of $ \frac{n(n-1)}{2} $ keys that need to be managed.
 - **Initial Trust Issue**: How to securely distribute keys in the absence of pre-established trust is a significant challenge.
 
 Public-key cryptography addresses these issues by introducing a pair of keys—public and private keys:
@@ -158,7 +161,7 @@ Here we have defined all things we need to understand the Diffie-Hellman key exc
 The **Discrete Logarithm Problem (DLP)** is an important problem in number theory and forms the basis of the security of many public-key cryptography algorithms, such as the Diffie-Hellman key exchange and the ElGamal encryption algorithm. Simply put, the difficulty of computing discrete logarithms refers to the high computational complexity of solving the discrete logarithm problem, making it practically infeasible to solve within a reasonable time frame in real-world applications.
 
 
-Suppose we have a finite cyclic group $ G $ and a generator $ g $. For any group element $ y \in G $, the discrete logarithm problem can be stated as follows: given $ y $ and $ g $, find an integer $ x $ such that:
+Suppose we have a finite cyclic group $ G $ and a generator $ g $. For any group element $ y \in G $, the **discrete logarithm problem** can be stated as follows: given $ y $ and $ g $, find an integer $ x $ such that:
 
 $$ y = g^x \mod p $$
 
@@ -236,6 +239,117 @@ $$
 ---
 
 # RSA Algorithm
+
+The RSA algorithm is an asymmetric (or public-key) encryption algorithm proposed in 1977 by Ron Rivest, Adi Shamir, and Leonard Adleman, for whom the algorithm is named. It plays a crucial role in secure data transmission and is widely used across various applications such as secure web browsing, email encryption, digital signatures, and more.
+
+The security of the RSA algorithm is based on the difficulty of factoring large integers. While multiplying two large prime numbers together is relatively easy, determining the original prime factors from the product is computationally intensive and time-consuming, especially when the primes are sufficiently large.
+
+## Prerequisites Mathematics
+
+Number Theory is the key to understanding the RSA algorithm. It provides a framework for analyzing and manipulating large integers. To understand the RSA algorithm, we need to discover following theorems:
+
+</br>
+
+**Euler's totient function**, denoted as $\varphi(n)$, represents **the number of positive integers** less than or equal to $n$ that are coprime with $n$. Formally, for any positive integer $n$,
+
+$$ \varphi(n) = |\{k \in \mathbb{Z} : 1 \leq k \leq n, \gcd(k, n) = 1\}| $$
+
+To calculate the value of $\varphi(n)$, we need to perform a number of operations on the prime factors of $n$.
+
+- **Prime $p$**: If $n$ is a prime number $p$, then $\varphi(p) = p - 1$.
+- **Prime Power $p^k$**: If $n$ is a power of a prime $p$, i.e., $p^k$, then $\varphi(p^k) = p^k (1 - \frac{1}{p})$.
+- **Two Coprime Numbers $m$ and $n$**: If $m$ and $n$ are coprime, then $\varphi(mn) = \varphi(m)\varphi(n)$.
+- **Any Positive Integer $n$**: Let the standard factorization of $n$ be $n = p_1^{k_1} p_2^{k_2} ... p_m^{k_m}$, where $p_i$ are distinct primes, then
+
+$$ \varphi(n) = n \prod_{i=1}^{m} \left(1 - \frac{1}{p_i}\right) $$
+
+</br>
+
+**Euler's Theorem** is a statement that:
+
+$$
+    \forall a, n \in \mathbb{Z}^*, \gcd(a, n) = 1 \rightarrow a^{\varphi(n)} \equiv 1 \mod n
+$$
+
+Proof is a little bit complicated. Consider the set $G = \{g_1, g_2, ..., g_{\varphi(n)}\}$ of all positive integers less than $n$ and coprime with $n$. For any integer $a$ coprime with $n$, multiplying each element in $G$ by $a$ and taking modulo $n$ yields a new set $H = \{ag_1 \mod n, ag_2 \mod n, ..., ag_{\varphi(n)} \mod n\}$. The fact $ G = H $ can be shown by **Uniqueness** and **Completeness**.
+
+- **Uniqueness**: Assume there exist two distinct elements $g_i, g_j \in G$ such that $ag_i \equiv ag_j \pmod{n}$. Since $a$ and $n$ are coprime, we can multiply both sides by the modular inverse of $a$ (which exists by definition), leading to $g_i \equiv g_j \pmod{n}$, which contradicts the assumption that $g_i$ and $g_j$ are distinct. Therefore, all elements in $H$ are unique.
+- **Completeness**: Each element $g_i$ in $G$ is coprime with $n$, and since $a$ is also coprime with $n$, $ag_i$ remains coprime with $n$. Thus, $ag_i \mod n$ is still a positive integer less than $n$ and coprime with $n$, meaning it belongs to the original set $G$. This implies $H$ contains all elements of $G$, just in a different order.
+
+Therefore, $H$ is simply a permutation of $G$. Consequently, the product of all elements in $H$ is congruent to the product of all elements in $G$ modulo $n$:
+
+$$ \prod_{i=1}^{\varphi(n)} g_i \equiv \prod_{i=1}^{\varphi(n)} ag_i \pmod{n} $$
+
+$$ \prod_{i=1}^{\varphi(n)} g_i \equiv a^{\varphi(n)} \cdot \prod_{i=1}^{\varphi(n)} g_i \pmod{n} $$
+
+Dividing both sides by $\prod_{i=1}^{\varphi(n)} g_i$ (this is valid because each $g_i$ is coprime with $n$), we get:
+
+$$ a^{\varphi(n)} \equiv 1 \pmod{n} $$
+
+This completes the proof of Euler's theorem.
+
+</br>
+
+**Multiplicative Inverse**: Given two coprime positive integers $a$ and $m$, if there exists an integer $b$ such that $ab \equiv 1 \pmod{m}$, then $b$ is called the **multiplicative inverse** of $a$ modulo $m$. There are ways to compute the multiplicative inverse:
+
+- **Fermat's Little Theorem**: When $m$ is a prime, for any integer $a$ coprime with $m$, $a^{m-1} \equiv 1 \pmod{m}$. Therefore, $a^{m-2}$ serves as the multiplicative inverse of $a$ modulo $m$.
+
+- **Extended Euclidean Algorithm**: For general $m$ (not necessarily prime), the extended Euclidean algorithm can find the multiplicative inverse. This algorithm not only computes the greatest common divisor $\gcd(a, m)$ but also finds integers $x$ and $y$ such that $ax + my = \gcd(a, m)$. If $a$ and $m$ are coprime, i.e., $\gcd(a, m) = 1$, then $x$ is the multiplicative inverse of $a$ modulo $m$.
+
+</br>
+
+The security of RSA primarily relies on several aspects:
+
+- **Integer Factorization Problem**: Given a large composite number $n=pq$, where $p$ and $q$ are large primes, finding $p$ and $q$ is computationally difficult. This assumption is central to RSA's security. There is no known efficient algorithm to factorize $n$ within a reasonable time frame, especially when $p$ and $q$ are sufficiently large.
+
+- **Discrete Logarithm Problem**: Although RSA does not directly rely on the discrete logarithm problem, solving for $d$ given $e$ and $\varphi(n)$ is akin to solving a similar problem. This difficulty stems from $\varphi(n)$ being unknown while $n$ is public, making it hard for an attacker to find $d$.
+
+
+## Procedures
+
+1. **Key Generation**:
+   - Choose two distinct **large prime** numbers, $p$ and $q$.
+   - Compute $n = p \times q$; $n$ is the modulus used in **both the public and private keys** and its bit-length determines the **key size**.
+   - Compute Euler's totient function, $\varphi(n) = (p-1)(q-1)$.
+   - Select an integer $e$, which is less than $\varphi(n)$ and **coprime** to $\varphi(n)$, to serve as part of the **public key**.
+   - Compute $d$ as the **modular multiplicative inverse** of $e$ modulo $\varphi(n)$, which is the **private key**.
+2. **Key Allocation**:
+   - The public key consists of $\{e, n\}$ and can be shared openly.
+   - The private key consists of $\{d, n\}$ and should be kept secret.
+3. **Encryption**:
+    Assuming $M$ is the plaintext message (where $M < n$), it is encrypted using the recipient's public key to produce ciphertext $C = M^e \mod n$.
+4. **Decryption**:
+    The receiver decrypts the ciphertext using their own private key, computing the original plaintext $M = C^d \mod n$.
+
+For public-key system, we can use the public key to encrypt a message and the private key to decrypt it to achieve **secure communication**, on the other hand, we can use the private key to encrypt a message and the public key to decrypt it to achieve **identity authentication**. Hence **RSA** can also be used for **digital signatures**.
+
+We can proof that $M$ remains unchanged in the encryption and decryption process, i.e., $M = C^d \mod n = M^{ed} \mod n$. Because $d$ is the multiplicative inverse of $e$ modulo $\varphi(n)$, we can rewrite it as:
+
+$$
+    ed \equiv 1 \pmod{\varphi(n)} \rightarrow ed = \varphi(n)k + 1
+$$
+
+$$
+    M^{ed} \mod n = M^{\varphi(n)k + 1} \mod n = (M^{\varphi(n)})^k M \mod n
+$$
+
+By Euler's theorem, we have:
+
+$$
+    M^{\varphi(n)} \equiv 1 \pmod{n}, \text{ where } \gcd(M, n) = 1
+$$
+
+Hence, $M$ remains unchanged in the encryption and decryption process:
+
+$$
+    M^{ed} \mod n = M^{\varphi(n)k + 1} \mod n = M \mod n
+$$
+
+## Practical Considerations
+
+In practice, the prime numbers $p$ and $q$ are typically hundreds or thousands of bits long, ensuring that $n$ is sufficiently large to maintain security against factorization attacks. Moreover, because RSA is **computationally expensive** for encrypting large amounts of data directly, it is often **combined with symmetric encryption algorithms**: RSA encrypts a symmetric key, which is then used to encrypt the actual data being transmitted.
+
+Additionally, RSA operations are not only used for **confidentiality** but also for **authentication**, integrity, and **non-repudiation** through digital signatures. In real-world implementations, padding schemes like **OAEP** (Optimal Asymmetric Encryption Padding) for encryption and **PSS** (Probabilistic Signature Scheme) for signing are used to **enhance security** and **prevent certain types of attacks**.
 
 ---
 
