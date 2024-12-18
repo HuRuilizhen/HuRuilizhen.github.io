@@ -5,47 +5,44 @@ description: Simple Introduction about Author
 feature_image: images/about.jpeg
 ---
 
-Hello, I'm Ruilizhen HU, and you can also call me Ray! 🚀😊 I'm an enthusiastic undergraduate student at The Chinese University of Hong Kong, Shenzhen Campus, majoring in Computer Science & Technology. My academic journey is filled with a passion for machine learning, traditional algorithms, and full-stack development. 💻🔥
+Hello,
 
-## Education
-- CS Bachelor @ CUHK Shenzhen (2022 - 2026)
-- EECS Exchange Student @ NTU Singapore (2025 Spring)
+My name is Ruilizhen HU, also known as Ray. I am currently an undergraduate student majoring in Computer Science and Technology at The Chinese University of Hong Kong, Shenzhen Campus.
 
-## Skills and Interests
-- Familiar with C/C++ 🐧, Python 🐍, Java ☕️, Rust 🦀
-- Passionate about Machine Learning 🤖
-- Expertise in Traditional Algorithms 🔍
-- Experienced in Frontend & Backend Development 💻
-  - Backend: Flask, Django
-  - Frontend: Vue.js
-- Recently, I have become more interested in Cryptography 🔒
+My academic pursuits are centered around Machine Learning, Traditional Algorithms, and Full-Stack Development. These areas of study have not only enriched my knowledge but also honed my problem-solving skills. Recently, I have developed a keen interest in Cryptography and am actively exploring this field.
 
-## Hobbies
-- **Reading Manga**: I enjoy reading manga, especially series like "Noragami" (ノラガミ) and "The Seven Deadly Sins" (七つの大罪). These stories often inspire my creativity and offer a refreshing break from coding. 𐩔📖
-- **Playing RPGs**: I'm a huge fan of RPGs like "Octopath Traveler" (オクタパストラベラー) and "Trangle Strategy" (トラングランドストラテジー). They provide me with a sense of adventure and challenge. 🎮🌟
-- **Listening to Music**: I find peace and focus in the calming rhythms of LOFI, which is perfect for those long coding sessions. 🎧🎶
-- **Traveling**: Exploring new cultures broadens my horizons and provides me with a fresh perspective on life and work. ✈️🌍
-- **Building**: I love to build cool stuffs, something like this website! 🚧🛠️
+### Education
 
-## Get in Touch
-Connect with me if you're interested in collaboration or just want to say hi!
+- **The Chinese University of Hong Kong, Shenzhen** - Bachelor of Science in Computer Science & Technology (2022 - 2026)
+- **Nanyang Technological University, Singapore** - Exchange Program in Electrical and Electronic Engineering (Spring 2025)
 
-- Website: [huruilizhen.github.io](https://huruilizhen.github.io)
-- LinkedIn: [in/ruilizhen-hu](https://www.linkedin.com/in/ruilizhen-hu)
-- GitHub: [huruilizhen](https://github.com/HuRuilizhen)
+### Achievements
+
+- **Bronze Medalist**, National Olympiad in Informatics (2021)
+- **Silver Medalist**, China Collegiate Programming Contest Weihai Regional (2022)
+
+### Skills and Interests
+
+- Proficient in multiple programming languages including C/C++, Python, Java, and Rust.
+- Deep involvement in Machine Learning, with both theoretical knowledge and practical experience.
+- Expertise in Traditional Algorithms, capable of tackling complex data structures and algorithmic challenges.
+- Extensive experience in software development, with familiarity in backend frameworks such as Flask and Django, as well as frontend libraries like Vue.js.
+
+### Personal Interests
+
+Outside of my professional endeavors, I enjoy reading manga, playing RPG games, listening to LOFI music for concentration, and traveling to immerse myself in different cultures. Additionally, I have a passion for building projects, such as this very website.
+
+### Contact Information
+
+Should you wish to discuss potential collaborations or have any inquiries, feel free to reach out through the following channels:
+
+- Website: [https://huruilizhen.github.io](https://huruilizhen.github.io)
+- LinkedIn: [https://www.linkedin.com/in/ruilizhen-hu](https://www.linkedin.com/in/ruilizhen-hu)
+- GitHub: [https://github.com/HuRuilizhen](https://github.com/HuRuilizhen)
 - Email:
   - Personal: [huruilizhen@gmail.com](mailto:huruilizhen@gmail.com)
-  - Personal: [ruilizhenhu@gmail.com](mailto:huruilizhen@gmail.com)
-  - College: [ruilizhenhu@link.cuhk.edu.cn](mailto:ruilizhenhu@link.cuhk.edu.cn)
+  - Academic: [ruilizhenhu@link.cuhk.edu.cn](mailto:ruilizhenhu@link.cuhk.edu.cn)
 
-## Achievements
-- **Bronze Medalist** at National Olympiad in Informatics 2021 🥉
-- **Silver Medalist** at China Collegiate Programming Contest 2022 Weihai Regional 🥈
-
-## Friends & Colleagues
-
-- [Yuan_Tuo's Site](http://imwcr.cn)
-- [CApopcornT's Pot](https://fried-jimihua.github.io)
 
 ---
 
