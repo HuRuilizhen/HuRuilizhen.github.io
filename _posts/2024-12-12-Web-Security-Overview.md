@@ -27,6 +27,7 @@ Web security is important because web applications are often the primary interfa
     - [Cookies](#cookies)
     - [JSON Web Tokens (JWT)](#json-web-tokens-jwt)
     - [Session Management](#session-management)
+- [Attack Scenarios and Countermeasures](#attack-scenarios-and-countermeasures)
 
 ---
 
@@ -44,41 +45,33 @@ Together, HTML, CSS, and JavaScript form the core technologies essential for web
 
 ### HTML (HyperText Markup Language)
 
-HyperText Markup Language is the standard markup language for creating the **structure and content** of web pages. It uses **tags to define elements** such as headings, paragraphs, links, and multimedia components like images and videos. HTML can also embed scripts and additional media through plugins, enhancing the page with dynamic content and interactive features.
+HyperText Markup Language is the standard markup language for creating the **structure and content** of web pages. It uses **tags to define elements** such as headings, paragraphs, links, and multimedia components like images and videos. HTML can also embed scripts and additional media through plugins, enhancing the page with dynamic content and interactive features. To summarize its functions:
 
-- **Function**:
-  - Define the semantic structure of web page content.
-  - Contains multimedia elements such as pictures, videos.
-  - Use forms to collect user input.
-- **Extended Features**:
-  - Additional media types (e.g., PDF files, Flash animations) can be embedded via plug-ins.
-  - Embed scripting languages such as JavaScript to provide dynamic interactions.
+- Define the **semantic structure** of web page content.
+- Contains **multimedia elements** such as pictures, videos.
+- Use **forms** to collect user input.
+- **Additional media types** (e.g., PDF files, Flash animations) can be embedded via plug-ins.
 
 ### CSS (Cascading Style Sheets)
 
-Cascading Style Sheets is used to **style and layout** web pages by controlling the **visual presentation** of HTML or XML documents. It separates content from design, making it easier to maintain and update the appearance of websites. CSS supports responsive design, ensuring that web pages look good on all devices and screen sizes. Developers often use preprocessors like SASS or LESS to write more efficient and modular CSS code.
+Cascading Style Sheets is used to **style and layout** web pages by controlling the **visual presentation** of HTML or XML documents. It separates content from design, making it easier to maintain and update the appearance of websites. CSS supports **responsive design**, ensuring that web pages look good on all devices and screen sizes. Developers often use **preprocessors** like SASS or LESS to write more efficient and modular CSS code. To summarize its functions:
 
-- **Function**:
-  - Control the layout, colors, fonts, and other visual attributes of your web pages.
-  - Provides finer design control for better display of the site on different devices.
-  - Content can be separated from performance for easy maintenance and design updates.
-- **Characteristic**:
-  - Support responsive design to adapt pages to different screen sizes.
-  - Allows Developers to write more concise, modular code using preprocessors (E.G., SASS, LESS).
+- **Control** the layout, colors, fonts, and other **visual attributes** of your web pages.
+- Content can be **separated from performance** for easy maintenance and design updates.
+- Support **responsive design** to adapt pages to different screen sizes.
+- Allows Developers to write more concise, modular code using **preprocessors** (E.G., SASS, LESS).
 
 ### JS (JavaScript)
 
-JavaScript is a **versatile**, **multi-paradigm** programming language primarily used for web development. Initially designed to **run in client-side browsers**, it has since evolved to server-side applications (e.g., Node.js). JavaScript allows for** dynamic content updates** and interaction with the user without reloading the entire page. It can **handle events**, manipulate the Document Object Model (DOM), and communicate asynchronously with servers via AJAX. However, due to its ability to interact with the user's environment, it poses potential security risks if not properly managed, such as Cross-Site Scripting (XSS) attacks and clickjacking.
-
-- **Function**:
-  - Dynamically modify web page content and styles.
-  - Handle and react to user events (e.g., clicks, scrolls).
-  - Send an asynchronous request to the server (AJAX) to update part of a web page without reloading the entire page.
-  - Manipulate the DOM (Document Object Model), which is a structured representation of an HTML document.
-  - Implement complex interactions and features, such as games, real-time communication, and more.
-- **Security and Risks**:
-  - Having access to the user's browsing environment, which can pose security risks such as cross-site scripting (XSS), clickjacking, etc.
-  - Best practices need to be followed to protect user data from malicious exploitation
+JavaScript is a **versatile**, **multi-paradigm** programming language primarily used for web development. Initially designed to **run in client-side browsers**, it has since evolved to server-side applications (e.g., Node.js). JavaScript allows for **dynamic content updates** and interaction with the user without reloading the entire page. It can **handle events**, manipulate the Document Object Model (DOM), and communicate asynchronously with servers via AJAX. Summarizing its functions:
+- **Dynamically modify** web page content and styles.
+- **Handle** and react to user **events** (e.g., clicks, scrolls).
+- **Send** an asynchronous **request** to the server (AJAX) to update part of a web page without reloading the entire page.
+- **Manipulate the DOM** (Document Object Model), which is a structured representation of an HTML document.
+- Implement complex **interactions and features**, such as games, real-time communication, and more.
+- Build **server-side applications** with Node.js.
+  
+However, due to its ability to interact with the user's environment, it poses potential security risks if not properly managed, such as **Cross-Site Scripting (XSS)** attacks and **clickjacking**. 
 
 ## HTTP, HTTPS, and TLS/SSL
 
@@ -100,19 +93,23 @@ Request-Response Model: All communications are initiated by the client making a 
 
 SSL (Secure Sockets Layer), originally developed by Netscape, has been succeeded by TLS (Transport Layer Security), standardized by IETF. TLS versions have evolved from TLS 1.0 to the latest TLS 1.3, improving security and performance with each iteration.
 
-- **Working Principles**, SSL/TLS ensures secure communication through several mechanisms:
-  - **Encryption**: Combines symmetric encryption (e.g., AES) and asymmetric encryption (e.g., RSA or ECDH) to **ensure data confidentiality**. During the handshake process, the client and server **negotiate a shared secret** (master key) used to encrypt subsequent communications.
-  - **Authentication**: Verifies the server's **identity** using **digital certificates** issued by trusted third-party **Certificate Authorities** (CAs). These certificates contain **public keys** and other identifying information.
-  - **Integrity**: Prevents data tampering during transmission using Message Authentication Codes (MAC) or HMAC (Hash-based MAC).
-  - **Handshake Protocol**: A critical step in **establishing a secure connection**, involving parameter exchanges necessary for encrypted communication, such as selecting encryption algorithms and exchanging pre-master secrets.
-  - **Record Protocol**: Once the handshake is successful, all application data is packaged into TLS records for ransmission. Each record includes version numbers, lengths, types, encrypted payload data, and other control information.
+**Working Principles**, SSL/TLS ensures secure communication through several mechanisms:
+- **Encryption**: Combines symmetric encryption (e.g., AES) and asymmetric encryption (e.g., RSA or ECDH) to **ensure data confidentiality**. During the handshake process, the client and server **negotiate a shared secret** (master key) used to encrypt subsequent communications.
+- **Authentication**: Verifies the server's **identity** using **digital certificates** issued by trusted third-party **Certificate Authorities** (CAs). These certificates contain **public keys** and other identifying information.
+- **Integrity**: Prevents data tampering during transmission using Message Authentication Codes (MAC) or HMAC (Hash-based MAC).
+- **Handshake Protocol**: A critical step in **establishing a secure connection**, involving parameter exchanges necessary for encrypted communication, such as selecting encryption algorithms and exchanging pre-master secrets.
+- **Record Protocol**: Once the handshake is successful, all application data is packaged into TLS records for ransmission. Each record includes version numbers, lengths, types, encrypted payload data, and other control information.
 
-- **Enhanced Security Features**
-  - **Forward Secrecy**: Modern key exchange algorithms like DHE and ECDHE provide forward secrecy, ensuring that even if long-term stored keys are compromised in the future, past sessions cannot be decrypted.
-  - **Certificate Transparency**: Increases transparency in certificate issuance and management, aiding in the timely detection and response to improperly issued certificates.
-  - **OCSP Stapling**: Allows the server to pass the latest certificate revocation status directly to the client, speeding up the handshake process and reducing load on CAs.
+Futhermore, TLS provides **enhanced security features** such as:
+- **Forward Secrecy**: Modern key exchange algorithms like DHE and ECDHE provide forward secrecy, ensuring that even if long-term stored keys are compromised in the future, past sessions cannot be decrypted.
+- **Certificate Transparency**: Increases transparency in certificate issuance and management, aiding in the timely detection and response to improperly issued certificates.
+- **OCSP Stapling**: Allows the server to pass the latest certificate revocation status directly to the client, speeding up the handshake process and reducing load on CAs.
 
 To reduce the overhead of full handshakes on every connection, TLS supports faster handshake methods like Session Tickets and Session IDs. These mechanisms allow resuming previous sessions without repeating the entire handshake process, accelerating connection establishment.
+
+Here is an example of a SSL certificate from Blizard:
+
+{% include image_caption.html imageurl="/images/SSL-certificate.jpg" title="SSL Certificate" caption="SSL Certificate for Blizard" %}
 
 ### HTTPS (HyperText Transfer Protocol Secure)
 HTTPS adds SSL/TLS to HTTP to provide encrypted communication and ensure data integrity. HTTPS typically uses port 443 and offers higher security and privacy protection compared to HTTP. The characteristics of HTTPS include:
@@ -207,5 +204,6 @@ Client-Side: Occasionally encode session data in URLs or hidden form fields, tho
 | **Stateless**   | Not stateless (server must store session data)                                                     | Stateless (server does not need to store session data)                                                                                |
 | **Use Cases**   | General-purpose session management, tracking user sessions                                         | Authentication, authorization, and information exchange in stateless applications                                                     |
 
-
 ---
+
+# Attack Scenarios and Countermeasures
