@@ -248,7 +248,7 @@ The security of the RSA algorithm is based on the difficulty of factoring large 
 
 Number Theory is the key to understanding the RSA algorithm. It provides a framework for analyzing and manipulating large integers. To understand the RSA algorithm, we need to discover following theorems:
 
-</br>
+
 
 **Euler's totient function**, denoted as $\varphi(n)$, represents **the number of positive integers** less than or equal to $n$ that are coprime with $n$. Formally, for any positive integer $n$,
 
@@ -263,7 +263,7 @@ To calculate the value of $\varphi(n)$, we need to perform a number of operation
 
 $$ \varphi(n) = n \prod_{i=1}^{m} \left(1 - \frac{1}{p_i}\right) $$
 
-</br>
+
 
 **Euler's Theorem** is a statement that:
 
@@ -288,7 +288,7 @@ $$ a^{\varphi(n)} \equiv 1 \pmod{n} $$
 
 This completes the proof of Euler's theorem.
 
-</br>
+
 
 **Multiplicative Inverse**: Given two coprime positive integers $a$ and $m$, if there exists an integer $b$ such that $ab \equiv 1 \pmod{m}$, then $b$ is called the **multiplicative inverse** of $a$ modulo $m$. There are ways to compute the multiplicative inverse:
 
@@ -296,7 +296,7 @@ This completes the proof of Euler's theorem.
 
 - **Extended Euclidean Algorithm**: For general $m$ (not necessarily prime), the extended Euclidean algorithm can find the multiplicative inverse. This algorithm not only computes the greatest common divisor $\gcd(a, m)$ but also finds integers $x$ and $y$ such that $ax + my = \gcd(a, m)$. If $a$ and $m$ are coprime, i.e., $\gcd(a, m) = 1$, then $x$ is the multiplicative inverse of $a$ modulo $m$.
 
-</br>
+
 
 The security of RSA primarily relies on several aspects:
 
