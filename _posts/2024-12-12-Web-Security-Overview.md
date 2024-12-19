@@ -374,3 +374,9 @@ When this form is submitted, the browser sends the user’s authentication cooki
   - Users can configure their browsers or use extensions to control when and where authentication tokens are sent.
   - While this approach can disrupt normal browsing behavior, it significantly enhances security.
 - **Browser Security Extensions/Plugins**: Recommend using browser extensions or plugins that provide additional protection against CSRF attacks.
+
+---
+
+Related Posts / Websites 👇
+
+📑 [Ray - Firewalls, Tunnels, and Network Intrusion Detection](https://huruilizhen.github.io/Firewalls-Tunnels-and-Network-Intrusion-Detection)
