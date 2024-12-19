@@ -164,7 +164,7 @@ The alarm types include:
 - **True Negative**: An IDS correctly determines that no intrusion has occurred
 - **False Negative**: An IDS fails to detect an actual intrusion
 
-{% include image_caption.html imageurl="/images/ids-alarm.png" title="IDS Alarm Types" caption="IDS alarm types"%}"
+{% include image_caption.html imageurl="/images/ids-alarm.png" title="IDS Alarm Types" caption="IDS alarm types"%}
 
 
 The following fields should be included in an IDS event record, as identified by Dorothy Denning in a 1987 paper:
