@@ -2,7 +2,7 @@
 layout: post
 title: "Firewalls, Tunnels, and Network Intrusion Detection"
 description: "Introduction to Firewalls, Tunnels, and Network Intrusion Detection"
-date: 2024-12-12
+date: 2024-11-12
 feature_image: images/security.png
 tags: ['network', 'security']
 ---
