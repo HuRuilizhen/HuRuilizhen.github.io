@@ -5,51 +5,177 @@ description: Simple Introduction about Author
 feature_image: images/about.jpeg
 ---
 
-Hello,
+# 👋 Hello, I'm Ruilizhen HU! You can also call me Ray! 🚀
 
-My name is Ruilizhen HU, also known as Ray. I am currently an undergraduate student majoring in Computer Science and Technology at The Chinese University of Hong Kong, Shenzhen Campus.
+A Computer Science undergraduate at The Chinese University of Hong Kong, Shenzhen. I have a keen interest in machine learning, algorithms, full-stack development, and cryptography. Actively involved in various projects and research initiatives in these domains. Always eager to learn and explore more, staying updated with the latest trends and advancements in technology.
 
-My academic pursuits are centered around Machine Learning, Traditional Algorithms, and Full-Stack Development. These areas of study have not only enriched my knowledge but also honed my problem-solving skills. Recently, I have developed a keen interest in Cryptography and am actively exploring this field.
+<p align="center">
+  <img src="https://github-readme-quotes-bay.vercel.app/quote?font=Redressed" />
+</p>
 
-### Education
+## 🎓 Education
+<table style="width:100%" align="center">
+  <tr>
+    <th>Institution</th>
+    <th>Program</th>
+    <th>Duration</th>
+  </tr>
+  <tr>
+    <td>The Chinese University of Hong Kong, Shenzhen</td>
+    <td>Bachelor of Science in Computer Science & Technology</td>
+    <td>2022 - 2026</td>
+  </tr>
+  <tr>
+    <td>Nanyang Technological University, Singapore</td>
+    <td>Exchange Program in Electrical and Electronic Engineering</td>
+    <td>Spring 2025</td>
+  </tr>
+</table>
 
-- **The Chinese University of Hong Kong, Shenzhen** - Bachelor of Science in Computer Science & Technology (2022 - 2026)
-- **Nanyang Technological University, Singapore** - Exchange Program in Electrical and Electronic Engineering (Spring 2025)
+## 💻 Skills
+<table style="width:100%" align="center">
+  <tr>
+    <th>Operating Systems</th>
+    <td>
+      <img src="https://img.shields.io/badge/-Ubuntu-FCC624?style=flat-square&logo=ubuntu" />
+      <img src="https://img.shields.io/badge/-Mac%20OS-000000.svg?&style=flat-square&logo=apple&logoColor=white" />
+    </td>
+  </tr>
+  <tr>
+    <th>Markup Languages</th>
+    <td>
+      <img src="https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" />
+      <img src="https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3" />
+      <img src="https://img.shields.io/badge/-Markdown-000000.svg?&style=flat-square&logo=markdown&logoColor=white" />
+      <img src="https://img.shields.io/badge/-LaTeX-008080?style=flat-square&logo=latex&logoColor=white" />
+    </td>
+  </tr> 
+  <tr>
+    <th>Programming Languages</th>
+    <td> 
+      <img src="https://img.shields.io/badge/-Java-007396?style=flat-square&logo=openjdk" />
+      <img src="https://img.shields.io/badge/-JavaScript-000000?style=flat-square&logo=javascript" />
+      <img src="https://img.shields.io/badge/-C++-787CB5?style=flat-square&logo=c%2B%2B&logoColor=Crayola" />
+      <img src="https://img.shields.io/badge/-Python-ffff47?style=flat-square&logo=python" />
+      <img src="https://img.shields.io/badge/-Rust-8b0000?style=flat-square&logo=rust" />
+    </td>
+  </tr>
+  <tr>
+    <th>Frameworks</th>
+    <td>
+      <img src="https://img.shields.io/badge/-Vue.js-000000?style=flat-square&logo=vuedotjs" />
+      <img src="https://img.shields.io/badge/-Flask-ff0000?style=flat-square&logo=flask" />
+      <img src="https://img.shields.io/badge/-Django-006400?style=flat-square&logo=django" />
+    </td>
+  </tr>
+  <tr>
+    <th>Databases</th>
+    <td>
+      <img src="https://img.shields.io/badge/-MongoDB-99ff99?style=flat-square&logo=mongodb" />
+      <img src="https://img.shields.io/badge/-PostgreSQL-316192.svg?&style=flat-square&logo=postgresql&logoColor=white" />
+      <img src="https://img.shields.io/badge/-MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white" />
+      <img src="https://img.shields.io/badge/-SQLite-07405E?style=flat-square&logo=sqlite&logoColor=white" />
+    </td>
+  </tr>
+  <tr>
+    <th>Automate, Deploy, Platform & Tools</th>
+    <td>
+      <img src="https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white" />
+      <img src="https://img.shields.io/badge/-Git-000000?style=flat-square&logo=git" /> 
+      <img src="https://img.shields.io/badge/-Nginx-009639.svg?&style=flat-square&logo=nginx&logoColor=white" /> 
+      <img src="https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github" />
+    </td>
+  </tr>
+  <tr>
+    <th>Hosting/SaaS/PaaS</th>
+    <td>
+      <img src="https://img.shields.io/badge/-Heroku-430098.svg?&style=flat-square&logo=heroku&logoColor=white" />
+      <img src="https://img.shields.io/badge/-Alibaba%20Cloud-000000.svg?&style=flat-square&logo=alibabacloud" />
+    </td>
+  </tr>
+  <tr>
+    <th>Testing</th>
+    <td>
+      <img src="https://img.shields.io/badge/-Postman-%238D6748?style=flat-square&logo=postman&logoColor=orange" />
+    </td>
+  </tr>
+  <tr>
+    <th>Machine Learning</th>
+    <td>
+      <img src="https://img.shields.io/badge/-TensorFlow-FF6F00?style=flat-square&logo=tensorflow&logoColor=white" />
+      <img src="https://img.shields.io/badge/-PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" />
+    </td>
+  </tr>
+</table>
 
-### Achievements
+## 📞 Get in Touch
 
-- **Bronze Medalist**, National Olympiad in Informatics (2021)
-- **Silver Medalist**, China Collegiate Programming Contest Weihai Regional (2022)
+<table style="width:100%" align="center">
+  <tr>
+    <th>Platform</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+    <td>Website</td>
+    <td>
+      <a href="https://huruilizhen.github.io">
+        <img src="https://img.shields.io/badge/Website-000?style=flat-square&logo=google-chrome&logoColor=white" alt="Website" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>LinkedIn</td>
+    <td>
+      <a href="https://www.linkedin.com/in/ruilizhen-hu">
+        <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>GitHub</td>
+    <td>
+      <a href="https://github.com/HuRuilizhen">
+        <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td>
+      <a href="mailto:huruilizhen@gmail.com">
+        <img src="https://img.shields.io/badge/Email-Personal-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Personal Email" />
+      </a>
+      <a href="mailto:ruilizhenhu@link.cuhk.edu.cn">
+        <img src="https://img.shields.io/badge/Email-Academic-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Academic Email" />
+      </a>
+    </td>
+  </tr>
+</table>
 
-### Skills and Interests
+## 📊 Statistics
+<div style="width:100%" align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=HuRuilizhen&show_icons=true" />
+</div>
 
-- Proficient in multiple programming languages including C/C++, Python, Java, and Rust.
-- Deep involvement in Machine Learning, with both theoretical knowledge and practical experience.
-- Expertise in Traditional Algorithms, capable of tackling complex data structures and algorithmic challenges.
-- Extensive experience in software development, with familiarity in backend frameworks such as Flask and Django, as well as frontend libraries like Vue.js.
-
-### Personal Interests
-
-Outside of my professional endeavors, I enjoy reading manga, playing RPG games, listening to LOFI music for concentration, and traveling to immerse myself in different cultures. Additionally, I have a passion for building projects, such as this very website.
-
-### Contact Information
-
-Should you wish to discuss potential collaborations or have any inquiries, feel free to reach out through the following channels:
-
-- Website: [https://huruilizhen.github.io](https://huruilizhen.github.io)
-- LinkedIn: [https://www.linkedin.com/in/ruilizhen-hu](https://www.linkedin.com/in/ruilizhen-hu)
-- GitHub: [https://github.com/HuRuilizhen](https://github.com/HuRuilizhen)
-- Email:
-  - Personal: [huruilizhen@gmail.com](mailto:huruilizhen@gmail.com)
-  - Academic: [ruilizhenhu@link.cuhk.edu.cn](mailto:ruilizhenhu@link.cuhk.edu.cn)
-
+## 🏆 Achievements
+<table style="width:100%" align="center">
+  <tr>
+    <th>Event</th>
+    <th>Year</th>
+    <th>Award</th>
+  </tr>
+  <tr>
+    <td>National Olympiad in Informatics</td>
+    <td>2021</td>
+    <td>🥉 Bronze Medalist</td>
+  </tr>
+  <tr>
+    <td>China Collegiate Programming Contest 2022 Weihai Regional</td>
+    <td>2022</td>
+    <td>🥈 Silver Medalist</td>
+  </tr>
+</table>
 
 ---
 
-This blogweb is powered by [Jekyll](https://jekyllrb.com/) and [GitHub Pages](https://pages.github.com/). And I will update it as I get more time at [HuRuilizhen.github.io](https://huruilizhen.github.io). For related repository, see [HuRuilizhen/HuRuilizhen.github.io](https://github.com/HuRuilizhen/HuRuilizhen.github.io)
-
-Feel free to reach out if you're interested in collaborating or just want to say hi! Let's create something amazing together! 🚀
-
-Best regards, Ray
-
-> *Last Updated: December 10th, 2024*
+> *Last Updated: [January, 5th, 2025]*
