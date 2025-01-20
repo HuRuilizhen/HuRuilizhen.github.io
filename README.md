@@ -1,3 +1,3 @@
-# RayBlog 🎒
+# Ray's Blog 🎒
 
-This is my personal blog. It's a work in progress. I will update it as I get more time. For templates, see [Scripts](https://github.com/JustGoodThemes/Scriptor-Jekyll-Theme). Welcome to [my blog website](https://huruilizhen.github.io)! Feel free to get my latest posts. 😊👍💕
+Welcome to my personal blog. This site is continuously evolving as I dedicate time to update and enhance it. You can explore various templates at [Scripts](https://github.com/JustGoodThemes/Scriptor-Jekyll-Theme). Visit [my blog website](https://huruilizhen.github.io) to catch up with my latest posts.
