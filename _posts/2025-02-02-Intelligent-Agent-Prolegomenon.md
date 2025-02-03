@@ -27,6 +27,7 @@ An **intelligent agent** is a system that perceives its environment and takes ac
   - [Accessibility and Inaccessibility](#accessibility-and-inaccessibility)
   - [Deterministic and Non-Deterministic](#deterministic-and-non-deterministic)
   - [Episodic and Non-Episodic](#episodic-and-non-episodic)
+  - [Static and Dynamic](#static-and-dynamic)
   - [Discrete and Continuous](#discrete-and-continuous)
 - [Abstract Architecture for Agents](#abstract-architecture-for-agents)
 
@@ -132,8 +133,27 @@ A **deterministic** environment is characterized by actions that consistently le
 
 In an **episodic environment**, the performance of an agent is dependent on a number of discrete episodes, with no link between the performance of an agent in different scenarios. **Episodic environments are simpler from the agent developer’s perspective** because the agent can decide what action to perform based only on the current episode — it need not reason about the interactions between this and future episodes.
 
-## Discrete and Continuous
+## Static and Dynamic
 
 A **static** environment is one that can be assumed to remain unchanged except by the performance of actions by the agent. In contrast, a **dynamic** environment is one that has other processes operating on it, and which hence changes in ways beyond the agent’s control. In such environments, other processes can **interfere** with the agent’s actions (as in concurrent systems theory). For example, the physical world is a highly dynamic environment.
 
+## Discrete and Continuous
+
+An environment is **discrete** if there are a **fixed**, **finite** number of actions and percepts in it. Russell and Norvig give a chess game as an example of a discrete environment, and taxi driving as an example of a continuous one. Continuous environments have a certain level of mismatch with computer systems. Discrete environments could in principle be handled by a kind of "lookup table".
+
 # Abstract Architecture for Agents
+
+Assume the **environment** may be in any of a finite set $E$ of discrete, instantaneous **states**:
+$$
+    E = \{e_1, e_2, \ldots, e_n\}
+$$
+
+Agents are assumed to have a repertoire of possible **actions** available to them, which **transform** the state of the environment:
+$$
+    Ac = \{\alpha_1, \alpha_2, \ldots, \alpha_{n-1}\}
+$$
+
+A **run**, $r$, of an agent in an environment is a **sequence** of interleaved environment **states** and **actions**:
+$$
+    r: e_1 \stackrel{\alpha_1}{\rightarrow} e_2 \stackrel{\alpha_2}{\rightarrow} \ldots \stackrel{\alpha_{n-1}}{\rightarrow} e_n
+$$
