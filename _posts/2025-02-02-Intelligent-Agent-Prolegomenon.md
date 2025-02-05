@@ -267,6 +267,7 @@ The control loop for a state-based agent is as follows:
 3. The internal state of the agent is then updated via the $next$ function, becoming $next(i_0, see(e))$.
 4. The action selected by the agent is $action(next(i_0, see(e)))$.
 5. Go to 2.
+
 ```mermaid
 graph LR
   classDef system fill:#EEE,stroke:#333,stroke-width:2px,rx:10;
