@@ -30,6 +30,8 @@ An **intelligent agent** is a system that perceives its environment and takes ac
   - [Static and Dynamic](#static-and-dynamic)
   - [Discrete and Continuous](#discrete-and-continuous)
 - [Abstract Architecture for Agents](#abstract-architecture-for-agents)
+  - [Environment, Agent and System](#environment-agent-and-system)
+  - [Pure Reactive Agents, Perception and Agent with State](#pure-reactive-agents-perception-and-agent-with-state)
 
 ---
 
@@ -143,6 +145,8 @@ An environment is **discrete** if there are a **fixed**, **finite** number of ac
 
 # Abstract Architecture for Agents
 
+## Environment, Agent and System
+
 Assume the **environment** may be in any of a finite set $E$ of discrete, instantaneous **states**:
 $$
     E = \{e_1, e_2, \ldots, e_n\}
@@ -177,3 +181,107 @@ A **state transformer function** represents **behavior** of the **environment**.
 $$
     \tau : R^{Ac} \to \phi(E)
 $$
+
+In summary, an **environment** is formally defined as a triple, $\langle E, e_0, \tau \rangle$, where:
+- $E$ is a set of environment states;
+- $e_0 \in E$ is the initial state;
+- $\tau$ is a state transformer function.
+
+Note that **environments** are:
+- **history dependent**: The current state of the environment is a result of all the previous actions and events.
+- **non-deterministic**: The outcome of an action is not always certain and may lead to different new states.
+- If $\tau(r)=\emptyset$, then there are no possible successor states to $r$. In this case, we say that the system has **ended its run**.
+
+Agent is a function maps runs to actions:
+$$
+    Ag: R^{E} \to Ac
+$$
+An agent makes a decision about what action to perform based on the history of the system that it has witnessed to date. Let $\mathcal{AG}$ be the set of all agents
+
+A **system** is a pair containing an **agent** and an **environment**. Any system will have associated with it a set of possible **runs**; we denote the set of runs of agent $Ag$ in environment $Env$ by $R(Ag, Env)$. We assume $R(Ag, Env)$ contains only **terminated runs**, that is,
+$$
+    \forall r \in R(Ag, Env) \implies \tau(r) = \emptyset
+$$
+
+For a sequence of runs, $(e_1, \alpha_1, e_2, \alpha_2, \ldots)$, represents a run of an agent $Ag$ in environment $Env = \langle E, e_0, \tau \rangle$. If 
+- $e_0$ is the initial state of the $Env$
+- $\alpha_0 = Ag(e_0)$
+- For $u > 0$, $e_u \in \tau((e_0, \alpha_0, \ldots, \alpha_{u-1}))$ and $\alpha_u \in Ag((e_0, \alpha_0, \ldots, e_u))$
+
+## Pure Reactive Agents, Perception and Agent with State
+
+Some agents decide what to do without reference to their history — they base their decision making entirely on the present, with no reference at all to the past. We call such agents **purely reactive**. Mathematically, a purely reactive agent is a function from the environment state space ((instead of the run space.) to the action space:
+$$
+    action(e) : E \to Ac
+$$
+
+A thermostat is a purely reactive agent: it simply responds to the current temperature and does not maintain any internal state.
+$$
+    action(e) = \begin{cases}
+        \text{increase the temperature} & \text{if the temperature is too low}\\
+        \text{decrease the temperature} & \text{if the temperature is too high}\\
+        \text{do nothing} & \text{otherwise}
+    \end{cases}
+$$
+
+```mermaid
+graph LR
+  classDef system fill:#EEE,stroke:#333,stroke-width:2px,rx:10;
+  classDef environment fill:#EEF,stroke:#333,stroke-width:2px,rx:10;
+
+  See[See]:::system
+  Action[Action]:::system
+  Environment[Environment]:::environment
+
+  Environment --> See
+  See --> Action
+  Action --> Environment
+```
+**Perception Systems** have a **see function** and an **action function**. The see function is the agent's ability to observe its environment, while the action function represents the agent's decision making process. The output of the **see function** is a **percept**:
+$$
+    see: E \to Per
+$$
+
+which maps environment states to percepts. The **action function** is now a function:
+$$
+    action: Per^* \to A
+$$
+which maps sequences of percepts to actions.
+
+We now consider agents that maintain state. These agents have some internal data structure, which is typically used to record information about the environment state and history. Let $I$ be the set of all internal states of the agent. The perception function $see$ for a state-based agent is unchanged:
+$$
+    see: E \to Per
+$$
+The action-selection function $action$ is now defined as a mapping
+$$
+    action: I \to Ac
+$$
+from internal states to actions. An additional function $next$ is introduced, which maps an internal state and percept to an internal state:
+$$
+    next: I \times Per \to I
+$$
+
+The control loop for a state-based agent is as follows:
+1. The agent starts in some initial internal state $i_0$.
+2. The agent observes its environment state $e$ and generates a percept $see(e)$.
+3. The internal state of the agent is then updated via the $next$ function, becoming $next(i_0, see(e))$.
+4. The action selected by the agent is $action(next(i_0, see(e)))$.
+5. Go to 2.
+```mermaid
+graph LR
+  classDef system fill:#EEE,stroke:#333,stroke-width:2px,rx:10;
+  classDef environment fill:#EEF,stroke:#333,stroke-width:2px,rx:10;
+
+  See[See]:::system
+  Action[Action]:::system
+  Environment[Environment]:::environment
+  InternalState[Internal State]:::system
+  Next[Next]:::system
+
+  Environment --> See
+  See --> InternalState
+  InternalState --> Next
+  Next --> InternalState
+  InternalState --> Action
+  Action --> Environment
+```
