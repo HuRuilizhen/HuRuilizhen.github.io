@@ -155,5 +155,25 @@ $$
 
 A **run**, $r$, of an agent in an environment is a **sequence** of interleaved environment **states** and **actions**:
 $$
-    r: e_1 \stackrel{\alpha_1}{\rightarrow} e_2 \stackrel{\alpha_2}{\rightarrow} \ldots \stackrel{\alpha_{n-1}}{\rightarrow} e_n
+    r = (e_1, \alpha_1, e_2, \alpha_2, \ldots) \in E \times (Ac \times E)^* \text{ or } (E \times Ac)^*
+$$
+
+$R$ is denoted as set of the all such **possible** finite **sequences** over $E$ and $Ac$
+$$
+    R = \{r, r', \ldots\}
+$$
+
+$R^{Ac}$ is the subset of $R$ that **end** with an **action**.
+$$
+    R^{Ac} = \{\forall r \in (E \times Ac)^*\}
+$$
+
+$R^{E}$ is the subset of $R$ that **end** with an **environment state**.
+$$
+    R^{E} = \{\forall r \in E \times (Ac \times E)^*\}
+$$
+
+A **state transformer function** represents **behavior** of the **environment**.
+$$
+    \tau : R^{Ac} \to \phi(E)
 $$
