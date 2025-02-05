@@ -37,7 +37,7 @@ An **intelligent agent** is a system that perceives its environment and takes ac
 
 # Definition and Properties
 
-```mermaid
+<div style="text-align: center;" class="mermaid">
 graph LR
     classDef system fill:#EEE,stroke:#333,stroke-width:2px,rx:10;
     classDef environment fill:#EEF,stroke:#333,stroke-width:2px,rx:10;
@@ -47,7 +47,7 @@ graph LR
 
     System --> Environment
     Environment --> System
-```
+</div>
 
 An agent is a computer system capable of **autonomous** action in some environment in order to meet its design objectives.
 
@@ -224,7 +224,7 @@ $$
     \end{cases}
 $$
 
-```mermaid
+<div style="text-align: center;" class="mermaid">
 graph LR
   classDef system fill:#EEE,stroke:#333,stroke-width:2px,rx:10;
   classDef environment fill:#EEF,stroke:#333,stroke-width:2px,rx:10;
@@ -236,7 +236,8 @@ graph LR
   Environment --> See
   See --> Action
   Action --> Environment
-```
+</div>
+
 **Perception Systems** have a **see function** and an **action function**. The see function is the agent's ability to observe its environment, while the action function represents the agent's decision making process. The output of the **see function** is a **percept**:
 $$
     see: E \to Per
@@ -268,7 +269,7 @@ The control loop for a state-based agent is as follows:
 4. The action selected by the agent is $action(next(i_0, see(e)))$.
 5. Go to 2.
 
-```mermaid
+<div style="text-align: center;" class="mermaid">
 graph LR
   classDef system fill:#EEE,stroke:#333,stroke-width:2px,rx:10;
   classDef environment fill:#EEF,stroke:#333,stroke-width:2px,rx:10;
@@ -285,4 +286,4 @@ graph LR
   Next --> InternalState
   InternalState --> Action
   Action --> Environment
-```
+</div>
