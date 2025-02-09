@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About
+title: About Me
 description: Simple Introduction about Author
 feature_image: images/about.jpeg
 ---
