@@ -497,10 +497,10 @@ Related Posts / Websites 👇
 
 📑 [Quizlet - OS Final Flash Cards](https://quizlet.com/465647132/os-final-flash-cards/)
 
-📑 [Ray - Threads](https://huruilizhen.github.io/Threads)
+📑 [Ray - Threads]({{ site.url }}{{ site.baseurl }}/Threads)
 
-📑 [Ray - Processes](https://huruilizhen.github.io/Processes)
+📑 [Ray - Processes]({{ site.url }}{{ site.baseurl }}/Processes)
 
-📑 [Ray - File System](https://huruilizhen.github.io/File-System)
+📑 [Ray - File System]({{ site.url }}{{ site.baseurl }}/File-System)
 
-📑 [Ray - Main Memory and Virtual Memory](https://huruilizhen.github.io/Main-Memory-and-Virtual-Memory)
+📑 [Ray - Main Memory and Virtual Memory]({{ site.url }}{{ site.baseurl }}/Main-Memory-and-Virtual-Memory)
