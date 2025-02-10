@@ -36,6 +36,8 @@ navigation:
     url: /about
   - text: CV
     url: /cv
+  - text: Contact
+    url: /contact
 
 # The shortname for your Disqus site to enable comments.
 disqus: justgoodthemes

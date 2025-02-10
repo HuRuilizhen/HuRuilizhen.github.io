@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Curriculum Vitae"
-description: "A CV page of author"
+description: "A CV Page of Author"
 ---
 
 <style>
