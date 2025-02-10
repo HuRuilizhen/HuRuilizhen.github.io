@@ -10,7 +10,7 @@ feature_image: images/about.jpeg
 A Computer Science undergraduate at The Chinese University of Hong Kong, Shenzhen. I have a keen interest in machine learning, algorithms, full-stack development, and cryptography. Actively involved in various projects and research initiatives in these domains. Always eager to learn and explore more, staying updated with the latest trends and advancements in technology.
 
 <p align="center">
-  <img src="https://github-readme-quotes-bay.vercel.app/quote?font=Redressed" />
+  <img src="https://github-readme-quotes-bay.vercel.app/quote?font=Redressed&theme=graywhite" />
 </p>
 
 ## 🎓 Education

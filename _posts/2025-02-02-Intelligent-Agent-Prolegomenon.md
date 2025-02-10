@@ -148,36 +148,43 @@ An environment is **discrete** if there are a **fixed**, **finite** number of ac
 ## Environment, Agent and System
 
 Assume the **environment** may be in any of a finite set $E$ of discrete, instantaneous **states**:
+
 $$
     E = \{e_1, e_2, \ldots, e_n\}
 $$
 
 Agents are assumed to have a repertoire of possible **actions** available to them, which **transform** the state of the environment:
+
 $$
     Ac = \{\alpha_1, \alpha_2, \ldots, \alpha_{n-1}\}
 $$
 
 A **run**, $r$, of an agent in an environment is a **sequence** of interleaved environment **states** and **actions**:
+
 $$
     r = (e_1, \alpha_1, e_2, \alpha_2, \ldots) \in E \times (Ac \times E)^* \text{ or } (E \times Ac)^*
 $$
 
 $R$ is denoted as set of the all such **possible** finite **sequences** over $E$ and $Ac$
+
 $$
     R = \{r, r', \ldots\}
 $$
 
 $R^{Ac}$ is the subset of $R$ that **end** with an **action**.
+
 $$
     R^{Ac} = \{\forall r \in (E \times Ac)^*\}
 $$
 
 $R^{E}$ is the subset of $R$ that **end** with an **environment state**.
+
 $$
     R^{E} = \{\forall r \in E \times (Ac \times E)^*\}
 $$
 
 A **state transformer function** represents **behavior** of the **environment**.
+
 $$
     \tau : R^{Ac} \to \phi(E)
 $$
@@ -193,12 +200,14 @@ Note that **environments** are:
 - If $\tau(r)=\emptyset$, then there are no possible successor states to $r$. In this case, we say that the system has **ended its run**.
 
 Agent is a function maps runs to actions:
+
 $$
     Ag: R^{E} \to Ac
 $$
-An agent makes a decision about what action to perform based on the history of the system that it has witnessed to date. Let $\mathcal{AG}$ be the set of all agents
+An agent makes a decision about what action to perform based on the history of the system that it has witnessed to date. Let $\mathcal{AG}$ be the set of all agents.
 
 A **system** is a pair containing an **agent** and an **environment**. Any system will have associated with it a set of possible **runs**; we denote the set of runs of agent $Ag$ in environment $Env$ by $R(Ag, Env)$. We assume $R(Ag, Env)$ contains only **terminated runs**, that is,
+
 $$
     \forall r \in R(Ag, Env) \implies \tau(r) = \emptyset
 $$
@@ -211,6 +220,7 @@ For a sequence of runs, $(e_1, \alpha_1, e_2, \alpha_2, \ldots)$, represents a r
 ## Pure Reactive Agents, Perception and Agent with State
 
 Some agents decide what to do without reference to their history — they base their decision making entirely on the present, with no reference at all to the past. We call such agents **purely reactive**. Mathematically, a purely reactive agent is a function from the environment state space ((instead of the run space.) to the action space:
+
 $$
     action(e) : E \to Ac
 $$
@@ -239,25 +249,31 @@ graph LR
 </div>
 
 **Perception Systems** have a **see function** and an **action function**. The see function is the agent's ability to observe its environment, while the action function represents the agent's decision making process. The output of the **see function** is a **percept**:
+
 $$
     see: E \to Per
 $$
-
 which maps environment states to percepts. The **action function** is now a function:
+
 $$
     action: Per^* \to A
 $$
 which maps sequences of percepts to actions.
 
 We now consider agents that maintain state. These agents have some internal data structure, which is typically used to record information about the environment state and history. Let $I$ be the set of all internal states of the agent. The perception function $see$ for a state-based agent is unchanged:
+
 $$
     see: E \to Per
 $$
+
 The action-selection function $action$ is now defined as a mapping
+
 $$
     action: I \to Ac
 $$
+
 from internal states to actions. An additional function $next$ is introduced, which maps an internal state and percept to an internal state:
+
 $$
     next: I \times Per \to I
 $$

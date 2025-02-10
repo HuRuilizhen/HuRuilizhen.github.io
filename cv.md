@@ -13,7 +13,7 @@ description: "A CV Page of Author"
     padding: 20px;
     background: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 3px #ccc;
 }
 .cv-header-text {
     flex: 1;
@@ -45,7 +45,7 @@ description: "A CV Page of Author"
     background: #f9f9f9;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 3px #ccc;
 }
 .cv-section h2 {
     color: #2c3e50;
