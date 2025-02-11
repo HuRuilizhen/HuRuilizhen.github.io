@@ -176,6 +176,15 @@ A Computer Science undergraduate at The Chinese University of Hong Kong, Shenzhe
   </tr>
 </table>
 
+> *Last Updated: [January, 5th, 2025]*
+
 ---
 
-> *Last Updated: [January, 5th, 2025]*
+If you're feeling chatty, please do leave a message! I'd love to hear from you, and who knows, maybe we can even have a lovely conversation! 😊💬
+<script src="https://utteranc.es/client.js"
+        repo="HuRuilizhen/HuRuilizhen.github.io"
+        issue-term="comments"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
