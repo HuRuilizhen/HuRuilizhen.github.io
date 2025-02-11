@@ -146,7 +146,15 @@ description: "A CV Page of Author"
                 <p>Shenzhen, Guangdong, China</p>
             </h4>
             <ul>
-                <li>Academic Standing: Top 10% (MGPA Rank)</li>
+                <li>Academic Standing Top 8.5% (11th/129 in MGPA Ranking)</li>
+                <li>
+                    Under Graduate Teaching Fellowship
+                    <ul class="nested-list">
+                        <li>CSC1003 Introduction to Computer Science and Java Programming (Autumn 2023)</li>
+                        <li>CSC1003 Introduction to Computer Science and Java Programming (Autumn 2024)</li>
+                        <li>CSC2003 Itroduction to Java Programming (Spring 2024)</li>
+                    </ul>
+                </li>
             </ul>
             <h3>Nanyang Technological University<span>Jan. 2025 - May. 2025</span></h3>
             <h4>

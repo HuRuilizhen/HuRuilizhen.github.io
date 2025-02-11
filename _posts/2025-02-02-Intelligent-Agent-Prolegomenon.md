@@ -115,11 +115,43 @@ In real-world multi-agent environments, goals cannot be achieved unilaterally wi
 
 ## Agents and Objects
 
+> Q:Are agents just objects by another name?
+
+Objects encapsulate some state and communicate through message passing, with methods that correspond to the operations that can be performed on that state. The primary distinction between agents and objects lies in the **level of autonomy** exhibited by agents. Agents are self-directed, making decisions about whether to execute requests from other agents. Moreover, agents are intelligent, possessing **flexible behavior capabilities** (reactivity, proactivity, and social ability) that are not addressed in the standard object model. Lastly, agents are active, with multi-agent systems being inherently multi-threaded, as each agent is assumed to have at least **one active control thread.**
+
+- Agents act because of their own **desires**.
+- Agents act because of their own **interests**.
+
 ## Agents and Artificial Intelligence
+
+> Q: Aren't agents just the AI project? Isn’t building an agent what AI is all about?
+
+Artificial intelligence strives to build systems that can understand natural language, recognize and interpret scenes, use common sense, think creatively, and more. These tasks are extremely challenging.
+
+In contrast, when developing an agent, we aim to create a system that can select the right action in a **limited** domain. We do not need to solve all the problems of AI to build a useful agent. <font color="red">A little intelligence can go a long way!</font>
 
 ## Agents and Expert Systems
 
+> Aren't agents just expert systems by another name?
+
+Expert systems typically focus on abstract domains of discourse, such as blood diseases. For example, [MYCIN](https://en.wikipedia.org/wiki/Mycin) is an expert system that knows about blood diseases in humans. It has a wealth of knowledge in the **form of rules**, and a doctor can obtain expert advice by giving MYCIN facts, answering questions, and posing queries.
+
+The main differences between expert systems and agents are:
+
+- Agents are **situated in an environment**, whereas MYCIN is not aware of the world and only obtains information by asking the user questions.
+- Agents **act**, whereas MYCIN does not operate on patients. However, some real-time (typically process control) expert systems can be considered agents.
+
 ## Agents as Intensional Systems
+
+The **intentional stance** is a powerful tool for abstracting and describing complex systems. By attributing beliefs, desires, and rationality to an entity, we can predict and explain its behavior. This stance is particularly useful when dealing with complex systems whose inner workings are not fully understood.
+
+The **philosopher Daniel Dennett** identifies different grades of intentional systems. A first-order intentional system has beliefs and desires, but no beliefs and desires about beliefs and desires. A second-order intentional system is more sophisticated, with beliefs and desires about beliefs and desires.
+
+It is interesting to note that the intentional stance can be applied to any object, even a light switch. However, most adults would find such a description absurd, as it is not a useful abstraction in this case. The reason is that we have a simpler, mechanistic description of the light switch's behavior, which makes the intentional stance unnecessary.
+
+As computer systems become **increasingly complex**, we need more **powerful abstractions** and **metaphors** to explain their operation. The intentional stance is such an abstraction, which provides us with a convenient and familiar way of describing, explaining, and predicting the behavior of complex systems.
+
+In the context of agent theory, the intentional stance is a fundamental concept. Agents are viewed as intentional systems, whose simplest consistent description requires the intentional stance. This means that agents are attributed with beliefs, desires, and rationality, which are used to predict and explain their behavior. The intentional stance is a powerful tool for abstracting and describing complex systems, and it is essential for understanding and designing agents.
 
 # Environment and its classification
 
@@ -219,13 +251,13 @@ For a sequence of runs, $(e_1, \alpha_1, e_2, \alpha_2, \ldots)$, represents a r
 
 ## Pure Reactive Agents, Perception and Agent with State
 
-Some agents decide what to do without reference to their history — they base their decision making entirely on the present, with no reference at all to the past. We call such agents **purely reactive**. Mathematically, a purely reactive agent is a function from the environment state space ((instead of the run space.) to the action space:
+Some agents decide what to do without reference to their history — they base their decision making entirely on the present, with no reference at all to the past. We call such agents **purely reactive**. Mathematically, a purely reactive agent is a function from the environment state space (instead of the run space) to the action space:
 
 $$
     action(e) : E \to Ac
 $$
 
-A thermostat is a purely reactive agent: it simply responds to the current temperature and does not maintain any internal state.
+A thermostat is a purely reactive agent: it simply responds to the current temperature and does not maintain any internal state:
 $$
     action(e) = \begin{cases}
         \text{increase the temperature} & \text{if the temperature is too low}\\
