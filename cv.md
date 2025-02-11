@@ -49,7 +49,7 @@ description: "A CV Page of Author"
 }
 .cv-section h2 {
     color: #2c3e50;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #c73b45;
     padding-bottom: 5px;
 }
 .cv-section h3 {
@@ -85,11 +85,42 @@ description: "A CV Page of Author"
 }
 .cv-section ul li::before {
     content: "\2022";
-    color: #3498db;
+    color: #c73b45;
     font-weight: bold;
     display: inline-block;
     width: 1em;
     margin-left: -1em;
+}
+.publication-item {
+    margin-bottom: 15px;
+    padding-left: 20px;
+    position: relative;
+}
+.publication-item::before {
+    content: "\2022";
+    color: #c73b45;
+    position: absolute;
+    left: 0;
+}
+.publication-title {
+    font-weight: 500;
+    color: #2c3e50;
+}
+.publication-authors {
+    color: #7f8c8d;
+    font-size: 0.95em;
+}
+.publication-venue {
+    font-style: italic;
+    color: #7f8c8d;
+}
+.publication-links a {
+    margin-right: 12px;
+    text-decoration: none;
+}
+.nested-list {
+    padding-left: 25px;
+    list-style: none;
 }
 </style>
 
@@ -124,34 +155,107 @@ description: "A CV Page of Author"
             </h4>
     </div>
     <div class="cv-section">
-        <h2>Internship Experience</h2>
+        <h2>Work Experience</h2>
         <h3>
-            Shenzhen Zhongzhilechuang Technology Co., Ltd.<span>
-            Nov. 2022 - Nov. 2024</span>
+            Shenzhen Zhongzhilechuang Technology Co., Ltd.
+            <span>Nov. 2022 - Jun. 2024</span>
         </h3>
         <h4>
-            <p>Internship Instructor</p>
+            <p>Informatics Competition Instructor (Part-time Contract)</p>
             <p>Shenzhen, Guangdong, China</p>
         </h4>
         <ul>
-            <li>Mentored students in Informatics competitions, achieving national-level awards.</li>
-            <li>Developed and maintained the company’s blog website: <a href="http://blogweb.fun">blogweb.fun</a></li>
+            <li>Mentored 15+ middle / high school students in algorithm design and programming, achieving:
+                <ul class="nested-list">
+                    <li>3× First Prize (CSP-J/S 2023 Second Round)</li>
+                    <li>5× Second Prize (CSP-J/S 2023 Second/Advanced Round)</li>
+                </ul>
+            </li>
+            <li>Designed and deployed a Django-based educational blog platform (<a href="http://blogweb.fun">blogweb.fun</a>):
+                <ul class="nested-list">
+                    <li>Implemented user authentication, content management, and commenting system</li>
+                    <li>Optimized page load speed by 40% through caching strategies</li>
+                    <li>Open-source codebase: <a href="https://github.com/HuRuiilzhen/Blog-Web">github.com/HuRuiilzhen/Blog-Web</a></li>
+                </ul>
+            </li>
         </ul>
+        <h3>The Jianchen Science and Technology Ltd.<span>Jul. 2024 - Present</span></h3>
+        <h4>
+            <p>Full Stack Developer (Intern)</p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
+        <ul>
+        <li>Led development of enterprise SaaS platform using Vue.js/Flask stack:
+            <ul class="nested-list">
+                <li>Built dynamic dashboard with real-time data visualization (ECharts integration)</li>
+                <li>Designed RESTful APIs handling 1k+ RPM with 99.9% uptime</li>
+            </ul>
+        </li>
+        <li>DevOps improvements:
+            <ul class="nested-list">
+                <li>Reduced CI/CD pipeline runtime from 12min → 4min through parallel testing</li>
+                <li>Implemented automated monitoring with Prometheus/Grafana</li>
+            </ul>
+        </li>
+        <li>Key contributor to architecture redesign:
+            <ul class="nested-list">
+                <li>Migrated monolithic backend to microservices (Docker/Kubernetes)</li>
+                <li>Improved API response time by 35% with Redis caching</li>
+            </ul>
+        </li>
+    </ul>
     </div>
     <div class="cv-section">
         <h2>Research Experience</h2>
-            <h3>
-                Directed Acyclic Graph Scheduling Algorithms 
-                <span>Oct. 2023 - May. 2024</span></h3>
-            <h4>
-                <p>Directed by Prof. <a href="https://sds.cuhk.edu.cn/en/teacher/317">Wenye Li</a></p>
-                <p>Shenzhen, Guangdong, China</p>
-            </h4>
-            <ul>
-                <li>Implemented and maintained research code.</li>
-                <li>Co-authored a research paper accepted at ICONIP 2024.</li>
-                <li>Filed a patent on novel DAG scheduling methods.</li>
-            </ul>
+        <h3>Directed Acyclic Graph Scheduling Algorithms<span>Nov. 2023 - Jul. 2024</span></h3>
+        <h4>
+            <p>Supervised by <a href="https://www.sribd.cn/en/teacher/20">Prof. Wenye Li</a></p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
+        <ul>
+            <li>Replicated and maintained NN-to-DAG repository from academic papers</li>
+            <li>Developed novel dynamic programming-based scheduling algorithm</li>
+            <li>Led data collection/analysis for algorithm validation</li>
+        </ul>
+        <h3>Kolmogorov-Arnold Auto-Encoder for Representation Learning<span>Aug. 2024 - Oct. 2024</span></h3>
+        <h4>
+            <p>Supervised by <a href="https://www.sribd.cn/en/teacher/20">Prof. Wenye Li</a></p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
+        <ul>
+            <li>Proposed hybrid architecture combining KAN networks with autoencoders</li>
+            <li>Conducted comparative experiments on latent representation quality</li>
+            <li>Implemented open-source framework for reproducibility</li>
+        </ul>
+    </div>
+    <div class="cv-section">
+        <h2>Publications & Patents</h2>
+        <div class="publication-item">
+            <div class="publication-title">An Approximate Dynamic Programming Method for Directed Acyclic Graph</div>
+            <div class="publication-authors">Yuqi Ma, <strong>Ruilizhen Hu</strong>, Ruixuan Qi, Jianfeng Mao, and Wenye Li</div>
+            <div class="publication-venue">ICONIP 2024 (Accepted)</div>
+            <div class="publication-links">
+                <a href="#">Preprint</a>
+                <a href="https://github.com/HuRuilizhen/NN-to-DAG">Code</a>
+            </div>
+        </div>
+        <div class="publication-item">
+            <div class="publication-title">KAE: Kolmogorov-Arnold Auto-Encoder for Representation Learning</div>
+            <div class="publication-authors">Fangchen Yu, <strong>Ruilizhen Hu</strong>, Yidong Lin, Yuqi Ma, Zhenghao Huang, Wenye Li</div>
+            <div class="publication-venue">arXiv preprint (Submitted)</div>
+            <div class="publication-links">
+                <a href="https://arxiv.org/abs/2501.00420">arXiv</a>
+                <a href="https://github.com/SciYu/KAE">Code</a>
+            </div>
+        </div>
+        <div class="publication-item">
+            <div class="publication-title">A Novel Scheduling Method and Associated Equipment for Directed Acyclic Graphs</div>
+            <div class="publication-authors"><strong>Ruilizhen Hu</strong>, Yuqi Ma, Wenye Li, Yungbin Zhao</div>
+            <div class="publication-venue">China National Intellectual Property Administration</div>
+            <div class="publication-links">
+                <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=170p0gh0rd580ry0ey610cx0xj149157">Patent Link</a>
+            </div>
+        </div>
     </div>
     <div class="cv-section">
         <h2>Technical Skills</h2>
