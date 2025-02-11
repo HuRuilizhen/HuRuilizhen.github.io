@@ -9,10 +9,10 @@
 lang: en-US
 
 # Site title
-title: "Ray's Blog 🎒"
+title: "Ray's Site 🎒"
 
 # A description of your site for meta tag, search engine results.
-description: "A recording of Ray's life and learning. 🍻💻"
+description: "A recording of life and learning. 🍻💻"
 
 # The subpath of your site, e.g. /blog, for generating urls.
 baseurl: ""
