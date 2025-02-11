@@ -192,12 +192,12 @@ System must provide mechanisms for `Process Creation` and `Process Termination`.
 
 Related Posts 👇
 
-📑 [Operating System Overview](https://huruilizhen.github.io/Operating-System-Overview)
+📑 [Operating System Overview]({{ site.url }}{{ site.baseurl }}/Operating-System-Overview)
 
-📑 [Operating System Security](https://huruilizhen.github.io/Operating-System-Security)
+📑 [Operating System Security]({{ site.url }}{{ site.baseurl }}/Operating-System-Security)
 
-📑 [Threads](https://huruilizhen.github.io/Threads)
+📑 [Threads]({{ site.url }}{{ site.baseurl }}/Threads)
 
-📑 [File System](https://huruilizhen.github.io/File-System)
+📑 [File System]({{ site.url }}{{ site.baseurl }}/File-System)
 
-📑 [Memory Management](https://huruilizhen.github.io/Memory-Management)
+📑 [Memory Management]({{ site.url }}{{ site.baseurl }}/Memory-Management)

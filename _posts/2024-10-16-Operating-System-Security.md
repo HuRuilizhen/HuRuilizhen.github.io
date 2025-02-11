@@ -81,10 +81,10 @@ Assuming that an attacker **cannot find the salt associated with a userid** he i
 
 Related Posts 👇
 
-📑 [Operating System Overview](https://huruilizhen.github.io/Operating-System-Overview)
+📑 [Operating System Overview]({{ site.url }}{{ site.baseurl }}/Operating-System-Overview)
 
-📑 [Processes](https://huruilizhen.github.io/Processes) and [Threads](https://huruilizhen.github.io/Threads)
+📑 [Processes]({{ site.url }}{{ site.baseurl }}/Processes) and [Threads]({{ site.url }}{{ site.baseurl }}/Threads)
 
-📑 [File System](https://huruilizhen.github.io/File-System)
+📑 [File System]({{ site.url }}{{ site.baseurl }}/File-System)
 
-📑 [Memory Management](https://huruilizhen.github.io/Memory-Management)
+📑 [Memory Management]({{ site.url }}{{ site.baseurl }}/Memory-Management)

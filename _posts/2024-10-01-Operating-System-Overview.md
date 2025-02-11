@@ -123,10 +123,10 @@ The RAM of computer is its **address space**. It contains the program code, data
 
 Related Posts 👇
 
-📑 [Operating System Security](https://huruilizhen.github.io/Operating-System-Security)
+📑 [Operating System Security]({{ site.url }}{{ site.baseurl }}/Operating-System-Security)
 
-📑 [Processes](https://huruilizhen.github.io/Processes) and [Threads](https://huruilizhen.github.io/Threads)
+📑 [Processes]({{ site.url }}{{ site.baseurl }}/Processes) and [Threads]({{ site.url }}{{ site.baseurl }}/Threads)
 
-📑 [File System](https://huruilizhen.github.io/File-System)
+📑 [File System]({{ site.url }}{{ site.baseurl }}/File-System)
 
-📑 [Memory Management](https://huruilizhen.github.io/Memory-Management)
+📑 [Memory Management]({{ site.url }}{{ site.baseurl }}/Memory-Management)
