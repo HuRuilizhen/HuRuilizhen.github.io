@@ -115,7 +115,7 @@ In real-world multi-agent environments, goals cannot be achieved unilaterally wi
 
 ## Agents and Objects
 
-> Q:Are agents just objects by another name?
+> Q: Are agents just objects by another name?
 
 Objects encapsulate some state and communicate through message passing, with methods that correspond to the operations that can be performed on that state. The primary distinction between agents and objects lies in the **level of autonomy** exhibited by agents. Agents are self-directed, making decisions about whether to execute requests from other agents. Moreover, agents are intelligent, possessing **flexible behavior capabilities** (reactivity, proactivity, and social ability) that are not addressed in the standard object model. Lastly, agents are active, with multi-agent systems being inherently multi-threaded, as each agent is assumed to have at least **one active control thread.**
 
@@ -132,7 +132,7 @@ In contrast, when developing an agent, we aim to create a system that can select
 
 ## Agents and Expert Systems
 
-> Aren't agents just expert systems by another name?
+> Q: Aren't agents just expert systems by another name?
 
 Expert systems typically focus on abstract domains of discourse, such as blood diseases. For example, [MYCIN](https://en.wikipedia.org/wiki/Mycin) is an expert system that knows about blood diseases in humans. It has a wealth of knowledge in the **form of rules**, and a doctor can obtain expert advice by giving MYCIN facts, answering questions, and posing queries.
 
