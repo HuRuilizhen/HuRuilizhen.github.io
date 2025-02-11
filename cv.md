@@ -66,6 +66,19 @@ description: "A CV Page of Author"
     color: #7f8c8d;
     margin-left: 10px;
 }
+.cv-section h4 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cv-section p {
+    color: #7f8c8d;
+    margin: 0px;
+}
 .cv-section ul {
     padding-left: 20px;
     list-style: none;
@@ -96,19 +109,30 @@ description: "A CV Page of Author"
 <div class="cv-container">
     <div class="cv-section">
         <h2>Education</h2>
-            <h3>The Chinese University of Hong Kong, Shenzhen <span>Aug. 2022 - Jun. 2026</span></h3>
+            <h3>The Chinese University of Hong Kong, Shenzhen Campus<span>Aug. 2022 - Jun. 2026</span></h3>
+            <h4>
+                <p>Bachelor of Science in Computer Science and Technology</p>
+                <p>Shenzhen, Guangdong, China</p>
+            </h4>
             <ul>
-                <li>Bachelor of Computer Science and Technology</li>
                 <li>Academic Standing: Top 10% (MGPA Rank)</li>
             </ul>
-            <h3>Nanyang Technological University, Singapore <span>Jan. 2025 - May. 2025</span></h3>
-            <ul>
-                <li>Exchange Program in Computer Science / Electrical and Electronic Engineering</li>
-            </ul>
+            <h3>Nanyang Technological University<span>Jan. 2025 - May. 2025</span></h3>
+            <h4>
+                <p>Exchange Program in Computer Science / Electrical and Electronic Engineering</p>
+                <p>Singapore</p>
+            </h4>
     </div>
     <div class="cv-section">
         <h2>Internship Experience</h2>
-        <h3>Shenzhen Zhongzhilechuang Technology Co., Ltd.<span>Nov. 2022 - Nov. 2024</span></h3>
+        <h3>
+            Shenzhen Zhongzhilechuang Technology Co., Ltd.<span>
+            Nov. 2022 - Nov. 2024</span>
+        </h3>
+        <h4>
+            <p>Internship Instructor</p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
         <ul>
             <li>Mentored students in Informatics competitions, achieving national-level awards.</li>
             <li>Developed and maintained the company’s blog website: <a href="http://blogweb.fun">blogweb.fun</a></li>
@@ -116,7 +140,13 @@ description: "A CV Page of Author"
     </div>
     <div class="cv-section">
         <h2>Research Experience</h2>
-            <h3>Directed Acyclic Graph Scheduling Algorithms <span>Oct. 2023 - May. 2024</span></h3> 
+            <h3>
+                Directed Acyclic Graph Scheduling Algorithms 
+                <span>Oct. 2023 - May. 2024</span></h3>
+            <h4>
+                <p>Directed by Prof. <a href="https://sds.cuhk.edu.cn/en/teacher/317">Wenye Li</a></p>
+                <p>Shenzhen, Guangdong, China</p>
+            </h4>
             <ul>
                 <li>Implemented and maintained research code.</li>
                 <li>Co-authored a research paper accepted at ICONIP 2024.</li>
