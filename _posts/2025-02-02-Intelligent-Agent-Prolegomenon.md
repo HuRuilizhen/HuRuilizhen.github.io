@@ -219,7 +219,7 @@ For a sequence of runs, $(e_1, \alpha_1, e_2, \alpha_2, \ldots)$, represents a r
 
 ## Pure Reactive Agents, Perception and Agent with State
 
-Some agents decide what to do without reference to their history — they base their decision making entirely on the present, with no reference at all to the past. We call such agents **purely reactive**. Mathematically, a purely reactive agent is a function from the environment state space ((instead of the run space.) to the action space:
+Some agents decide what to do without reference to their history — they base their decision making entirely on the present, with no reference at all to the past. We call such agents **purely reactive**. Mathematically, a purely reactive agent is a function from the environment state space (instead of the run space) to the action space:
 
 $$
     action(e) : E \to Ac
