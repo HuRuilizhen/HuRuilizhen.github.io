@@ -143,13 +143,13 @@ The main differences between expert systems and agents are:
 
 ## Agents as Intensional Systems
 
-The intentional stance is a powerful tool for abstracting and describing complex systems. By attributing beliefs, desires, and rationality to an entity, we can predict and explain its behavior. This stance is particularly useful when dealing with complex systems whose inner workings are not fully understood.
+The **intentional stance** is a powerful tool for abstracting and describing complex systems. By attributing beliefs, desires, and rationality to an entity, we can predict and explain its behavior. This stance is particularly useful when dealing with complex systems whose inner workings are not fully understood.
 
-The philosopher Daniel Dennett identifies different grades of intentional systems. A first-order intentional system has beliefs and desires, but no beliefs and desires about beliefs and desires. A second-order intentional system is more sophisticated, with beliefs and desires about beliefs and desires.
+The **philosopher Daniel Dennett** identifies different grades of intentional systems. A first-order intentional system has beliefs and desires, but no beliefs and desires about beliefs and desires. A second-order intentional system is more sophisticated, with beliefs and desires about beliefs and desires.
 
 It is interesting to note that the intentional stance can be applied to any object, even a light switch. However, most adults would find such a description absurd, as it is not a useful abstraction in this case. The reason is that we have a simpler, mechanistic description of the light switch's behavior, which makes the intentional stance unnecessary.
 
-As computer systems become increasingly complex, we need more powerful abstractions and metaphors to explain their operation. The intentional stance is such an abstraction, which provides us with a convenient and familiar way of describing, explaining, and predicting the behavior of complex systems.
+As computer systems become **increasingly complex**, we need more **powerful abstractions** and **metaphors** to explain their operation. The intentional stance is such an abstraction, which provides us with a convenient and familiar way of describing, explaining, and predicting the behavior of complex systems.
 
 In the context of agent theory, the intentional stance is a fundamental concept. Agents are viewed as intentional systems, whose simplest consistent description requires the intentional stance. This means that agents are attributed with beliefs, desires, and rationality, which are used to predict and explain their behavior. The intentional stance is a powerful tool for abstracting and describing complex systems, and it is essential for understanding and designing agents.
 
