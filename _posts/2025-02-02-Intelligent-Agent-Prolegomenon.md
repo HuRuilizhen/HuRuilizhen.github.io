@@ -117,6 +117,7 @@ In real-world multi-agent environments, goals cannot be achieved unilaterally wi
 
 > Q: Are agents just objects by another name?
 
+
 Objects encapsulate some state and communicate through message passing, with methods that correspond to the operations that can be performed on that state. The primary distinction between agents and objects lies in the **level of autonomy** exhibited by agents. Agents are self-directed, making decisions about whether to execute requests from other agents. Moreover, agents are intelligent, possessing **flexible behavior capabilities** (reactivity, proactivity, and social ability) that are not addressed in the standard object model. Lastly, agents are active, with multi-agent systems being inherently multi-threaded, as each agent is assumed to have at least **one active control thread.**
 
 - Agents act because of their own **desires**.
