@@ -11,8 +11,12 @@ lang: en-US
 # Site title
 title: "Ray's Site 🎒"
 
-# A description of your site for meta tag, search engine results.
-description: "A recording of life and learning. 🍻💻"
+# Cover image of the site
+cover_image: images/cover.jpg
+cover_image_alt: "This is where I write my code and post my life."
+
+# A description of the site for meta tag, search engine results.
+description: "A site of recording Hu Ray's life and learning. 🍻💻"
 
 # The subpath of your site, e.g. /blog, for generating urls.
 baseurl: ""
@@ -56,7 +60,7 @@ plugins:
 
 # http://jekyllrb.com/docs/pagination/
 paginate: 5
-paginate_path: '/page:num/'
+paginate_path: '/page/:num/'
 
 
 # Permalinks
