@@ -13,10 +13,10 @@ title: "Ray's Site 🎒"
 
 # Cover image of the site
 cover_image: images/cover.jpg
-cover_image_alt: "This is where I write my code and post my life."
+cover_image_alt: "This is where the magic happens ✨"
 
 # A description of the site for meta tag, search engine results.
-description: "A site of recording Hu Ray's life and learning. 🍻💻"
+description: "Welcome to Hu Ray's playground, where dreams are made and codes are written. 💻"
 
 # The subpath of your site, e.g. /blog, for generating urls.
 baseurl: ""
