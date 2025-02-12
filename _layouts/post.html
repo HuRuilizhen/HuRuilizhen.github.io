@@ -58,4 +58,35 @@ layout: default
     {% include disqus.html %}
     {% endif %}
 
+    <!-- Mathjax Support -->
+    <script type="text/x-mathjax-config">
+              MathJax.Hub.Config({
+                jax: ["input/TeX", "output/HTML-CSS"],
+                tex2jax: {
+                  inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
+                  displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+                  processEscapes: true,
+                  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+                //,
+                //displayAlign: "left",
+                //displayIndent: "2em"
+              });
+            </script>
+    <script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+
+    <!-- Mermaid Support -->
+    <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: "default",
+            });
+            window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+        });
+    </script>
+
 </main><!-- .main-content -->
