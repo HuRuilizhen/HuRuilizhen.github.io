@@ -126,7 +126,7 @@ description: "A CV Page of Author"
 
 <div class="cv-header">
     <div class="cv-header-text">
-        <h1>Ruilizhen Hu (Ray)</h1>
+        <h1>Ruilizhen (Ray) Hu 胡瑞李蓁</h1>
         <p><strong>Email:</strong> <a href="mailto:huruilizhen@gmail.com">huruilizhen@gmail.com</a></p>
         <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ruilizhen-hu">linkedin.com/in/ruilizhen-hu</a></p>
         <p><strong>GitHub:</strong> <a href="https://github.com/HuRuilizhen">github.com/HuRuilizhen</a></p>
@@ -284,14 +284,32 @@ description: "A CV Page of Author"
         <h3>
             Bronze Medal, National Olympiad in Informatics (NOI) <span>Aug. 2021</span>
         </h3>
+        <h4>
+            <p>China Computer Federation</p>
+            <p>Yuyao, Zhejiang, China</p>
+        </h4>
         <h3>
             Full Admission Scholarship <span>Jun. 2022</span>
         </h3>
+        <h4>
+            <p>Muse College, The Chinese University of Hong Kong, Shenzhen</p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
         <h3>
             Silver Medal, China Collegiate Programming Contest (CCPC) Weihai Station <span>Nov. 2022</span>
         </h3>
+        <h4>
+            <p>China Collegiate Programming Contest Committee</p>
+            <p>Weihai, Shangdong, China</p>
+        </h4>
         <h3>
-            Dean’s List, SDS/FE Programme <span>Sep. 2024</span>
+            Dean's List, SDS/FE Programme <span>Sep. 2024</span>
         </h3>
+        <h4>
+            <p>School of Data Science, The Chinese University of Hong Kong, Shenzhen</p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
     </div>
 </div>
+
+> or, if you're old-school, you can still download the PDF version <a href="https://drive.google.com/file/d/11NBcbhpz-SWUbhM0L7TXcR34u68qVq3I/view?usp=drive_link">here</a>!
