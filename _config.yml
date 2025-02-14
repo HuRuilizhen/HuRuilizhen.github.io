@@ -11,12 +11,8 @@ lang: en-US
 # Site title
 title: "Ray's Site 🎒"
 
-# Cover image of the site
-cover_image: images/cover.jpg
-cover_image_alt: "This is where the magic happens ✨"
-
 # A description of the site for meta tag, search engine results.
-description: "Welcome to Hu Ray's playground, where dreams are made and codes are written. 💻"
+description: "Hey there! 👋 Welcome to Hu Ray's playground, where you can find blog posts about tech, life stories, and maybe some notes. Grab a cup of ☕️ and let's have some fun!"
 
 # The subpath of your site, e.g. /blog, for generating urls.
 baseurl: ""
@@ -32,7 +28,7 @@ google_analytics: "G-DRVXNYQ2VE"
 
 # Site navigation - each item must have a title and a url.
 navigation:
-  - text: Post
+  - text: Home
     url: /
   - text: Archives
     url: /archives
