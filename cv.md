@@ -290,17 +290,18 @@ description: "A CV Page of Author"
         </h4>
         <h3>
             Full Admission Scholarship <span>Jun. 2022</span>
-            <h4>
-                <p>Muse College, The Chinese University of Hong Kong, Shenzhen</p>
-                <p>Shenzhen, Guangdong, China</p>
-            </h4>
         </h3>
+        <h4>
+            <p>Muse College, The Chinese University of Hong Kong, Shenzhen</p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
         <h3>
             Silver Medal, China Collegiate Programming Contest (CCPC) Weihai Station <span>Nov. 2022</span>
         </h3>
         <h4>
             <p>China Collegiate Programming Contest Committee</p>
             <p>Weihai, Shangdong, China</p>
+        </h4>
         <h3>
             Dean’s List, SDS/FE Programme <span>Sep. 2024</span>
         </h3>
