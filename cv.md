@@ -126,7 +126,7 @@ description: "A CV Page of Author"
 
 <div class="cv-header">
     <div class="cv-header-text">
-        <h1>Ruilizhen Hu (Ray)</h1>
+        <h1>Ruilizhen (Ray) Hu 胡瑞李蓁</h1>
         <p><strong>Email:</strong> <a href="mailto:huruilizhen@gmail.com">huruilizhen@gmail.com</a></p>
         <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ruilizhen-hu">linkedin.com/in/ruilizhen-hu</a></p>
         <p><strong>GitHub:</strong> <a href="https://github.com/HuRuilizhen">github.com/HuRuilizhen</a></p>
