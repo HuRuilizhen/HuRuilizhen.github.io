@@ -284,14 +284,31 @@ description: "A CV Page of Author"
         <h3>
             Bronze Medal, National Olympiad in Informatics (NOI) <span>Aug. 2021</span>
         </h3>
+        <h4>
+            <p>China Computer Federation</p>
+            <p>Yuyao, Zhejiang, China</p>
+        </h4>
         <h3>
             Full Admission Scholarship <span>Jun. 2022</span>
+            <h4>
+                <p>Muse College, The Chinese University of Hong Kong, Shenzhen</p>
+                <p>Shenzhen, Guangdong, China</p>
+            </h4>
         </h3>
         <h3>
             Silver Medal, China Collegiate Programming Contest (CCPC) Weihai Station <span>Nov. 2022</span>
         </h3>
+        <h4>
+            <p>China Collegiate Programming Contest Committee</p>
+            <p>Weihai, Shangdong, China</p>
         <h3>
             Dean’s List, SDS/FE Programme <span>Sep. 2024</span>
         </h3>
+        <h4>
+            <p>School of Data Science, The Chinese University of Hong Kong, Shenzhen</p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
     </div>
 </div>
+
+> or, if you're old-school, you can still download the PDF version <a href="https://drive.google.com/file/d/11NBcbhpz-SWUbhM0L7TXcR34u68qVq3I/view?usp=drive_link">here</a>!
