@@ -4,7 +4,7 @@ title: "Greedy Algorithm, Djikstra and Prim"
 description: "This post provides an overview of the algorithms covered in the SC2001 course in NTU, including Djikstra's algorithm and Prim's algorithm."
 date: 2025-02-12
 feature_image: images/graph-theory.jpg
-tags: ['algorithm-design', 'discrete-mathematics', 'graph-theory']
+tags: ['algorithm-design', 'discrete-mathematics', 'graph-theory', 'still-in-progress']
 ---
 
 Greedy algorithms make the locally optimal choice on each iteration with the hope of finding a global optimum solution. They are typically used to solve optimization problems, and are usually more efficient than other algorithms. This post provides a comprehensive review of the algorithms covered in Lecture 6 of the `SC2001` course in NTU, including Djikstra's algorithm and Prim's algorithm.

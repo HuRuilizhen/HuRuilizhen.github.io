@@ -4,7 +4,7 @@ title: "FitLife Project Introduction"
 description: "FitLife Project Introduction"
 date: 2024-12-15
 feature_image: images/fitlife-cover.jpg
-tags: ['cloud-computing', 'web-development']
+tags: ['cloud-computing', 'web-development', 'still-in-progress']
 ---
 
 FitLife - Intelligent Health Management Platform is an innovative web-based solution designed to provide users with convenient and personalized health management services through the Internet. Initially, FitLife is my final project for the Cloud Computing course, but I decided to continue to develop it as a personal project. It is a project under development and I am still working on it.
