@@ -303,7 +303,7 @@ description: "A CV Page of Author"
             <p>Weihai, Shangdong, China</p>
         </h4>
         <h3>
-            Dean’s List, SDS/FE Programme <span>Sep. 2024</span>
+            Dean's List, SDS/FE Programme <span>Sep. 2024</span>
         </h3>
         <h4>
             <p>School of Data Science, The Chinese University of Hong Kong, Shenzhen</p>
