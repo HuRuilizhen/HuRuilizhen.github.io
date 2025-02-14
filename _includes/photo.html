@@ -1,0 +1,18 @@
+<div class="photo-card">
+    <a href="#modal-{{ include.id }}" class="photo-link">
+        <img src="{{ include.url | relative_url }}" alt="{{ include.description }}" loading="lazy" class="photo-image">
+        <div class="photo-overlay">
+            <p class="photo-description">{{ include.description }}</p>
+        </div>
+    </a>
+</div>
+
+<div id="modal-{{ include.id }}" class="photo-modal">
+    <div class="modal-content">
+        <a href="#close" class="modal-close">&times;</a>
+        <img src="{{ include.url | relative_url }}" alt="Full size">
+        {% if include.description %}
+        <div class="modal-description">{{ include.description }}</div>
+        {% endif %}
+    </div>
+</div>
