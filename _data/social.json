@@ -19,6 +19,11 @@
             "title": "Twitter",
             "icon": "fa-twitter",
             "url": "https://x.com/RuilizhenH"
+        },
+        {
+            "title": "Discord",
+            "icon": "fa-discord",
+            "url": "https://discord.gg/53PAbaqu"
         }
     ]
 }
