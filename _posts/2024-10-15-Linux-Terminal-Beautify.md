@@ -11,6 +11,11 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 
 <!--more-->
 
+## Table of Content
+- [Shell Setup](#shell-setup)
+- [Command Line Tool Setup](#command-line-tool-setup)
+- [Editor Setup](#editor-setup)
+
 ---
 
 # Shell Setup
@@ -230,6 +235,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
     - More info see: [Codeium GitHub Repository](https://github.com/Exafunction/codeium.vim)
 
 {% include image_caption.html imageurl="/images/nvim-codeium.jpg" title="Codeium Setting in Neovim" caption="Codeium Setting in Neovim" %}
+
 ---
 
 Reference: 
