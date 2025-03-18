@@ -22,6 +22,7 @@ Recently, I am applying for a backend developer summer internship and I have bee
   - [Comparisons between B+ Tree and B Tree](#comparisons-between-b-tree-and-b-tree)
   - [What is Transaction? What is ACID?](#what-is-transaction-what-is-acid)
 - [Operating System Based 操作系统基础](#operating-system-based-操作系统基础)
+  - [Introducing the Task Scheduling Algorithms. What is the difference of it in Linux and Windows?](#introducing-the-task-scheduling-algorithms-what-is-the-difference-of-it-in-linux-and-windows)
   - [What is the Principle of Process Communication Using Pipes?](#what-is-the-principle-of-process-communication-using-pipes)
 - [Network Based 网络基础](#network-based-网络基础)
 - [Design Pattern 设计模式](#design-pattern-设计模式)
@@ -151,11 +152,97 @@ STL是Cpp标准库的重要组成部分，不仅是一个可复用的组件库�
 
 ## Comparisons between B+ Tree and B Tree
 
+<font color="red" size="2">Tencent Interview Round 2 腾讯第二轮面试</font>
+
 ## What is Transaction? What is ACID?
+
+<font color="red" size="2">Tencent Interview Round 2 腾讯第二轮面试</font>
+
+In database systems, a transaction is a logical unit of atomic operations designed to ensure data consistency and integrity. It manages database operations by satisfying the **ACID** properties (Atomicity, Consistency, Isolation, Durability), ensuring that data remains in a correct state even in cases of **system failures** or **concurrent access**. Here's a summary of the characteristics of transactions:
+- All operations within a transaction either succeed and are committed entirely, or fail and are rolled back completely. For instance, in a bank transfer, both debiting and crediting must be completed simultaneously or canceled altogether, with no intermediate states. This is known as **atomicity**, which represents the smallest indivisible unit logically.
+- **Consistency** means that after executing a transaction, the database must transition from one valid state to another. For example, during a transfer, the total amount in accounts should remain consistent, adhering to business rules.
+- The **isolation** of transactions ensures that operations under concurrent scenarios do not interfere with each other, as if they were executed serially. Different isolation levels (such as Read Committed, Repeatable Read) are achieved through **locking mechanisms** or **multi-version control**, preventing issues like dirty reads, non-repeatable reads, etc.
+- **Durability** of transactions refers to the fact that once a transaction has been executed, the data in the database will not be lost, even in the event of system failures or crashes. This is realized through **logging** and **log replay** for durability.
+
+In practice, a bank system's transfer operation might involve multiple tables, such as account tables and transfer record tables. Simultaneously, it needs to complete both debiting and crediting without interference from different transfer operations involving different accounts. This scenario serves as a classic example illustrating the characteristics of transactions.
+
+Regarding the **lifecycle** of transactions, it can generally be divided into several phases:
+- Active: The transaction is performing operations.
+- Partially Committed: Operations have been executed but not yet committed.
+- Committed: Successfully completed, changes become permanent.
+- Failed: Cannot continue execution and needs to be rolled back.
+- Aborted: After rollback, the database returns to its state before the transaction began.
+
+<a name="transaction"></a>
+<div class="mermaid">
+graph LR
+    A[Active] --> B[Partially Committed]
+    B --> C[Committed]
+    B --> D[Failed]
+    D --> E[Aborted]
+    E --> A
+</div>
+
+Another important trade-off concerning transactions occurs between **isolation levels** and **concurrency issues**. Here are some potential concurrency problems between transactions:
+- **Dirty Reads**: Reading uncommitted data from other transactions.
+- **Non-repeatable Reads**: The same data read twice within the same transaction yields different results.
+- **Phantom Reads**: The number of rows returned by the same query condition changes due to inserts/deletes by other transactions.
+
+To avoid these concurrency issues, trade-offs need to be made regarding the isolation level of transactions. Generally, the higher the isolation level, the fewer concurrency problems occur, but this also leads to poorer transaction performance. Transaction isolation levels can be categorized as follows:
+- **Read Uncommitted**: Offers the best concurrency performance for transactions but may lead to dirty reads.
+- **Read Committed**: Avoids dirty reads but may still result in non-repeatable reads.
+- **Repeatable Read**: Ensures that multiple reads within the same transaction yield consistent results (default in MySQL).
+- **Serializable**: Provides full isolation, implemented through table locking, resulting in the lowest performance.
+
+To achieve various transaction characteristics, the following mechanisms can be utilized:
+- **Logging**: Records transaction operations (such as Redo/Undo logs) for fault recovery.
+- **Locking**: Controls concurrent access (e.g., row locks, table locks).
+- **Multi-Version Concurrency Control** (MVCC): Implements non-blocking reads via data snapshots (e.g., `PostgreSQL`, `MySQL`, `InnoDB`).
+
+Recommended practices include using **short transactions** whenever possible to reduce lock contention and improve concurrent performance; reasonably selecting **isolation levels** to balance consistency and performance; and paying attention to exception handling to avoid situations of **partial commitment**. 
+
+数据库系统中的事务是一组**原子性操作的逻辑单元**，用于确保数据的一致性和完整性。它通过满足**ACID**特性（原子性、一致性、隔离性、持久性）来管理对数据库的操作，使得即使在**系统故障**或**并发访问**的情况下，数据仍能保持正确状态。关于事务的特性，我们可以进行以下总结：
+- 事务中的所有操作要么全部成功提交，要么全部失败回滚。例如，银行转账中扣款和加款必须同时完成或同时取消，不存在中间状态。这就是所谓的**原子性**，其是逻辑上不可再分化的最小单元。
+- **一致性**是指事务执行后，数据库必须从一个有效状态转换到另一个有效状态。例如，转账前后账户总金额需保持一致，符合业务规则。
+- 事务的**隔离性**确保了，数据库在并发场景下的操作不会互相干扰，如同串行执行。通过**锁机制**或**多版本控制**实现不同隔离级别（如读已提交、可重复读），避免脏读、不可重复读等问题。
+- 事务的**持久性**是指事务执行后，数据库中的数据不会丢失，即使在系统故障或系统崩溃时。通过**日志记录**和**日志回放**实现事务的持久性。
+
+在实践中，银行系统的转账操作可能会涉及多个表，如账户表、转账记录表等。同时转账操作也需要同时完成扣款和加款。并且不同的转账操作可能会涉及不同的账户，因此需要避免相互干扰。这个场景是说明事务特性的一个经典的例子。
+
+关于事务的**生命周期**，可以大概分成[以下](#transaction)几个阶段：
+- 活动状态（Active）：事务正在执行操作。
+- 部分提交（Partially Committed）：操作执行完成，但尚未提交。
+- 提交（Committed）：成功完成，修改永久生效。
+- 失败（Failed）：无法继续执行，需回滚。
+- 中止（Aborted）：回滚后，数据库恢复到事务开始前的状态。
+
+而关于事务的另外一个比较重要的权衡发生在 **隔离级别** 和 **并发问题** 上。我们先来谈谈事务之间可能会存在以下并发问题:
+- 脏读：读取到其他事务未提交的数据。
+- 不可重复读：同一事务内两次读取同一数据结果不同。
+- 幻读：同一查询条件返回的行数因其他事务插入/删除而改变。
+
+为了避免这些并发问题，需要在事务的隔离级别上做出权衡。一般来说隔离级别越高，并发问题越少，但是事务的性能也会越差。事务的隔离级别可以分为以下几个级别：
+- 读未提交：此时事务的并发性能最好，但可能会导致脏读。
+- 避免脏读，但可能不可重复读。
+- 可重复读：保证同一事务内多次读取结果一致（MySQL默认）。
+- 可串行化：完全隔离，通过锁表实现，性能最低。
+
+为了实现事务的各个特性，可以通过以下机制：
+- 日志：记录事务操作（如Redo/Undo日志），用于故障恢复。
+- 锁：控制并发访问（如行锁、表锁）。
+- 多版本并发控制：通过数据快照实现非阻塞读（如`PostgreSQL`, `MySQL`, `InnoDB`）。
+
+以上，推荐的实践方式是尽可能使用**短事务**，来减少锁竞争，提升并发性能；同时合理选择**隔离级别**，权衡一致性与性能；也需要关心捕获异常的处理，避免**部分提交**的情况。
 
 ---
 
 # Operating System Based 操作系统基础
+
+## Introducing the Task Scheduling Algorithms. What is the difference of it in Linux and Windows?
+
+<font color="red" size="2">Tencent Interview Round 2 腾讯第二轮面试</font>
+
+
 
 ## What is the Principle of Process Communication Using Pipes?
 
