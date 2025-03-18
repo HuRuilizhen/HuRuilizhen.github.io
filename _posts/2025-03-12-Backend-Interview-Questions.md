@@ -15,7 +15,12 @@ Recently, I am applying for a backend developer summer internship and I have bee
 
 ## Table of Contents 目录
 - [Language Based 语言基础](#language-based-语言基础)
+  - [What is the Difference between shared\_ptr and unique\_ptr?](#what-is-the-difference-between-shared_ptr-and-unique_ptr)
   - [What is Difference between malloc and new?](#what-is-difference-between-malloc-and-new)
+  - [Introducing the Standard Template Library (STL) in Cpp](#introducing-the-standard-template-library-stl-in-cpp)
+- [Database Based 数据库基础](#database-based-数据库基础)
+  - [Comparisons between B+ Tree and B Tree](#comparisons-between-b-tree-and-b-tree)
+  - [What is Transaction? What is ACID?](#what-is-transaction-what-is-acid)
 - [Operating System Based 操作系统基础](#operating-system-based-操作系统基础)
   - [What is the Principle of Process Communication Using Pipes?](#what-is-the-principle-of-process-communication-using-pipes)
 - [Network Based 网络基础](#network-based-网络基础)
@@ -24,6 +29,10 @@ Recently, I am applying for a backend developer summer internship and I have bee
 ---
 
 # Language Based 语言基础
+
+## What is the Difference between shared_ptr and unique_ptr?
+
+<font color="red" size="2">Alibaba Interview Round 1 阿里巴巴第一轮面试</font>
 
 ## What is Difference between malloc and new?
 
@@ -71,6 +80,78 @@ Regarding overload mechanisms, malloc and free cannot be overloaded. However, th
 在[错误处理](#malloc-vs-new-error-handling)方面，`malloc` 在无法分配的时候会返回 `Null`，因此需要手动检查，而 `new` 在无法分配的时候会抛出异常，不需要检查 （当然我们也可以选择使用 `nothrow`，这时候发生异常会返回`nullptr`）。
 
 在重载机制上，`malloc` 以及 `free` 是不能进行重载的。而更现代化的 `new` 和 `delete` 是可以进行重载来实现高度自定义的内存分配。
+
+## Introducing the Standard Template Library (STL) in Cpp
+
+<font color="red" size="2">Tencent Interview Round 1 腾讯第一轮面试</font>
+
+The STL (Standard Template Library) is an essential part of the C++ Standard Library. It's not only a reusable component library but also embodies a software architecture encompassing data structures and algorithms. Its core design philosophy centers around the concept of "**separation of data and operations**", achieving highly modularized and generic programming through the collaboration of six major components. Here's a summary of these components:
+
+<a name="stl-components"></a>
+
+| Component  | Function                                                                                       | Examples                     |
+| ---------- | ---------------------------------------------------------------------------------------------- | ---------------------------- |
+| Containers | Store and manage data                                                                          | vector, list, map            |
+| Algorithms | Operate on data (sorting, searching, etc.)                                                     | sort, find, transform        |
+| Iterators  | Bridge between containers and algorithms, providing a unified interface for accessing elements | iterator, reverse_iterator   |
+| Functors   | Enable functions to have object-like properties, used for customizing algorithm behavior       | less<T>, greater<T>          |
+| Adapters   | Encapsulate existing components, altering interfaces or functionalities                        | stack, queue, priority_queue |
+| Allocators | Manage memory allocation and deallocation                                                      | allocator<T>                 |
+
+Containers are structures designed for storing and managing data, encapsulating underlying data structures to some extent. They provide a unified data access interface (through iterators) and support automatic memory management (such as dynamic expansion in `vector`). Containers are categorized into sequential containers (`vector`, `list`, `array`, etc.), associative containers (`map`, `set`, etc.), and unordered associative containers introduced in C++11 (`unordered_set`, `unordered_map`, etc.).
+
+The algorithm component is separated from the container component; it operates on the data within containers (like sorting, searching, traversing) without depending on specific container types, using **iterators** instead. These operations are **non-intrusive**, meaning they modify the data within containers without altering the container structure itself. Common usages include:
+
+<a name="stl-algorithms"></a>
+
+```cpp
+vector<int> v = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+sort(v.begin(), v.end());
+auto it = find(v.begin(), v.end(), 5);
+vector<int> new_v = transform(v.begin(), v.end(), [](int x) { return x * 2; });
+```
+
+Iterators offer a unified interface for accessing container elements, abstracting away the differences in underlying implementations. By functionality, they can be classified into forward iterators (`forward_list`), bidirectional iterators (`map`, `list`), and random access iterators (`vector`, `set`), among others.
+
+Functors are class objects that overload the `operator()`, allowing them to be invoked like functions. They are typically used for customizing algorithm behaviors (such as sorting rules, conditional judgments). Common functors in the standard library include:
+- Arithmetic operations: `plus<T>`, `minus<T>`
+- Relational comparisons: `less<T>`, `greater<T>`
+- Logical operations: `logical_and<T>`, `logical_not<T>`
+
+Adapters primarily function to encapsulate existing components, changing their interfaces or functionalities to adapt them for use in different scenarios or to provide a more uniform interface. Common adapters include:
+- Container adapters: `stack`, `queue`, `priority_queue`, which are implemented based on deque or vector.
+- Iterator adapters: `reverse_iterator`, enabling reverse traversal of containers.
+- Function adapters: `bind`, `not1`, `mem_fn`, wrapping functions into objects for use in algorithms. Note that since C++11, these adapters have largely been replaced by lambda expressions.
+
+Allocators are used for managing memory allocation and deallocation for containers, implementing memory control and optimization. The default allocator is `std::allocator<T>`. Custom allocators can also be defined by overloading `allocate()` and `deallocate()`, facilitating advanced features such as **memory pools**.
+
+STL是Cpp标准库的重要组成部分，不仅是一个可复用的组件库，也是一个包含了数据结构与算法的软件架构。其核心设计理念是 “**数据与操作分离**”，通过六大组件的协作，实现了高度模块化和泛型编程。我们可以对这些组件进行[以下](#stl-components)总结。
+
+容器是一种存储和管理数据的结构，其也在一定程度上封装了底层数据结构。其提供统一的数据访问接口（通过迭代器），也支持自动管理内存（如 `vector` 的动态扩容）。在分类上分为顺序容器（`vector`, `list`, `array` 等），关联容器(`map`, `set` 等)，以及Cpp11后的顺序关联容器（`unordered_set`, `unordered_map`等）
+
+算法组件和容器组件分离，其对容器中的数据进行操作，如排序、查找、遍历等而不**用依赖具体容器**类型，通过**迭代器**操作。其操作也是**非侵入式**的，仅仅是对容器中的数据进行改变而不修改容器的结构。一些常见的用法[如下](#stl-algorithms)。
+
+迭代器提供了访问容器元素的统一接口，屏蔽底层实现差异。按功能可以分为前向迭代器（`forward_list`），双向迭代器（`map`, `list`），随机迭代器（`vector`, `set`）等。
+
+仿函数是一种可以重载 `operator()` 的类对象，可像函数一样调用。它通常用于定制算法行为（如排序规则、条件判断）。在标准库中有以下常用的仿函数：
+- 算术运算：`plus<T>`, `minus<T>`
+- 关系比较：`less<T>`, `greater<T>`
+- 逻辑运算：`logical_and<T>`, `logical_not<T>`
+
+配接器的主要功能是对现有组件进行封装，改变其接口或功能。这样可以使得组件能够在不同的情况下使用，或者是提供了一个更加统一的接口。常见的配接器包括：
+- 容器配接器：`stack`, `queue`, `priority_queue`，这些配接器都是基于 deque 或 vector 实现的。
+- 迭代器配接器：`reverse_iterator`，这个配接器可以实现反向遍历容器。
+- 函数配接器：`bind`, `not1`, `mem_fn`，这些配接器可以将函数包装成一个对象，从而能够在算法中使用。注意 Cpp11 之后，这些配接器多被 Lambda 表达式所取代。
+
+空间配置器用于管理容器的内存分配与释放，实现内存控制与优化。默认配置器：`std::allocator<T>`。也可以自定义配置器，重载 `allocate()` 和 `deallocate()`，实现**内存池**等高级功能。
+
+--- 
+
+# Database Based 数据库基础
+
+## Comparisons between B+ Tree and B Tree
+
+## What is Transaction? What is ACID?
 
 ---
 
