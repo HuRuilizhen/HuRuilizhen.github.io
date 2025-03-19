@@ -18,6 +18,7 @@ Recently, I am applying for a backend developer summer internship and I have bee
   - [What is the Difference between shared\_ptr and unique\_ptr?](#what-is-the-difference-between-shared_ptr-and-unique_ptr)
   - [What is Difference between malloc and new?](#what-is-difference-between-malloc-and-new)
   - [Introducing the Standard Template Library (STL) in Cpp](#introducing-the-standard-template-library-stl-in-cpp)
+  - [What is the Implementation Principle of Virtual Function in Cpp?](#what-is-the-implementation-principle-of-virtual-function-in-cpp)
 - [Database Based 数据库基础](#database-based-数据库基础)
   - [Comparisons between B+ Tree and B Tree](#comparisons-between-b-tree-and-b-tree)
   - [What is Transaction? What is ACID?](#what-is-transaction-what-is-acid)
@@ -84,7 +85,7 @@ Regarding overload mechanisms, malloc and free cannot be overloaded. However, th
 
 ## Introducing the Standard Template Library (STL) in Cpp
 
-<font color="red" size="2">Tencent Interview Round 1 腾讯第一轮面试</font>
+<font color="red" size="2">Tencent Interview Round 2 腾讯第二轮面试</font>
 
 The STL (Standard Template Library) is an essential part of the C++ Standard Library. It's not only a reusable component library but also embodies a software architecture encompassing data structures and algorithms. Its core design philosophy centers around the concept of "**separation of data and operations**", achieving highly modularized and generic programming through the collaboration of six major components. Here's a summary of these components:
 
@@ -145,6 +146,26 @@ STL是Cpp标准库的重要组成部分，不仅是一个可复用的组件库�
 - 函数配接器：`bind`, `not1`, `mem_fn`，这些配接器可以将函数包装成一个对象，从而能够在算法中使用。注意 Cpp11 之后，这些配接器多被 Lambda 表达式所取代。
 
 空间配置器用于管理容器的内存分配与释放，实现内存控制与优化。默认配置器：`std::allocator<T>`。也可以自定义配置器，重载 `allocate()` 和 `deallocate()`，实现**内存池**等高级功能。
+
+## What is the Implementation Principle of Virtual Function in Cpp?
+
+<font color="red" size="2">Tencent Interview Round 2 腾讯第二轮面试</font>
+
+In C++, virtual functions are a crucial mechanism for achieving polymorphism, allowing derived classes to override methods from a base class and ensuring the correct function is called at runtime based on the actual object type. First, let's discuss the basic concepts of virtual functions. In C++, if a member function is declared as `virtual` in a base class, then even if we call that function through a base class pointer or reference, the overridden version in the derived class will be invoked instead of the base class version. This effect of dynamic binding is achieved through the **virtual function table** (vtable) and the **virtual pointer** (vptr).
+
+The **virtual function table** is a table storing addresses of virtual functions. Each **class** with virtual functions has a unique vtable. It is essentially an array of pointers, with each element pointing to the implementation of a virtual function for that class. The vtable is created at **compile time** and used during **runtime for function calls**.
+
+The **virtual pointer** is a hidden pointer within each object of a class that contains virtual functions, pointing to the **object’s class's virtual function table**. When an object of such a class is created, its constructor automatically sets the vptr to point to the vtable of that class. Because the vptr is stored inside the object, different objects can have different vtables, enabling **dynamic polymorphism**. Since the **vptr** occupies additional storage space in the object (typically 8 bytes), objects of classes containing virtual functions take up slightly more memory than ordinary class objects.
+
+Additionally, it is worth noting that if a function is a **pure virtual function**, which lacks a concrete implementation, subclasses must override it; otherwise, those subclasses also become abstract classes and cannot be instantiated. An **abstract class** refers to a class that contains at least one pure virtual function and cannot directly create objects.
+
+在 Cpp 中，虚函数是实现多态的重要机制，它允许派生类覆盖基类的方法，并且在运行时根据对象的实际类型调用正确的函数。首先我们来谈论一下虚函数的基本概念，在 Cpp 中如果一个成员函数在基类中声明为 `virtual` 那么即使我们通过基类指针或引用调用该函数，也会调用派生类中重写的版本，而不是基类版本。这种动态绑定的效果就是通过**虚函数表**和**虚指针**实现的。
+
+**虚函数表**是一个存储虚函数地址的表，每个**类**（如果有虚函数）都有一个唯一的虚表。它是一个指针数组，每个元素指向该类的虚函数实现。虚表在**编译时创建**，在程序**运行时用于函数调用**。
+
+**虚指针**是每个含有虚函数的类的对象内部的一个**隐藏指针**，指向该**对象**所属的**类的虚函数表**。当一个类对象被创建时，构造函数会自动设置虚指针指向该类的虚函数表。由于虚指针存储在对象内部，因此不同对象可以有不同的虚函数表，从而实现**动态多态**。由于**虚指针**占据了对象的额外存储空间（通常 8 字节），因此包含虚函数的类的对象会比普通类对象多占用一点内存。
+
+另外值得关注是如果是**纯虚函数**，其没有具体实现，子类必须重写，否则该子类也是抽象类，无法实例化。而**抽象类**指的是至少包含一个纯虚函数的类，这样的类不能直接创建对象。
 
 --- 
 
@@ -223,7 +244,7 @@ Recommended practices include using **short transactions** whenever possible to 
 
 为了避免这些并发问题，需要在事务的隔离级别上做出权衡。一般来说隔离级别越高，并发问题越少，但是事务的性能也会越差。事务的隔离级别可以分为以下几个级别：
 - 读未提交：此时事务的并发性能最好，但可能会导致脏读。
-- 避免脏读，但可能不可重复读。
+- 读已提交：避免脏读，但可能不可重复读。
 - 可重复读：保证同一事务内多次读取结果一致（MySQL默认）。
 - 可串行化：完全隔离，通过锁表实现，性能最低。
 
