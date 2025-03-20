@@ -15,7 +15,6 @@ Recently, I am applying for a backend developer summer internship and I have bee
 
 ## Table of Contents 目录
 - [Language Based 语言基础](#language-based-语言基础)
-  - [What is the Difference between shared\_ptr and unique\_ptr?](#what-is-the-difference-between-shared_ptr-and-unique_ptr)
   - [What is Difference between malloc and new?](#what-is-difference-between-malloc-and-new)
   - [Introducing the Standard Template Library (STL) in Cpp](#introducing-the-standard-template-library-stl-in-cpp)
   - [What is the Implementation Principle of Virtual Function in Cpp?](#what-is-the-implementation-principle-of-virtual-function-in-cpp)
@@ -31,10 +30,6 @@ Recently, I am applying for a backend developer summer internship and I have bee
 ---
 
 # Language Based 语言基础
-
-## What is the Difference between shared_ptr and unique_ptr?
-
-<font color="red" size="2">Alibaba Interview Round 1 阿里巴巴第一轮面试</font>
 
 ## What is Difference between malloc and new?
 
@@ -175,6 +170,14 @@ Additionally, it is worth noting that if a function is a **pure virtual function
 
 <font color="red" size="2">Tencent Interview Round 2 腾讯第二轮面试</font>
 
+In practical applications, the B+ tree is more suitable for use in **database indexing** due to its stable read and write performance and the characteristic of having an ordered linked list at the leaf nodes. On the other hand, B-trees are sometimes used in scenarios that require **frequent data updates**. From the perspective of similarities, both are **multiway balanced search trees** with a highly balanced nature. Nodes can have multiple child entries, not just two, making them **multi-branch**. In these trees, each node's keys are sorted, and the keys within a node separate the ranges of its child nodes. The time complexity for search, insertion, and deletion operations is $O(\log n)$ for both.
+
+Although their external structures are similar, they differ in where they store data. In a B-tree, each node contains both keys and data, so data can be found in non-leaf nodes, making data updates simpler. In contrast, in a B+ tree, all data is retained in the leaf nodes, which are typically connected in a linked list format, while non-leaf nodes only store key information. Additionally, leaf nodes are linked together via pointers to form a linked list, facilitating full-range scans and sequential access. These differences in data storage lead to variations in search efficiency and application scenarios.
+
+在实际应用中，B+树由于其读写性能稳定和叶子节点的顺序链表特性，使得它更适合用于**数据库索引**。而B树则有时候用于那些需要**频繁对数据进行更新**的场景。从相似性的角度，他们都是都是**多路平衡查找树**，有高度平衡的性质。节点可以拥有多个子项，不仅是两个，因此是**多叉**的。树中的每个节点都是按照键值有序排列的，并且每个节点中的键分隔了其子节点的范围。搜索、插入、删除操作的时间复杂度都是$O(log n)$。
+
+虽然外部结构是类似的，当时存储数据的位置有所不同。在B树中，每个节点都包含键和数据，因此，数据可以在非叶子节点找到，其在更新数据的时候也会更简单；但是在B+树中，所有的数据都保留在叶子节点中，并且通常以链表的方式进行连接，非叶子节点只存储键信息，且叶子节点通过指针串联成一个链表，方便全范围扫描和顺序访问。存储数据上的差异也带来了搜索效率上和应用场景下的差异。
+
 ## What is Transaction? What is ACID?
 
 <font color="red" size="2">Tencent Interview Round 2 腾讯第二轮面试</font>
@@ -263,7 +266,33 @@ Recommended practices include using **short transactions** whenever possible to 
 
 <font color="red" size="2">Tencent Interview Round 2 腾讯第二轮面试</font>
 
+The task scheduling algorithm of an operating system is a core mechanism for managing CPU resource allocation, primarily used to determine the execution order of multiple processes/threads. Different systems adopt various scheduling strategies based on their design goals (such as real-time performance, fairness, throughput). Here are brief introductions to some simple task scheduling algorithms:
 
+**First-Come, First-Served (FCFS)** is a straightforward task scheduling algorithm that allocates the CPU according to the order in which processes arrive at the ready queue. It features simplicity and fairness but can lead to the "convoy effect," where shorter jobs are blocked by longer ones.
+
+**Shortest Job Next (SJN)** schedules processes based on their **estimated run time**, giving priority to those with the shortest expected runtime. This algorithm optimizes average waiting time but requires **prior knowledge of job durations** and is **unfriendly to long jobs**.
+
+**Round Robin (RR)** assigns each process a fixed time slice (e.g., 10ms), after which the process must requeue. This approach emphasizes strong fairness and is suitable for **interactive systems**, though frequent context switching may reduce efficiency.
+
+**Priority Scheduling** determines the scheduling order based on the priority of processes, which can be statically or dynamically adjusted. A downside of this method is that low-priority processes might suffer from "starvation."
+
+**Multilevel Feedback Queue** is an algorithm designed to balance **response time and throughput** by placing processes into multiple queues based on their priority levels, allowing dynamic promotion or demotion between queues. This algorithm is commonly used in actual systems like Windows.
+
+As for Linux, its scheduler has undergone several evolutions, with the current mainstream being the **Completely Fair Scheduler (CFS)**, which emphasizes fairness and throughput. It performs excellently in server environments and high-concurrency scenarios, especially in **multi-core settings**, although it may not respond as swiftly to interactive tasks as Windows does.
+
+操作系统的任务调度算法是管理CPU资源分配的核心机制，主要用于决定多个进程/线程的执行顺序。不同系统根据设计目标（如实时性、公平性、吞吐量）采用不同的调度策略。简单的任务调度算法分别为：
+
+**先来先服务**是一种简单的任务调度算法，根据进程到达就绪队列的顺序分配CPU。其特点是简单、公平，但可能导致“长作业阻塞短作业”。
+
+**短作业优先**则是根据作业的**预计运行时间**来确定调度顺序的算法，优先执行预计运行时间最短的进程。该算法可以使得平均等待时间最优，但需要**预知作业时间**，对**长作业不友好**。
+
+**轮转调度**则是每个进程分配固定时间片（如10ms），时间片用完则重新排队的算法。该算法的特点是公平性强，适合**交互式系统**，但频繁上下文切换可能降低效率。
+
+**优先级调度**是根据进程的优先级来确定调度顺序的算法，优先级可以静态或动态调整。该算法的问题是低优先级进程可能“饿死”。
+
+**多级反馈队列**是一种综合**权衡响应时间和吞吐量**的算法，将进程按优先级分到多个队列，队列间可动态升降级。实际系统（如Windows）常用该算法。
+
+而Linux的调度器经过多次演进，目前主流是**完全公平调度器**，强调公平性和吞吐量。其适合服务器和高并发场景，尤其在**多核环境**下表现优异，但对交互式任务的响应略逊于Windows。
 
 ## What is the Principle of Process Communication Using Pipes?
 
