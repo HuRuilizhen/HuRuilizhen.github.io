@@ -71,9 +71,44 @@ $$
     U(\{ p_1, S_1; p_2, S_2; \ldots; p_n, S_n \}) = \sum_{i=1}^n p_i U(S_i)
 $$
 
-**Utility functions** indicates the goals that the agent’s actions aim to accomplish, which can be determined by analyzing the agent’s preferences.
+**Utility functions** indicates the goals that the agent’s actions aim to accomplish, which can be determined by analyzing the agent’s preferences. It is a **function** (mapping) that assigns a **value** to a **state**. Considering a complex decision making scenario $A$. The approach to compute utility is to compare to standard lottery $L_p$, and have following definition:
+
+- $U^{\top}$: best possible **prize** with probability $p$.
+- $U^{\bot}$: worst possible **penalty** with probability $1 - p$.
+
+And we can adjust the $p$ until $A \sim L_p$. On the other hand, we can do some scaling of the utility functions:
+
+- **Positive Linear Transform**: $U'(x) = k_1 U(x) + k_2 \quad k_1 > 0$
+- **Normalized utility**: $U^{\top} = 1, U^{\bot} = 0$
 
 ## Multi-Attribute Utility Functions
+
+**Multi-Attribute Utility Theory** (MAUT) involves evaluating outcomes based on multiple attributes. For instance, when selecting a site for a new airport, factors such as construction disruption, land cost, and noise are taken into account. The approach focuses on identifying patterns in preference behavior. Formally, we have following notation:
+
+**Attributes** are defined as:
+
+$$
+    X_1, X_2, X_3, \ldots, X_n
+$$
+
+Combine them to form a **Attribute Vector**:
+
+$$
+    \boldsymbol{X} = \langle X_1, X_2, X_3, \ldots, X_n \rangle
+$$
+
+**Utility functions** can be written as:
+
+$$
+    U(X_1, X_2, X_3, \ldots, X_n) = f[ f_1(X_1), f_2(X_2), f_3(X_3), \ldots, f_n(X_n) ]
+$$
+
+The concept of **dominance** is extended to multi-attribute utility functions. There are two types of dominance: 
+
+- **Strict Dominance**: Take airport $S_1$ and $S_2$ as examples. If site $S_1$ cost less, less noise, safer than $S_2$, we say $S_1$ has strict dominance over $S_2$.
+- **Stocastic Dominance**: In real world, we can not always get the exact value of attributes. The stocastic dominance is the extension of strict dominance to the stocastic case. Say $S_1$ average cost is $3.7$ billion with standard deviation of $0.4$ billion, and $S_2$ average cost is $4.0$ billion with standard deviation of $0.35$ billion. Then $S_1$ has stocastic dominance over $S_2$.
+
+{% include image_caption.html imageurl="/images/mult-atr-dom.png" title="Multi-Attribute Dominance" caption="multi-attribute dominance" %}
 
 ## Decision Networks
 
@@ -84,6 +119,19 @@ $$
 # Making Complex Decisions
 
 ## Make a sequence of decisions
+
+Components:
+- States $s$, starting with the initial state $s_0$
+- Actions $a$
+- Each state $s$ has a set of actions $A(s)$ that can be taken from it
+- Transition model $P(s’ | s, a)$
+The Markov assumption states that the probability of transitioning
+from $s$ to $s'$ when taking action a only depends on the current
+state s and the action a, and not on any previous actions or
+states
+- Reward function $R(s)$
+- Policy π(s): the action that an agent should take in each state
+- The "solution" to an MDP
 
 ## Markov Property
 
