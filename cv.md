@@ -212,6 +212,15 @@ description: "A CV Page of Author"
             </ul>
         </li>
     </ul>
+    <h3>Tencent Holdings Limited<span>May. 2025 - Sep. 2025 (Expected)</span></h3>
+    <h4>
+        <p>Client-side Developer Intern (WXG)</p>
+        <p>Guangzhou, Guangdong, China</p>
+    </h4>
+    <ul>
+        <li>Will be working on the client-side development of Enterprise WeChat using C++</li>
+        <li>Expected to contribute to the development of new features and bug fixing</li>
+    </ul>
     </div>
     <div class="cv-section">
         <h2>Research Experience</h2>
