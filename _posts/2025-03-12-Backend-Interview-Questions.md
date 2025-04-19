@@ -29,7 +29,6 @@ Recently, I am applying for a backend developer summer internship and I have bee
   - [What is the Principle of Process Communication Using Pipes?](#what-is-the-principle-of-process-communication-using-pipes)
 - [Network Based 网络基础](#network-based-网络基础)
   - [What is the Difference between HTTP and HTTPS?](#what-is-the-difference-between-http-and-https)
-- [Design Pattern 设计模式](#design-pattern-设计模式)
 
 ---
 
@@ -552,10 +551,6 @@ HTTPS则是在HTTP基础上通过引入**TLS**（传输层安全协议，早期�
 从技术实现深度来看，HTTPS的安全机制不仅仅依赖于加密本身。证书透明度（Certificate Transparency）日志系统可以监控和审计CA颁发的证书，防止恶意证书的滥用；OCSP装订（OCSP Stapling）优化了证书状态检查的效率；而前向保密（Forward Secrecy）技术则确保即使服务器的私钥未来被泄露，过去的通信记录也不会被解密。这些措施共同构成了HTTPS的纵深防御体系。而HTTP由于设计之初缺乏安全考量，即便后续尝试通过摘要认证等扩展提升安全性，也无法从根本上解决明文传输的缺陷。  
 
 综上所述，**HTTPS通过加密传输、身份认证和数据完整性保护三位一体的机制，彻底解决了HTTP固有的安全问题**。随着计算性能的提升和免费证书服务的普及，HTTPS的实施成本已经大幅降低。在当今的网络环境中，HTTPS不再是可选项而是必选项，它既是保护用户隐私的技术手段，也是构建可信互联网生态的基础设施。而HTTP则逐渐退居幕后，仅在特定边缘场景中保留有限的使用价值。这种演进反映了互联网从功能优先到安全优先的范式转变，也体现了行业对数据保护和用户权益的日益重视。
-
----
-
-# Design Pattern 设计模式
 
 ---
 
