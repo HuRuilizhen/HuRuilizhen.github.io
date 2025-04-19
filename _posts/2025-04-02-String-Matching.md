@@ -14,14 +14,16 @@ String matching is a fundamental problem in computer science, which involves **f
 Before we start, let's define some notations:
 - $T$ is the text string
 - $P$ is the pattern string
-- $n$ is the length of $T$, $k$ is the position index of $T$
-- $m$ is the length of $P$, $j$ is the position index of $P$
+- $n$ is the length of $T$, $j$ is the position index of $T$
+- $m$ is the length of $P$, $k$ is the position index of $P$
 
 ## Table of Contents
 - [SimpleScan Algorithm](#simplescan-algorithm)
 - [Rabin-Karp Algorithm](#rabin-karp-algorithm)
+  - [Rabin-Karp Algorithm with Hash Function](#rabin-karp-algorithm-with-hash-function)
 - [Boyer-Moore Algorithm](#boyer-moore-algorithm)
-
+  - [Preprocessing - CharJump](#preprocessing---charjump)
+  - [Preprocessing - MatchJump](#preprocessing---matchjump)
 
 ---
 
@@ -64,8 +66,175 @@ Furthermore, we can eliminate variable $i$ by using the fact $i = j - k$. This m
 
 # Rabin-Karp Algorithm
 
+To tell two strings are the same or not is much harder than telling two integers are the same or not. The main idea of Rabin-Karp Algorithm is to convert the given string slice into an integer.
+
+The ourline of the **Rabin-Karp Algorithm** can be discribed as follows:
+1. Convert the pattern (length $m$) to a number $p$
+2. Convert the first $m$-characters (the first text window) to a number $t$
+3. If $p$ and $t$ are equal, pattern found and exit
+4. If not end-of-text, shift the text window one character right and convert the string in it to a number t, go to step $3$; else pattern not found and exit
+
+To compute the number for the given string slice, we have the following notations:
+
+- $\Sigma$ is the set of all possible characters in the context. e.g. $\Sigma = \{a, b, c, d\}$
+- $d = \|\Sigma\|$ is the number of characters in $\Sigma$ or the size of the alphabet
+
+The number $p$ of the pattern and the number t of the first $m$-character text window, are calculated iteratively. Take the example of the pattern $P$ "36451" and $d = 10$. The value of $p$ can be calculated as follows:
+
+$$
+\begin{aligned}
+p &= 1 \times 10^0 + 5 \times 10^1 + 4 \times 10^2 + 6 \times 10^3 + 3 \times 10^4 \\
+&= 1 + 50 + 400 + 6000 + 30000 = 36451
+\end{aligned}
+$$
+
+Or we can do it recursively:
+
+```cpp
+int p = 0;
+for (int i = 0; i < m; i++) {
+    p = p * d + (P[i] - '0');
+}
+```
+
+The calculation can be done in linear time.
+
+To compute the number t after shifting the text window, it can be done in constant time based on the number of the previous text window. In general:
+
+$$
+\text{new} = (\text{old} - \text{old's first character value} \times d^{m-1}) * d + \text{new's last character value}
+$$
+
+$d^{m-1}$ here can be precomputed and stored, so the calculation can be done in constant time.
+
+## Rabin-Karp Algorithm with Hash Function
+
+But when we have a long pattern and a long text, the calculation of $p$ will likely cause overflow. To avoid this, we **hash** the value by taking it mod a prime number $q$. And this prime number should be large. We can reorganize the steps as follows:
+
+1. Hash the pattern to a number, $p_h$
+2. Hash the first m-character text window to a number, $t_h$
+3. If $p_h$ and $t_h$ are equal, compare the pattern with the text window. If equal, pattern found and exit
+4. If not end-of-text, shift the text window one character right and (re)hash it to a number $t_h$, go to step 3; else pattern not found and exit
+
+Note the fact that if $p_h  = t_h$ not necessarily mean the pattern is found. But if $p_h \neq t_h$, the pattern is definitely not found.
+
+To calculate value of a given string slice, we need to use a hash function $hash(txt, m, d)$:
+
+```cpp
+int hash(int txt[], int m, int d) {
+    int h = 0;
+    for (int i = 0; i < m; i++) {
+        h = h * d + txt[i];
+        h %= q;
+    }
+    return h;
+}
+```
+
+where $q$ is a large prime number, txt is the converted string slice (integer array), and $d$ is the size of the alphabet.
+
+And to calculate the hash value of the next text window, we need to use a hash function $rehash(h, c, m, d)$:
+
+```cpp
+int rehash(int h, int old_char, int new_char, int m, int d) {
+    h = (h - old_char * d^(m-1)) * d + new_char;
+    h %= q;
+    return h;
+}
+```
+
+where $h$ is the hash value of the previous text window, $old_char$ is the first character of the previous text window, $new_char$ is the last character of the new text window, and $d$ is the size of the alphabet. `d^(m-1)` can be precomputed and stored. 
+
+The whole Rabin-Karp Algorithm can be implemented as follows:
+
+```cpp
+int RKscan(char P[], char T[], int n, int m) {
+    int p = hash(P, m, d);
+    int t = hash(T, m, d);
+    for (int i = 0; i <= n - m; i++) {
+        if (p == t) {
+            if (strcmp(P, T + i) == 0) {
+                return i;
+            }
+        }
+        if (i < n - m) {
+            t = rehash(t, T[i], T[i + m], m, d);
+        }
+    }
+    return -1;    
+}
+```
+
+The running time of Rabin-Karp algorithm in the worst case is $\theta((n - m + 1)m)$. However, in many applications, the expected running time is $O(n + m)$ plus the time required to process spurious hits. The algorithm requires $O(m)$ time for the two `hash()` calls and close to $O(n)$ time on the for loop. The number of spurious hits can be kept low by using a large prime number $q$ for the hash functions.
+
 ---
 
 # Boyer-Moore Algorithm
+
+The Boyer-Moore Algorithm is a very efficient string searching algorithm. It processes the text being scanned, $T$, from left to right, and the pattern we are looking for, $P$, from right to left. To optimize the search, **two tables** are generated during preprocessing, which allow us to **slide the pattern as far as possible** after a mismatch. This algorithm is particularly efficient for long patterns.
+
+```cpp
+int BMscan(char P[], char T[], int n, int m, int charJump[], int matchJump[]) {
+    int k = m;  // the index of the current character of P, assume the string starts from index 1
+    int j = m;  // the index of the current character of T, assume the string starts from index 1
+    while (j <= n) {
+        if (k <= 0)
+            return j + 1; // match found
+        if (P[k] == T[j]) {
+            k--;
+            j--;
+        } else {            // mismatch
+            j += max(charJump[T[j]], matchJump[k]);
+            k = m;
+        }
+    }
+    return -1;
+}
+```
+
+`charJump` and `matchJump` are the 2 tables generated in a preprocessing step.
+
+## Preprocessing - CharJump
+
+The core idea of the `charJump` table is to compute the maximum number of characters to skip when a mismatch occurs by **aligning the mismatched character with the rightmost occurrence** of the same character in the pattern. Detailly:
+
+- If $T_j$ does not appear in $P$ at all, we line up $P$ after $T_j$
+- If $T_j$ occurs in $P$, we line up $T_j$ with the rightmost instance of $T_j$ in $P$
+
+It is quite simple to compute the `charJump` table, the time complexity is $O(m + \|\Sigma\|)$.
+
+```cpp
+void computeCharJump(char P[], int m, int charJump[]) {
+    for (char ch = 0; ch < alpha; ch++)
+        charJump[ch] = m;
+    for (int i = 1; i <= m; i++)
+        charJump[P[i]] = m - i;
+}
+```
+
+where `alpha` is the size of the alphabet, and $m - i$ is the length from the current character position to the end of $P$. Notice that if a character appears more than once, we take the right-most occurrence.
+
+Sometimes this heuristic fails, when `charJump` table gives a shorter jump than the length of the successful match $m - k$. In this case, we actually jump forward. Hence we need to choose the maximum of the two `max(charJump[T[j]], m - k + 1)`. In this way, simplified BM (only `charJump`) algorithm can be implemented:
+
+```cpp
+int BMscan(char P[], char T[], int n, int m, int charJump[], int matchJump[]) {
+    int k = m;  // the index of the current character of P, assume the string starts from index 1
+    int j = m;  // the index of the current character of T, assume the string starts from index 1
+    while (j <= n) {
+        if (k <= 0)
+            return j + 1;   // match found
+        if (P[k] == T[j]) {
+            k--;
+            j--;
+        } else {            // mismatch
+            j += max(charJump[T[j]], m - k + 1);
+            k = m;
+        }
+    }
+    return -1;
+}
+```
+
+## Preprocessing - MatchJump
 
 ---
