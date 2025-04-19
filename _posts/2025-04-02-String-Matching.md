@@ -24,6 +24,7 @@ Before we start, let's define some notations:
 - [Boyer-Moore Algorithm](#boyer-moore-algorithm)
   - [Preprocessing - CharJump](#preprocessing---charjump)
   - [Preprocessing - MatchJump](#preprocessing---matchjump)
+- [Conclusion](#conclusion)
 
 ---
 
@@ -236,5 +237,52 @@ int BMscan(char P[], char T[], int n, int m, int charJump[], int matchJump[]) {
 ```
 
 ## Preprocessing - MatchJump
+
+This heuristic tries to derive the maximum shift from the structure of the pattern. It is defined for each of the characters (every position) in $P$. And we can roughly divide all possible situations into 3 cases:
+
+**Case 1**: The matching suffix occurs earlier in the pattern, but preceded by a different character.
+
+{% include image_caption.html imageurl="/images/match-jump-case-1.png" title="MatchJump Case 1" caption="match jump case 1" %}
+
+We line up the earlier occurrence of the suffix in $P$ with the matched substring in $T$.
+
+**Case 2**: Only part of the matching suffix occurs at the beginning of the pattern (a prefix)
+
+{% include image_caption.html imageurl="/images/match-jump-case-2.png" title="MatchJump Case 2" caption="match jump case 2" %}
+
+We line up the prefix in $P$ with part of the matched substring in $T$.
+
+where $P_{k, m}$ is the suffix of $P$ starting at position $k$ and length $m - k + 1$, and `slide` is the distance from the end (position $m$) to the end of the matched repeated suffix.
+
+**Case 3**: There is no other occurrence of the matching suffix in the pattern. (Case 1 and Case 2 do not happen)
+
+{% include image_caption.html imageurl="/images/match-jump-case-3.png" title="MatchJump Case 3" caption="match jump case 3" %}
+
+We line up $P$ after the matched substring in $T$.
+
+In both cases, we can compute the `matchJump` value as follows:
+
+$$
+\text{matchJump}(k) = \text{length of the repeated suffix in } P_{k, m} + \text{slide}(k)
+$$
+
+From the above analysis, we can compute `matchJump` like this:
+
+```cpp
+void computeMatchJump(char P[], int m, int matchJump[]) {
+
+}
+```
+
+# Conclusion
+
+{% include image_caption.html imageurl="/images/string-matching-conclusion.png" title="String Matching Conclusion" caption="string matching conclusion" %}
+
+- Brute Force performed better than expected because the worst-case scenario is rare, occurring when the pattern and text nearly match.
+- Rabin-Karp performed worse due to **expensive function calls**, costly **division operations**, and the time-consuming **conversion** of character values to numeric values.
+- The **Boyer-Moore** algorithm is generally the **most efficient string-matching algorithm**, particularly in text editors. Moore notes that the algorithm tends to perform faster with longer patterns.
+- For binary strings, the **Knuth-Morris-Pratt algorithm** is recommended.
+- For very short patterns, the brute force algorithm may be more effective.
+- Insights from the BM algorithm: Solving problems often requires a deep understanding of the problem's **structure**. Analyze the problem thoroughly before devising a solution.
 
 ---
