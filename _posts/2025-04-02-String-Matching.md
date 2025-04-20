@@ -185,7 +185,7 @@ int BMscan(char P[], char T[], int n, int m, int charJump[], int matchJump[]) {
             k--;
             j--;
         } else {            // mismatch
-            j += max(charJump[T[j]], matchJump[k]);
+            j += max(charJump[T[j]], matchJump[k + 1]);
             k = m;
         }
     }
@@ -236,6 +236,8 @@ int BMscan(char P[], char T[], int n, int m, int charJump[], int matchJump[]) {
 }
 ```
 
+In some resources, the principal of `charJump` table is called **bad character rule**. 
+
 ## Preprocessing - MatchJump
 
 This heuristic tries to derive the maximum shift from the structure of the pattern. It is defined for each of the characters (every position) in $P$. And we can roughly divide all possible situations into 3 cases:
@@ -252,8 +254,6 @@ We line up the earlier occurrence of the suffix in $P$ with the matched substrin
 
 We line up the prefix in $P$ with part of the matched substring in $T$.
 
-where $P_{k, m}$ is the suffix of $P$ starting at position $k$ and length $m - k + 1$, and `slide` is the distance from the end (position $m$) to the end of the matched repeated suffix.
-
 **Case 3**: There is no other occurrence of the matching suffix in the pattern. (Case 1 and Case 2 do not happen)
 
 {% include image_caption.html imageurl="/images/match-jump-case-3.png" title="MatchJump Case 3" caption="match jump case 3" %}
@@ -266,13 +266,62 @@ $$
 \text{matchJump}(k) = \text{length of the repeated suffix in } P_{k, m} + \text{slide}(k)
 $$
 
-From the above analysis, we can compute `matchJump` like this:
+where $P_{k, m}$ is the suffix of $P$ starting at position $k$ and length $m - k + 1$, and `slide` is the distance from the end (position $m$) to the end of the matched repeated suffix.
+
+From the above analysis, before we compute `matchJump`, we need to compute two helpers array namely `suffix` and `prefix`. And definitions of the two helpers array are:
+
+- $\text{suffix}(k)$: The position of the first occurrence of the suffix of length $k$. $\text{suffix}(k) = j \implies P_{j, j + k - 1} = P_{m - k + 1, m}$
+- $\text{prefix}(k)$: Is the suffix of length k a prefix of the pattern string? $\text{prefix}(k) = \text{true} \implies P_{1, k} = P_{m - k + 1, m}$
+
+To compute the helpers array, we can refer to the `KMP` algorithm. Or we can do it naively by scanning the pattern string from the end to the beginning:
 
 ```cpp
-void computeMatchJump(char P[], int m, int matchJump[]) {
+void computeMatchJump(char P[], int m, int suffix[], int prefix[]) {
+    // initialize suffix and prefix
+    for (int i = 1; i <= m; ++i) {
+        suffix[i] = 0;
+        prefix[i] = false;
+    }
 
+    for (int i = 1; i < m; ++i) {
+        int j = i;  // the index of the first character to compare
+        int k = 1;  // the length of the current matched suffix
+
+        // match the suffix as far forward as possible
+        while (j >= 1 && pattern[j] == pattern[m - k + 1]) {
+            suffix[k] = j;
+            j--;
+            k++;
+        }
+        if (j == 1) {    // if the index goes at the bound, the current suffix is a prefix
+            prefix[k] = true;
+        }
+    }
 }
 ```
+
+Then we can compute the `matchJump` table as follows:
+
+```cpp
+void computeMatchJump(int m, int suffix[], int prefix[], int matchJump[]) {
+    for (int k = 1; k < m; ++k) { 
+        int j = m - k + 1;
+        if (suffix[k]) { // case 1
+            matchJump[j] = m - suffix[k];
+        } else {
+            // case 3
+            matchJump[j] = m + k - 1;
+            for (int i = j + 1; i <= m; ++i) {
+                if (prefix[m - i + 1]) { // case 2
+                    matchJump[j] = m + k - (m - i + 1) - 1;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+Also, the principal of `matchJump` table is called **good suffix rule**. 
 
 # Conclusion
 
@@ -285,4 +334,12 @@ void computeMatchJump(char P[], int m, int matchJump[]) {
 - For very short patterns, the brute force algorithm may be more effective.
 - Insights from the BM algorithm: Solving problems often requires a deep understanding of the problem's **structure**. Analyze the problem thoroughly before devising a solution.
 
+In my previous algorithm competition experience, I learned about the **KMP algorithm** and **AC automaton** on the topic of string matching. Maybe I will summarize the blogs about these two algorithms later.
+
 ---
+
+Related Posts / Websites 👇
+
+📑 [geeksforgeeks - boyer moore algorithm for pattern searching](https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/)
+
+📑 [geeksforgeeks - booyer moore algorithm good suffix heuristic](https://www.geeksforgeeks.org/boyer-moore-algorithm-good-suffix-heuristic/)
