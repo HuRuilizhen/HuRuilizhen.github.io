@@ -276,7 +276,7 @@ From the above analysis, before we compute `matchJump`, we need to compute two h
 To compute the helpers array, we can refer to the `KMP` algorithm. Or we can do it naively by scanning the pattern string from the end to the beginning:
 
 ```cpp
-void computeMatchJump(char P[], int m, int suffix[], int prefix[]) {
+void computeHelpers(char P[], int m, int suffix[], int prefix[]) {
     // initialize suffix and prefix
     for (int i = 1; i <= m; ++i) {
         suffix[i] = 0;
@@ -288,7 +288,7 @@ void computeMatchJump(char P[], int m, int suffix[], int prefix[]) {
         int k = 1;  // the length of the current matched suffix
 
         // match the suffix as far forward as possible
-        while (j >= 1 && pattern[j] == pattern[m - k + 1]) {
+        while (j >= 1 && P[j] == P[m - k + 1]) {
             suffix[k] = j;
             j--;
             k++;
