@@ -310,7 +310,7 @@ void computeMatchJump(int m, int suffix[], int prefix[], int matchJump[]) {
             matchJump[j] = m - suffix[k] + 1;
         } else {
             // case 3
-            matchJump[j] = m + k;
+            matchJump[j] = m + k - 1;
             for (int i = j + 1; i <= m; ++i) {
                 if (prefix[m - i + 1]) { // case 2
                     matchJump[j] = m + k - (m - i + 1);
@@ -320,6 +320,7 @@ void computeMatchJump(int m, int suffix[], int prefix[], int matchJump[]) {
         }
     }
 }
+```
 
 Also, the principal of `matchJump` table is called **good suffix rule**. 
 
