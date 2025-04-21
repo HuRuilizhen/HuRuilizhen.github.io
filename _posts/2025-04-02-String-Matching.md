@@ -307,13 +307,13 @@ void computeMatchJump(int m, int suffix[], int prefix[], int matchJump[]) {
     for (int k = 1; k < m; ++k) { 
         int j = m - k + 1;
         if (suffix[k]) { // case 1
-            matchJump[j] = m - suffix[k];
+            matchJump[j] = m - suffix[k] + 1;
         } else {
             // case 3
-            matchJump[j] = m + k - 1;
+            matchJump[j] = m + k;
             for (int i = j + 1; i <= m; ++i) {
                 if (prefix[m - i + 1]) { // case 2
-                    matchJump[j] = m + k - (m - i + 1) - 1;
+                    matchJump[j] = m + k - (m - i + 1);
                     break;
                 }
             }
