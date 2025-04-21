@@ -32,6 +32,7 @@ An **intelligent agent** is a system that perceives its environment and takes ac
 - [Abstract Architecture for Agents](#abstract-architecture-for-agents)
   - [Environment, Agent and System](#environment-agent-and-system)
   - [Pure Reactive Agents, Perception and Agent with State](#pure-reactive-agents-perception-and-agent-with-state)
+  - [Task Evaluation](#task-evaluation)
 
 ---
 
@@ -281,31 +282,31 @@ graph LR
   Action --> Environment
 </div>
 
-**Perception Systems** have a **see function** and an **action function**. The see function is the agent's ability to observe its environment, while the action function represents the agent's decision making process. The output of the **see function** is a **percept**:
+**Perception Systems** have a **see function** and an **action function**. The see function is the agent's ability to observe its environment, while the action function represents the agent's decision making process. The output of the **see function** is a **percept** which maps environment states to percepts:
 
 $$
     see: E \to Per
 $$
-which maps environment states to percepts. The **action function** is now a function:
+
+The **action function** is now a function which maps sequences of percepts to actions:
 
 $$
     action: Per^* \to A
 $$
-which maps sequences of percepts to actions.
 
-We now consider agents that maintain state. These agents have some internal data structure, which is typically used to record information about the environment state and history. Let $I$ be the set of all internal states of the agent. The perception function $see$ for a state-based agent is unchanged:
+We now consider agents that maintain state. These agents have some internal data structure, which is typically used to **record information about the environment state and history**. Let $I$ be the set of all internal states of the agent. The perception function $see$ for a state-based agent is unchanged:
 
 $$
     see: E \to Per
 $$
 
-The action-selection function $action$ is now defined as a mapping
+The action-selection function $action$ is now defined as a mapping from **internal states** to **actions**. 
 
 $$
     action: I \to Ac
 $$
 
-from internal states to actions. An additional function $next$ is introduced, which maps an internal state and percept to an internal state:
+An additional function $next$ is introduced, which maps an **internal state and percept** to an **internal state**:
 
 $$
     next: I \times Per \to I
@@ -336,3 +337,103 @@ graph LR
   InternalState --> Action
   Action --> Environment
 </div>
+
+## Task Evaluation
+
+We build agents in order to carry out tasks for us. And task must be specified by us. Ideally we want to tell agents **what to do** without telling them **how to do it**.
+
+One way to do this is to associate **utilities** with **individual states** — the task of the agent is then to **bring about states that maximize utility**:
+
+$$
+    u: E \to \mathbb{R}
+$$
+
+But when considering the value of a run based on the **utility over states**. It is hard to say what the **utility** of a run is. Maybe like follows:
+- minimum utility of state on run
+- maximum utility of state on run
+- sum of utilities of states on run
+- average of utilities of states on run
+
+They are difficult to **specify a long term view** when assigning utilities to individual states! A more practical way is to assign a **utility** not to individual states, but to **runs themselves**. Such an approach takes an inherently long term view.
+
+$$
+    u: R \to \mathbb{R}
+$$
+
+However, we still have some difficulties with this approach. We don’t think in terms of utilities, so it is hard to formulate tasks in these terms. Next, we will define more terminology:
+
+**Probability** $P(r \| Ag, Env)$ that run $r$ occurs when agent $Ag$ is placed in environment $Env$:
+
+$$
+    \sum_{r \in R(Ag, Env)} P(r | Ag, Env) = 1  
+$$
+
+Then **optimal agent** $Ag_{opt}$ in an environment $Env$ is the one that maximizes **expected utility**:
+
+$$
+    Ag_{opt} = \arg \max_{Ag \in \mathcal{AG}} \sum_{r \in R(Ag, Env)} u(r) P(r | Ag, Env)
+$$
+
+But some agents cannot be implemented on some computers (some of them maybe need more than available memory). Hence, we Write $\mathcal{AG}_{m}$ to denote the **agents that can be implemented on machine** $m$:
+
+$$
+    \mathcal{AG}_m = \{Ag \in \mathcal{AG} \text{ and } Ag \text{ can be implemented on } m \}
+$$
+
+Then we can modify the definition of **optimal agent** to be **bounded optimal agent**:
+
+$$
+    Ag_{opt} = \arg \max_{Ag \in \mathcal{AG}_m} \sum_{r \in R(Ag, Env)} u(r) P(r | Ag, Env)
+$$
+
+A special case of assigning utilities to histories is to assign $0$ (false) or $1$ (true) to a run. If a run is assigned 1, then the agent succeeds on that run, otherwise it fails. Call these **predicate task specification**s $\Psi$:
+
+$$
+    \Psi: R \to \{0, 1\}
+$$
+
+A **task environment** is a pair $\langle Env, \Psi \rangle$ where $E$ is the environment and $\Psi$ is the task specification. It specifies the properties of the system the agent will inhabit and the criteria by which an agent will be judged to have either failed or succeeded.
+
+$R_{\Psi} (Ag, Env)$ to denote set of **all runs** of the agent $Ag$ in environment $Env$ that **satisfy** $\Psi$:
+
+$$
+    R_{\Psi} (Ag, Env) = \{r \in R(Ag, Env) \mid \Psi(r) = 1\}
+$$
+
+Say that an agent $Ag$ **succeeds** in task environment $\langle Env, \Psi \rangle$ if:
+
+$$
+    R_{\Psi} (Ag, Env) = R(Ag, Env)
+$$
+
+And let $\mathcal{TE}$ be the set of **all task environments**:
+
+$$
+    \mathcal{TE} = \{ \langle Env, \Psi \rangle \mid \Psi: R \to \{0, 1\} \}
+$$
+
+Typically, we have the most common types of tasks which are **achievement tasks** and **maintenance tasks**. Achievement tasks are those of the **form achieve state of affairs** $\phi$. Maintenance tasks are those of the **form maintain state of affairs** $\psi$.
+
+An **achievement task** is specified by a set $G$ of "good" or "goal" states: $G \subseteq E$. The agent succeeds if it is **guaranteed to bring about at least one of these states** (we do not care which one it is, they are all considered equally good).
+
+A **maintenance goal** is specified by a set $B$ of "bad" states: $B \subseteq E$. The agent succeeds in a particular environment if it **manages to avoid all states in** $B$ - if it never performs actions which result in any state in B occurring.
+
+**Agent synthesis** is **automatic programming**. The goal is to have a program that will take a task environment, and from this task environment automatically **generate an agent that succeeds in this environment**:
+
+$$
+    syn: \mathcal{TE} \to (\mathcal{AG} \cup \{\perp\})
+$$
+
+**Synthesis algorithm** $syn$ is **sound** if whenever it returns an agent, then this agent **succeeds in the task environment** that is passed as input:
+
+$$
+    syn(\langle Env, \Psi \rangle) \implies R (Ag, Env) = R_{\Psi} (Ag, Env)
+$$
+
+and **complete** if it is **guaranteed to return an agent** whenever there exists an agent that will succeed in the task environment given as input:
+
+$$
+    \exists Ag \in \mathcal{AG} \text{ s.t. } R (Ag, Env) = R_{\Psi} (Ag, Env) \implies syn(\langle Env, \Psi \rangle) \neq \perp
+$$
+
+---
