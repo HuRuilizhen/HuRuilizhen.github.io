@@ -20,6 +20,7 @@ tags: ['intelligent-agent']
 - [Symbolic Reasoning Agents](#symbolic-reasoning-agents)
   - [Deductive Reasoning Agents](#deductive-reasoning-agents)
   - [Agent-Oriented Programming](#agent-oriented-programming)
+  - [Practical Reasoning](#practical-reasoning)
 
 ---
 
@@ -42,26 +43,18 @@ In the early days of artificial intelligence, from approximately 1956 to 1985, a
 In reaction to the evident shortcomings of symbolic reasoning agents, the mid-1980s witnessed the rise of the **reactive agents** movement, led most notably by Rodney Brooks and his colleagues. This new school of thought argued that intelligence does **not necessarily require internal symbolic models or complex deliberation** but can emerge from **direct interactions with the environment**. Reactive agents eschewed internal representations altogether, instead relying on tightly coupled perception-action loops to generate behavior. Brooks’ Subsumption Architecture, a pioneering framework in this movement, proposed organizing behaviors into layers, with **lower layers handling simple, reflexive responses** and **higher layers coordinating more complex actions**. Crucially, reactive agents demonstrated **remarkable robustness**, **flexibility**, and **speed**, enabling them to operate effectively in **unpredictable**, **noisy**, and **dynamic settings** where traditional symbolic agents failed. Rather than planning out detailed strategies, reactive agents simply responded **appropriately to current sensory inputs**, leading to surprisingly sophisticated behavior through the interaction of simple rules. Nonetheless, while reactive architectures excelled at real-time responses and adaptability, they struggled to perform tasks requiring long-term planning, goal-directed reasoning, or the synthesis of information over extended periods. Thus, although they addressed critical flaws of symbolic systems, reactive agents introduced their own limitations, especially when applied to **complex or strategic domains**.
 
 - **Core idea**: Intelligence emerges from direct perception-action links without internal symbolic models.
-
 - **Architecture**: Simple behavior modules interact; layers prioritize immediate environmental responses (e.g., Subsumption Architecture).
-
 - **Strengths**: Robust, fast, and adaptive in dynamic, unpredictable environments.
-
 - **Weaknesses**: Poor at long-term planning, goal management, and abstract reasoning.
-
 - **Outcome**: Effective for real-time tasks, but insufficient for complex decision-making.
 
 ## Hybrid Architectures (1990–Present)
 Recognizing that both symbolic reasoning and reactive behavior have unique strengths and weaknesses, researchers in the 1990s began to propose **hybrid architectures** that aimed to combine the best of both worlds. These architectures were typically structured into multiple layers, with **reactive mechanisms** operating at the lower levels to ensure rapid, context-sensitive responses to environmental changes, while higher levels employed **symbolic reasoning** and planning capabilities to handle complex, long-term decision-making tasks. One influential model of this era was the **TouringMachines architecture**, which integrated reactive control, planning, and monitoring layers into a cohesive system. Similarly, frameworks such as **InteRRaP** and **3T** explored different methods of coordinating reactive and deliberative processes. Hybrid agents benefited from the ability to respond swiftly to immediate stimuli while maintaining the capacity for high-level reasoning, allowing them to tackle more sophisticated and dynamic environments than either purely symbolic or purely reactive agents could manage alone. However, designing effective hybrid systems posed significant challenges, particularly in harmonizing the potentially conflicting behaviors arising from different layers and ensuring that the system remained coherent and efficient under varying conditions. Despite these difficulties, hybrid architectures remain a dominant paradigm in modern AI agent design, reflecting a mature understanding that intelligent behavior in complex environments demands both immediate reactivity and strategic foresight.
 
 - **Core idea**: Combine reactive and symbolic reasoning to leverage the strengths of both.
-
 - **Architecture**: Multi-layered systems—lower layers handle rapid reactions, upper layers perform planning and reasoning.
-
 - **Strength**s: Balance between real-time responsiveness and long-term, strategic thinking.
-
 - **Weaknesses**: Complexity in integrating and coordinating different layers; potential internal conflicts.
-
 - **Outcome**: Became the dominant model for intelligent agents in complex environments.
 
 ---
@@ -185,6 +178,54 @@ This rule may be paraphrased like this, if I receive a message from *agent* whic
 - At time, I am not committed to doing any other action then commit to doing *action* at *time*
 
 AGENT0 provides support for multiple agents to cooperate and communicate, and provides basic provision for debugging. It is, however, a prototype, that was designed to illustrate some principles, rather than be a production language. A more refined implementation was developed by **Thomas**, for her 1993 doctoral thesis. Her Planning Communicating Agents (PLACA) language was intended to address one severe drawback to AGENT0, **the inability of agents to plan, and communicate requests for action via high-level goals**. Agents in PLACA are programmed in much the same way as in AGENT0, in terms of mental change rules.
+
+## Practical Reasoning
+
+Practical reasoning is reasoning directed towards actions, which is the process of figuring out what to do. It is distinguished from theoretical reasoning, since theoretical reasoning is directed towards beliefs.
+
+> Practical reasoning is a matter of weighing conflicting considerations for and against competing options, where the relevant considerations are provided by what the agent desires/values/cares about and what the agent believes. (Bratman, 1990)
+
+Human practical reasoning consists of two activities:
+- **deliberation**: deciding what state of affairs we want to achieve, the output of deliberation are **intentions**
+- **means-ends reasoning**： deciding how to achieve these states of affairs
+
+Notice that intentions in the context of practical reasoning are much stronger than mere desires:
+> My desire to play basketball this afternoon is merely a potential influencer of my conduct this afternoon. It must vie with my other relevant desires [. . . ] before it is settled what I will do. In contrast, once I intend to play basketball this afternoon, the matter is settled: I normally need not continue to weigh the pros and cons. When the afternoon arrives, I will normally just proceed to execute my intentions. (Bratman, 1990)
+
+The basic idea of means-ends reasoning is to give an agent representation of goal/intention to achieve, actions it can perform the environment. And have it generate a **plan** to achieve the goal. Essentially, this is **automatic programming**. Plan is a sequence (list) of actions, with variables replaced by constants.
+
+<div style="text-align: center;" class="mermaid">
+graph LR
+  goal-task-intention-->planner
+  state-of-environment-->planner
+  possible-actions-->planner
+  planner-->plan-to-achieve-goal
+</div>
+
+The core question is to find a way to represent: Goal to be achieved, State of environment, Actions available to agent, and Plan itself. We will illustrate the techniques with reference to the **blocks world**, which contains a robot arm, 3 blocks (A, B, and C) of equal size, and a table-top.
+
+{% include image_caption.html imageurl="/images/block-world.png" title="Blocks World" caption="blocks world" %}
+
+To represent this environment, need an ontology:
+| Predicate    | Description                  |
+| ------------ | ---------------------------- |
+| $On(x, y)$   | obj $x$ on top of obj $y$    |
+| $OnTable(x)$ | obj $x$ is on the table      |
+| $Clear(x)$   | nothing is on top of obj $x$ |
+| $Holding(x)$ | arm is holding $x$           |
+
+Here is a representation of the blocks world like the figure above:
+  
+$$
+\begin{array}{l}
+Clear(A) \\
+On(A, B) \\
+OnTable(B) \\
+OnTable(C)
+\end{array}
+$$
+
+We will use the closed world assumption: anything not stated is assumed to be false.
 
 ---
 
