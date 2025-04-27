@@ -21,6 +21,11 @@ tags: ['intelligent-agent']
   - [Deductive Reasoning Agents](#deductive-reasoning-agents)
   - [Agent-Oriented Programming](#agent-oriented-programming)
   - [Practical Reasoning](#practical-reasoning)
+- [Reactive Agents](#reactive-agents)
+  - [The Subsumption Architecture](#the-subsumption-architecture)
+  - [Brooks' Behavior Languages](#brooks-behavior-languages)
+  - [Advantages and Disadvantages](#advantages-and-disadvantages)
+- [Hybrid Architectures](#hybrid-architectures)
 
 ---
 
@@ -207,6 +212,7 @@ The core question is to find a way to represent: Goal to be achieved, State of e
 {% include image_caption.html imageurl="/images/block-world.png" title="Blocks World" caption="blocks world" %}
 
 To represent this environment, need an ontology:
+
 | Predicate    | Description                  |
 | ------------ | ---------------------------- |
 | $On(x, y)$   | obj $x$ on top of obj $y$    |
@@ -225,7 +231,113 @@ OnTable(C)
 \end{array}
 $$
 
-We will use the closed world assumption: anything not stated is assumed to be false.
+We will use the closed world assumption: anything not stated is assumed to be false. The goal can be formally stated as the formula: 
+
+$$
+OnTable(A) \wedge OnTable(B) \wedge OnTable(C)
+$$
+
+Actions are represented using a technique that was developed in the STRIPS planner. Each action has following components, and each of them  may contain variables:
+
+- **name**: which may have arguments.
+- **pre-condition list**: list of facts which must be true for action to be executed.
+- **delete list**: list of facts that are no longer true after action is performed.
+- **add list**: list of facts that are true after action is performed.
+
+An example of an action is: The stack action occurs when the robot arm places the object $x$ it is holding is placed on top of object $y$. The action is represented as:
+
+$$
+\begin{align*}
+& \mathit{Stack}(x, y)\\
+\text{pre } &\mathit{Clear}(y) \wedge \mathit{Holding}(x)\\
+\text{del } &\mathit{Clear}(y) \wedge \mathit{Holding}(x)\\
+\text{add } &\mathit{ArmEmpty} \wedge \mathit{On}(x, y)
+\end{align*}
+$$
+
+Deliberation begins by trying to understand what the options available to you are. Then choose between them, and commit to some. The chosen options are defined as intentions. This is a high-level explanation of deliberation. For more details, the deliberate function can be decomposed into two distinct functional components:
+- **option generation**: in which the agent generates a set of possible alternatives; Represent option generation via a function, *options*, which takes the agent's current beliefs and current intentions, and from them determines a set of options (these are so called **desires**).
+- **filtering**: in which the agent chooses between competing alternatives, and commits to achieving them. In order to select between competing options, an agent uses a *filter* function.
+
+The pseudo-code for control flow is as follows:
+
+$$
+\begin{align*}
+    &B := B_0;\\
+    &I := I_0;\\
+    &\text{while $True$ do}:\\
+    &\quad \text{get next percept } \rho;\\
+    &\quad B := brf(B, \rho);\\
+    &\quad D := options(B, I);\\
+    &\quad I := deliberate(B, I, D);\\
+    &\quad \pi := plan(B, I);\\
+    &\quad execute(\pi);\\
+    &\text{end while}
+\end{align*}
+$$
+
+where $B$ is the agent's current beliefs, $I$ is the agent's current intentions, $D$ is the agent's current desires, and $\pi$ is the agent's current plan.
+
+# Reactive Agents
+
+There are many **unsolved** (some would say insoluble) problems associated with symbolic AI. These problems have led some researchers to question the viability of the whole paradigm, and to the development of reactive architectures. Although united by a belief that the assumptions underpinning mainstream AI are in some sense wrong, reactive agent researchers use many different techniques.
+
+## The Subsumption Architecture
+
+{% include image_caption.html imageurl="/images/subsumption-architecture.png" title="Subsumption Architecture" caption="subsumption architecture" %}
+
+The Subsumption Architecture is a layering methodology for robot control systems, and also a parallel and distributed method for connecting sensors and actuators in robots. Each layer is made up of connected, simple processors - **Augmented Finite State Machines**. The most important aspect of these **FSMs** are: Outputs are simple functions of inputs and local variables; and **inputs** can be **suppressed** and **outputs** can be **inhibitated**. This function allows higher levels to subsume the function of lower levels. Lower, therefore, **still function** as they would without the higher levels.
+
+{% include image_caption.html imageurl="/images/afsm.png" title="Augmented Finite State Machine" caption="augmented finite state machine" %}
+
+In traditional symbolic reasoning agents, decision-making **relies heavily on maintaining an internal model** of the real world. These agents construct explicit, detailed representations of their environment using structured symbolic data, which must be **continuously updated through communication between subsystems and synchronization of shared memory**. Such an approach assumes that internal knowledge **must mirror the external world** as accurately as possible. However, this model-centric strategy introduces significant computational overhead, vulnerability to outdated information, and communication bottlenecks, especially in dynamic, uncertain environments where the world changes faster than the internal model can adapt.
+
+Rodney Brooks' subsumption Architecture offers a radical departure from this paradigm by rejecting the need for an internal world model altogether. Instead, Brooks proposed that "**the world really is a rather good model of itself**," suggesting that agents should directly sense and **react to the real environment** without constructing abstracted internal representations. In subsumption systems, individual subsystems do not communicate with each other via explicit messages or shared memory; rather, they interact indirectly through the changes they observe in the environment. This design allows agents to maintain highly accurate, real-time awareness with minimal computational cost, enabling them to respond quickly and robustly to environmental changes without the risk of model obsolescence.
+
+By **using the real world as the medium of communication and source of truth**, Subsumption-based agents achieve a level of reactivity and adaptability that traditional symbolic agents often struggle to match. In Brooks' view, **computation-heavy internal modeling is unnecessary for intelligent behavior**; instead, intelligent systems should emerge from simple, decentralized modules that **continually sense and act upon the immediate state of the world**. This philosophy reflects a broader shift in AI from centralized, deliberative architectures toward decentralized, embodied intelligence, where complex behavior arises not from intricate planning but from the dynamic interaction with the environment itself.
+
+| Traditional Symbolic Reasoning Agents                             | Brooks' Subsumption Architecture                                             |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Maintain an internal model of the world                           | Rejects the need for an internal world model                                 |
+| Require free communication and shared memory between subsystems   | Subsystems sense the real world directly instead of communicating internally |
+| High computational overhead to update models                      | No extra computation needed to keep models accurate or synchronized          |
+| Risk of internal models becoming outdated in dynamic environments | Communication via Real World                                                 |
+
+## Brooks' Behavior Languages
+
+Brooks has put forward three theses:
+- Intelligent behavior can be generated without explicit representations of the kind that symbolic AI proposes.
+- Intelligent behavior can be generated without explicit abstract reasoning of the kind that symbolic AI proposes.
+- **Intelligence is an emergent property of certain complex systems.**
+
+He identifies two key ideas that have informed his research:
+- Situatedness and embodiment: **'Real' intelligence** is **situated in the world**, not in disembodied systems such as theorem provers or expert systems.
+- Intelligence and emergence: **'Intelligent' behavior arises as a result of an agent's interaction with its environment.** Also, intelligence is 'in the eye of the beholder'; it is not an innate, isolated property.
+
+Brooks' subsumption architecture is a hierarchical control system consisting of simple behaviors, each of which **"competes"** to control the agent. **Lower layers represent more primitive behaviors** (e.g. obstacle avoidance) and have precedence over higher layers. The system is computationally simple yet can accomplish tasks that would be impressive in symbolic AI systems.
+
+## Advantages and Disadvantages
+
+The advantages of the interactive architecture are obvious: simplicity, economy,  computational tractability, robustness against failure, and elegance.
+
+But still have following shortcomings:
+- Agents without environment models must have **sufficient information** available from local environment
+- If decisions are based on local environment, how does it take into account *non-local* information (i.e., it has a ***short-term* view**)
+- **Difficult** to make reactive agents that **learn**
+- Since behavior emerges from component interactions plus environment, it is **hard** to see how to **engineer specific agents** (no principled methodology exists)
+- It is **hard** to **engineer** agents with **large numbers of behaviors** (dynamics of interactions become too complex to understand)
+
+# Hybrid Architectures
+
+Many researchers have argued that neither a completely deliberative nor completely reactive approach is suitable for building agents. They have suggested using *hybrid* systems, which attempt to marry classical and alternative approaches. An obvious approach is to build an agent out of two (or more) subsystems:
+- a *deliberative* one, containing a symbolic world model, which develops plans and makes decisions in the way proposed by symbolic AI.
+- a *reactive* one, which is capable of reacting to events without complex reasoning.
+
+Often, the **reactive** component is given some kind of **precedence** over the **deliberative** one. This kind of structuring leads naturally to the idea of a **layered architecture**, of which **TOURINGMACHINES** and **INTERRAP** are examples. In such an architecture, an agent's control subsystems are arranged into a hierarchy, with higher layers dealing with information at increasing levels of abstraction. A key problem in such architectures is what kind of control framework to embed the agent's subsystems in, to manage the interactions between the various layers. Typically, the control frameworks are based on **horizontal layering** and **vertical layering**:
+- **Horizontal layering**: Layers are each directly connected to the sensory input and action output. In effect, each layer itself acts like an agent, producing suggestions as to what action to perform.
+- **Vertical layering**: Sensory input and action output are each dealt with by at most one layer each.
+
+{% include image_caption.html imageurl="/images/hybrid-architectures.png" title="Hybrid Architectures" caption="hybrid architectures" %}
 
 ---
 
