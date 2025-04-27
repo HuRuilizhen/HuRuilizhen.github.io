@@ -29,6 +29,10 @@ Recently, I am applying for a backend developer summer internship and I have bee
   - [What is the Principle of Process Communication Using Pipes?](#what-is-the-principle-of-process-communication-using-pipes)
 - [Network Based 网络基础](#network-based-网络基础)
   - [What is the Difference between HTTP and HTTPS?](#what-is-the-difference-between-http-and-https)
+- [Intelligence Questions 智力题](#intelligence-questions-智力题)
+  - [Rats and Poisons](#rats-and-poisons)
+  - [Balance and Defective Goods](#balance-and-defective-goods)
+  - [Water Pouring](#water-pouring)
 
 ---
 
@@ -551,6 +555,186 @@ HTTPS则是在HTTP基础上通过引入**TLS**（传输层安全协议，早期�
 从技术实现深度来看，HTTPS的安全机制不仅仅依赖于加密本身。证书透明度（Certificate Transparency）日志系统可以监控和审计CA颁发的证书，防止恶意证书的滥用；OCSP装订（OCSP Stapling）优化了证书状态检查的效率；而前向保密（Forward Secrecy）技术则确保即使服务器的私钥未来被泄露，过去的通信记录也不会被解密。这些措施共同构成了HTTPS的纵深防御体系。而HTTP由于设计之初缺乏安全考量，即便后续尝试通过摘要认证等扩展提升安全性，也无法从根本上解决明文传输的缺陷。  
 
 综上所述，**HTTPS通过加密传输、身份认证和数据完整性保护三位一体的机制，彻底解决了HTTP固有的安全问题**。随着计算性能的提升和免费证书服务的普及，HTTPS的实施成本已经大幅降低。在当今的网络环境中，HTTPS不再是可选项而是必选项，它既是保护用户隐私的技术手段，也是构建可信互联网生态的基础设施。而HTTP则逐渐退居幕后，仅在特定边缘场景中保留有限的使用价值。这种演进反映了互联网从功能优先到安全优先的范式转变，也体现了行业对数据保护和用户权益的日益重视。
+
+# Intelligence Questions 智力题
+
+Generally speaking, at a later stage of the interview (between the technical short answer questions and the algorithm questions), the interviewer will ask some intelligence questions, which are usually relatively simple and can be answered with a little thought. In this section, I summarize the IQ questions I encountered when I was looking for a summer internship interview. These questions are also the questions that people encounter more often on social media.
+
+一般来说，在面试进行到比较后面的阶段（在技术简答题和算法题之间），面试就会询问一些智力题，通常来说会比较简单，只要稍加思考便能得到答案。这个分节我总结了在我寻找暑期实习面试的时候遇到的智力题目。这些题目也是社交媒体上大家遇到得比较多的题目。
+
+## Rats and Poisons
+<font color="red" size=2>ft.tech Interview 非凸科技面试 </font>
+
+Given $ N = 1000 $ bottles of water, where one bottle is poisoned (and the rest are normal), we aim to identify the poisoned bottle using a minimal number of mice. The rules are as follows:
+
+- Each mouse can drink from any number of bottles (and each bottle can be sampled by multiple mice).
+- Each mouse has only one opportunity to drink, and after drinking, it will either survive or die (depending on whether it drank the poisoned water).
+- After **one experiment** (i.e., all mice drink simultaneously), the identity of the poisoned bottle must be uniquely determined based on the survival or death states of the mice.
+
+**Objective**: Find the minimum number of mice $ k $ such that the survival/death states of $ k $ mice can uniquely identify which of the $ 1000 $ bottles is poisoned.
+
+From an information theory perspective, the survival or death of each mouse provides $\log_2(2) = 1$ bit of information. To identify the poisoned bottle among $ N $ bottles, we need at least $\log_2(N)$ bits of information. Using $ k $ mice, their survival/death states can represent $ 2^k $ unique combinations. To ensure these combinations cover all $ 1000 $ bottles, we require:
+
+$$
+    2^k \geq 1000
+$$
+
+Taking the ceiling of the base-2 logarithm:
+
+$$
+    k = \lceil \log_2(1000) \rceil = 10
+$$
+
+Thus, **10 mice** are sufficient to uniquely determine the poisoned bottle.
+
+We assign each of the $ 1000 $ bottles a unique binary identifier with **10 bits** (since $ 2^{10} = 1024 \geq 1000 $). For example:
+- Bottle 1: `0000000001`
+- Bottle 5: `0000000101`
+- Bottle 1000: `1111101000`
+
+Each mouse corresponds to one bit position in the binary representation:
+- Mouse 1 corresponds to the least significant bit (bit 1),
+- Mouse 2 corresponds to bit 2,
+- ..., up to Mouse 10, which corresponds to the most significant bit (bit 10).
+
+If the $ i $-th bit of a bottle's binary representation is `1`, then Mouse $ i $ drinks from that bottle. For example:
+- Bottle 5 (`0000000101`): Mice 1 and 3 drink from this bottle (since bits 1 and 3 are `1`).
+- Bottle 1000 (`1111101000`): Mice 4, 6, 7, 8, 9, and 10 drink from this bottle (since bits 4, 6, 7, 8, 9, and 10 are `1`).
+
+After the experiment, the survival or death of each mouse forms a binary sequence:
+- If Mouse $ i $ dies, the $ i $-th bit in the sequence is `1`.
+- If Mouse $ i $ survives, the $ i $-th bit in the sequence is `0`.
+
+This binary sequence corresponds to the binary representation of the poisoned bottle's number. Converting this binary sequence to decimal gives the exact bottle number.
+
+Suppose after the experiment, the binary sequence of mouse states is `0000011010`. This corresponds to: Decimal value: 
+
+$$ 0 \cdot 2^9 + 0 \cdot 2^8 + 0 \cdot 2^7 + 0 \cdot 2^6 + 0 \cdot 2^5 + 1 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 0 \cdot 2^0 = 26 $$. 
+
+Thus, Bottle 26 is the poisoned bottle.
+
+Using $ k = 10 $ mice, we can uniquely identify the poisoned bottle among $ 1000 $ bottles in a single experiment. This method leverages the binary encoding of bottle numbers and the survival/death states of mice to efficiently solve the problem.
+
+给定 $ N = 1000 $ 瓶水，其中一瓶有毒（其他均为正常）。利用若干只小老鼠进行检测，规则如下：  
+- 每只老鼠可以喝任意多瓶水（但每瓶水可被多只老鼠喝）。  
+- 每只老鼠只有一次喝水机会，喝完后会存活或死亡（取决于是否喝到毒药）。  
+- 需在 **一次实验**（即所有老鼠同时喝水）后，通过老鼠的生死状态唯一确定有毒的瓶子。  
+
+**目标**：找到最小的老鼠数量 $ k $，使得 $ k $ 只老鼠的生死状态能唯一对应 $ 1000 $ 瓶中的某一瓶有毒。
+
+从信息论的观点出发，每只老鼠的生死状态提供 $\log_2​(2)=1$ 比特信息，因此识别 NN 瓶中的毒药需要 $\log_2​(N)$ 比特信息。我们可以使用 $k$ 只老鼠的生死状态表示 $2^k$ 种唯一组合，并且当 $2^k \geq 1000$ 时，组合数足够覆盖所有可能的毒药位置。因此，最少老鼠数由计算得到 $k=⌈\log_⁡2(1000)⌉=10$。
+
+将 $ 1000 $ 瓶编号为 $ 1 $ 到 $ 1000 $，并转换为 **10位二进制数**（因 $ 2^{10} = 1024 \geq 1000 $）。例如，瓶1对应 `0000000001`，瓶5对应 `0000000101`，瓶$1000$对应 `1111101000`。
+
+每只老鼠对应二进制编号中的一位，如第$1$只老鼠对应第$1$位（最低位），第$2$只对应第2位，依此类推至第$10位$（最高位）。若某瓶的二进制第 $ i $ 位为 `1`，则第 $ i $ 只老鼠需喝这瓶水。例如，瓶$5$（`0000000101`）的二进制第$1$位和第$3$位为 `1`，因此第$1$、$3$只老鼠喝这瓶水。瓶$1000$（`1111101000`）的二进制第$4$、$6$、$7$、$8$、$9$、$10$位为 `1`，对应第$4$、$6$、$7$、$8$、$9$、$10$只老鼠喝这瓶水。老鼠的生死状态形成一个二进制序列，若第 $ i $ 只老鼠死亡，则二进制序列第 $ i $ 位为 `1`；存活则为 `0`。将此二进制序列转换到十进制数，即为有毒瓶子的编号。
+
+## Balance and Defective Goods
+<font color="red" size=2>Tencent Interview Round 4 腾讯面试第四轮</font>
+
+Given nine items, where eight have the same weight and one defective item is lighter, along with a balance scale, any number of items can be placed on either side of the scale. The result of each weighing has three possible outcomes: the left side is lighter, the right side is lighter, or both sides are balanced. The goal is to identify the lighter defective item using the minimum number of weighings.
+
+Each weighing reduces the problem size to one-third of its original size (since the scale has three possible outcomes), mathematically satisfying the equation $3^k \geq N$, where $N = 9$. Solving this gives $k = 2$ (since $3^2 = 9$). Therefore, through two weighings using a trisection method, the range is progressively narrowed down to precisely identify the defective item. This approach is applicable to similar problems (e.g., finding one item of different weight among $N$ items), and its core principle is to **maximize the information entropy gained from each weighing**. The specific steps are as follows:
+
+At the first weighing, divide the nine items into three groups of three:
+- Group $A$ (items $\{1, 2, 3\}$)
+- Group $B$ (items $\{4, 5, 6\}$)
+- Group $C$ (items $\{7, 8, 9\}$)
+
+Weigh group $A$ against group $B$:
+- If group $A$ is lighter $\rightarrow$ the defective item is in group $A$.
+- If group $B$ is lighter $\rightarrow$ the defective item is in group $B$.
+- If balanced $\rightarrow$ the defective item is in group $C$.
+
+At the second weighing, assume that after the first weighing, the defective item is determined to be in group $X$ (where $X$ is $A$, $B$, or $C$). Take any two items from group $X$ (e.g., items $X_1$ and $X_2$) and weigh them:
+- If $X_1$ is lighter $\rightarrow$ $X_1$ is the defective item.
+- If $X_2$ is lighter $\rightarrow$ $X_2$ is the defective item.
+- If balanced $\rightarrow$ the third item in group $X$ (i.e., $X_3$) is the defective item.
+
+This method ensures that the defective item is identified within two weighings by systematically narrowing down the possibilities.
+
+给定九个货物，其中八个重量相同，一个残缺货物（重量较轻），以及一个天平。可将任意数量的货物放在天平两侧，结果有三种可能：左侧较轻，右侧较轻，或者两侧重量相等。请通过最少的称量次数，找到较轻的残缺货物。
+
+每次称量将问题规模缩小为原来的$1/3$（因天平有$3$种结果），数学上符合等式$3^k \geq N$，其中 $N=9$，解得 $k=2$（因$3^2=9$），因此通过两次称量，利用三分法逐步缩小范围，最终精确找到残缺货物。此方法适用于类似问题（如N个物品中找1个不同重量者），其核心是**最大化每次称量的信息熵**。具体而言，方案为：
+
+第一次称量，将九个货物分为三组，每组三个：
+- 组$A$（货物$\{1, 2, 3\}$）
+- 组$B$（货物$\{4, 5, 6\}$）
+- 组$C$（货物$\{7, 8, 9\}$）
+
+称量组$A$与组$B$：
+- 若组$A$较轻 $\rightarrow$ 残缺货物在组$A$中。
+- 若组$B$较轻 $\rightarrow$ 残缺货物在组$B$中。
+- 若平衡 $\rightarrow$ 残缺货物在组$C$中。
+
+第二次称量，假设第一次称量后，残缺货物在组$X$（$X$为$A$,$B$或$C$）。从组X中任取两个货物（例如货物$X_1$和$X_2$）进行称量：
+- 若$X_1$较轻 $\rightarrow$ X₁是残缺货物。
+- 若$X_2$较轻 $\rightarrow$ X₂是残缺货物。
+- 若平衡 $\rightarrow$ 组X中未称的第三个货物（$X_3$）是残缺货物。
+
+## Water Pouring
+<font color="red" size=2>Tencent Interview Round 2 腾讯面试第二轮</font>
+
+Given two containers, with a capacity of 5 liters (denoted as A) and 3 liters (denoted as B), both are initially empty. The goal is to make contain exactly 4 liters of water through the following operations:
+- **Fill**: Fill a container with water.
+- **Empty**: Pour out all the water in a container.
+- **Pour**: Pour water from one container to another until the source container is empty or the target container is full.
+
+Before formally solving this problem, we need to define the states described in the problem statement. A state $(S_A, S_B)$ is defined as "A container has $S_A$ liters of water, and B container has $S_B$ liters of water." The target state is $(4, k), k \in \mathbb{Z} \text{ and } 0 \leq k \leq 3$. We can treat this problem as a tree search problem. According to the problem description, each state has three types of state transitions, although in some special cases these transitions may overlap. From this perspective, solving this problem is equivalent to manually simulating the search process. Let's use depth-first search with iterative depth limitation to solve it. By manually simulating, we can find the following solution:
+
+1. **Fill container A completely**:  
+   $$(S_A, S_B) = (5, 0)$$
+2. **Pour the water from container A into container B**:  
+   Container B is filled, and container A has $5 - 3 = 2$ liters left.  
+   $$(S_A, S_B) = (2, 3)$$
+3. **Empty container B**:  
+   $$(S_A, S_B) = (2, 0)$$
+4. **Pour the remaining 2 liters of water from the 5-liter container into the 3-liter container**:  
+   $$(S_A, S_B) = (0, 2)$$
+5. **Refill the 5-liter container completely**:  
+   $$(S_A, S_B) = (5, 2)$$
+6. **Pour water from the 5-liter container into the 3-liter container**:  
+   The 3-liter container already has 2 liters, so it can take at most 1 more liter. After pouring 1 liter, the 5-liter container has $5 - 1 = 4$ liters left.  
+   $$(S_A, S_B) = (4, 3)$$
+
+Thus, we can solve the state transition problem given in the problem statement. This approach can be generalized to water problems of arbitrary capacities by simply adding capacity constraints to the state transitions. Similarly, we can also use visualization methods to better solve this problem:
+
+First, we can visualize the pair of states in a discrete plane space, using a table format. As shown in the figure below, the horizontal axis of the table represents the water volume in container A, and the vertical axis represents the water volume in container B. In this table, we can mark a path from $(4, 0)$ to $(4, 3)$, which represents the region corresponding to the target state. The current state can be treated as a point or a chess piece on the table, represented by a purple circle in the figure. The three types of transitions can be represented by arrows of different colors: blue for the first type of transition, red for the second type, and yellow for the third type. It can be seen that each transition essentially involves choosing a direction (horizontal, vertical, or sub-diagonal) and moving to a boundary point.
+
+<a name="water-pouring-example-1"></a>
+{% include image_caption.html imageurl="/images/water-pouring-example-1.png" title="Water Pouring Example 1" caption="water pouring example 1" %}
+
+As shown in the figure below, through this visualization method, we can quickly find another valid solution. This problem-solving approach helps us find answers faster.
+
+<a name="water-pouring-example-2"></a>
+{% include image_caption.html imageurl="/images/water-pouring-example-2.png" title="Water Pouring Example 2" caption="water pouring example 2" %}
+
+给定两个容器，容量分别为5升（记为A）和3升（记为B），初始均为空。目标是通过以下操作使A中恰好含有4升水：
+- **装满**：将某个容器装满水。
+- **倒空**：将某个容器中的水全部倒掉。
+- **倒水**：将水从一个容器倒入另一个容器，直到源容器为空或目标容器满。
+
+在正式解决这个问题之前，我们需要先对问题描述中的状态进行定义。状态$(S_A, S_B)$定义为“A容器中有$S_A$升水，B容器中有$S_B$升水“，目标状态为$(4, k), k \in \mathbb{Z} \text{ and } 0 \leq k \leq 3$。我们可以将这个问题视为树上搜索问题，按照题目表述，每个状态有三类状态转移方式，当然在某些特殊情况下转移方式可能重合。从这个角度看，解决这个问题相当于是在手动模拟搜索过程，不妨我们采用深度优先搜索加迭代深度限制的方法来解决这个问题。手动模拟一下，可以找到如下方案：
+
+1. **装满A容器**：  
+   $$(S_A, S_B) = (5, 0)$$
+2. **将A容器的水倒入B容器**：  
+   B容器被填满，A容器剩余 $5 - 3 = 2$ 升。  
+   $$(S_A, S_B) = (2, 3)$$
+3. **倒空B容器**：  
+   $$(S_A, S_B) = (2, 0)$$
+4. **将5升容器中剩余的2升水倒入3升容器**：  
+   $$(S_A, S_B) = (0, 2)$$
+5. **再次装满5升容器**：  
+   $$(S_A, S_B) = (5, 2)$$
+6. **将5升容器的水倒入3升容器**：  
+   3升容器已有2升，最多可再装1升。倒出1升后，5升容器剩余 $5 - 1 = 4$ 升。  
+   $$(S_A, S_B) = (4, 3)$$
+
+由此，我们可以解决题目中给出的状态转移问题。这个思路可以推广到任意容量的水的问题，只需要在状态转移中加入容量限制即可。同样地，我们也可以通过可视化方法去更好完成这个问题：
+
+首先我们对二元组状态可以在平面离散空间上进行可视化，不妨使用表格形式。如[图](#water-pouring-example-1)所示，表格的横轴表示A容器的水量，纵轴表示B容器的水量。在这个表格中，我们可以标出一条从$(4, 0)$到$(4, 3)$的路径，这就是问题的目标状态代表的区域。将当前状态是视作表格上的一个点或者表格上的一个棋子，在图中我们使用紫色圆圈表示。三类转移方式我们可以使用不同颜色的箭头表示，其中蓝色表示第一种转移方式，红色表示第二种转移方式，黄色表示第三种转移方式。可以知道每次转移实际上就是选择一个方向（横向，纵向，辅对角线），然后移动到边界点。
+
+如[图](#water-pouring-example-2)所示，通过这种可视化方式我们能迅速找到另外一种合法的方案，这种解决问题的思路帮助我们更快找到答案。
 
 ---
 
