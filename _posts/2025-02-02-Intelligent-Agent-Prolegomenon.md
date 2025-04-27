@@ -7,7 +7,7 @@ feature_image: images/intelligent-agents.png
 tags: ['intelligent-agent']
 ---
 
-An **intelligent agent** is a system that perceives its environment and takes actions that maximize its chances of successfully achieving its goals. Agents are used to build a wide variety of applications, including web search engines, recommender systems, smart home devices, and autonomous vehicles. The agent paradigm is also used to study human decision-making and to build artificial intelligence systems that interact with humans.
+An **intelligent agent** is a system that perceives its environment and takes actions that maximize its chances of successfully achieving its goals. Agents are used to build a wide variety of applications, including web search engines, recommender systems, smart home devices, and autonomous vehicles. The agent paradigm is also used to study human decision-making and to build artificial intelligence systems that interact with humans. This post provides a comprehensive discussion of the concept of an intelligent agent in Lecture 1 of the `SC4003` course in NTU.
 
 <!--more-->
 
@@ -437,3 +437,9 @@ $$
 $$
 
 ---
+
+Related Posts / Websites 👇
+
+📑 [Ray - NTU SC4003 Lecture 2 Note: Agent Decision Making](/Agent-Decision-Making)
+
+📑 [Ray - NTU SC4003 Lecture 3 Note: Agent Architecture](/Agent-Architecture)

@@ -4,7 +4,7 @@ title: "Backend Interview Questions"
 description: "This post is a collection of backend interview questions which I have encountered recently."
 date: 2025-03-12
 feature_image: images/interview.png
-tags: ['backend', 'interview', 'still-in-progress']
+tags: ['backend', 'interview']
 ---
 
 Recently, I am applying for a backend developer summer internship and I have been asked a few questions were quite interesting. This post is a collection of backend interview questions which I have encountered. Hope it can help you when you are finding yourself in the same situation 🌟. Since I am applying positions based in China, I will discuss the questions both in Chinese and English.
