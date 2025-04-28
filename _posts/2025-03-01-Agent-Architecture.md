@@ -8,7 +8,7 @@ tags: ['intelligent-agent']
 ---
 
 
-**Agent architecture** is a software design for an intelligent agent. It is a **concrete implementation** of the abstract agent structure, which consists of **perception**, **state**, **decision**, and **action**. An agent architecture defines **key data structures**, **operations** on data structures, and **control flow** between operations. It is a crucial component of an AI system, as it directly influences the performance of the system. This post provides a comprehensive discussion of agent architecture in Lecture 3 of the `SC4003` course in NTU.
+**Agent architecture** is a software design for an intelligent agent. It is a **concrete implementation** of the abstract agent structure, which consists of **perception**, **state**, **decision**, and **action**. An agent architecture defines **key data structures**, **operations** on data structures, and **control flow** between operations. It is a crucial component of an AI system, as it directly influences the performance of the system. This post provides a comprehensive discussion of agent architecture in Lecture 5 of the `SC4003` course in NTU.
 
 <!--more-->
 
@@ -343,6 +343,6 @@ Often, the **reactive** component is given some kind of **precedence** over the 
 
 Related Posts / Websites 👇
 
-📑 [Ray - NTU SC4003 Lecture 1 Note: Intelligent Agent Prolegomenon](/Intelligent-Agent-Prolegomenon)
+📑 [Ray - NTU SC4003 Lecture 3 Note: Intelligent Agent Prolegomenon](/Intelligent-Agent-Prolegomenon)
 
-📑 [Ray - NTU SC4003 Lecture 2 Note: Agent Decision Making](/Agent-Decision-Making)
+📑 [Ray - NTU SC4003 Lecture 4 Note: Agent Decision Making](/Agent-Decision-Making)

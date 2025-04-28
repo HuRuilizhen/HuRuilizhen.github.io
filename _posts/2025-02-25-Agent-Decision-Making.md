@@ -7,7 +7,7 @@ feature_image: images/intelligent-agents.png
 tags: ['intelligent-agent', 'still-in-progress']
 ---
 
-**Agent decision making** is a crucial aspect of artificial intelligence. It is the process by which an autonomous entity, such as a robot or a computer program, makes decisions based on its available knowledge and perception of the environment. In this post, we will explore the different types of decision making, including **simple** and **complex decisions**, as well as sequential decision making, where the agent's utility depends on a sequence of decisions. We will also discuss the various techniques used in decision making. This post provides a comprehensive discussion of the agent decision making in Lecture 2 of the `SC4003` course in NTU.
+**Agent decision making** is a crucial aspect of artificial intelligence. It is the process by which an autonomous entity, such as a robot or a computer program, makes decisions based on its available knowledge and perception of the environment. In this post, we will explore the different types of decision making, including **simple** and **complex decisions**, as well as sequential decision making, where the agent's utility depends on a sequence of decisions. We will also discuss the various techniques used in decision making. This post provides a comprehensive discussion of the agent decision making in Lecture 4 of the `SC4003` course in NTU.
 
 <!--more-->
 
@@ -139,6 +139,6 @@ states
 
 Related Posts / Websites 👇
 
-📑 [Ray - NTU SC4003 Lecture 1 Note: Intelligent Agent Prolegomenon](/Intelligent-Agent-Prolegomenon)
+📑 [Ray - NTU SC4003 Lecture 3 Note: Intelligent Agent Prolegomenon](/Intelligent-Agent-Prolegomenon)
 
-📑 [Ray - NTU SC4003 Lecture 3 Note: Agent Architecture](/Agent-Architecture)
+📑 [Ray - NTU SC4003 Lecture 5 Note: Agent Architecture](/Agent-Architecture)
