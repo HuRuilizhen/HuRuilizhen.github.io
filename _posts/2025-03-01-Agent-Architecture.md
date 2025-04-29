@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Agent Architecture"
-description: "A notes on the concept of agent architecture, the software design for an agent"
+description: "A note on the concept of agent architecture, the software design for an agent"
 date: 2025-03-01
 feature_image: images/intelligent-agents.png
 tags: ['intelligent-agent']

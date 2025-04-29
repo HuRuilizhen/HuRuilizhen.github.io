@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Working Together Benevolent/Cooperative Agents"
-description: "A notes on the benevolent/cooperative agents, and how they work together"
+description: "A note on the benevolent/cooperative agents, and how they work together"
 date: 2025-03-16
 feature_image: images/intelligent-agents.png
 tags: ['intelligent-agent']
