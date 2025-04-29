@@ -144,3 +144,5 @@ Related Posts / Websites 👇
 📑 [Ray - NTU SC4003 Lecture 5 Note: Agent Architecture](/Agent-Architecture)
 
 📑 [Ray - NTU SC4003 Lecture 7 Note: Working Together Benevolent/Cooperative Agents](/Working-Together-Benevolent-Cooperative-Agents)
+
+📑 [Ray - NTU SC4003 Lecture 8 Note: Game Theory Foundations](/Self-Interested-Agents-Game-Theory-Foundation)
