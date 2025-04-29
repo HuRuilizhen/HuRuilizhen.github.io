@@ -313,3 +313,5 @@ Related Posts / Websites 👇
 📑 [Ray - NTU SC4003 Lecture 5 Note: Agent Architecture](/Agent-Architecture)
 
 📑 [Ray - NTU SC4003 Lecture 7 Note: Working Together Benevolent/Cooperative Agents](/Working-Together-Benevolent-Cooperative-Agents)
+
+📑 [Ray - NTU SC4003 Lecture 9 Note: Allocating Scarce Resources: Auction](Allocating-Scarce-Resources-Auction#vickrey-auctions)
