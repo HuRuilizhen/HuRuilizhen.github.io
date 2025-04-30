@@ -18,8 +18,16 @@ In the previous post, we examined how agents make decisions in two-agent games, 
   - [Preferences](#preferences)
   - [Social Welfare Functions](#social-welfare-functions)
 - [Voting Procedures: Plurality](#voting-procedures-plurality)
+  - [Anomalies with Plurality](#anomalies-with-plurality)
+  - [Strategic Manipulation by Tactical Voting](#strategic-manipulation-by-tactical-voting)
+  - [Condorcet's Paradox](#condorcets-paradox)
 - [Sequential Majority Elections](#sequential-majority-elections)
+  - [Anomalies with Sequential Pairwise Elections](#anomalies-with-sequential-pairwise-elections)
+  - [Majority Graphs](#majority-graphs)
 - [Voting Procedures: Borda Count](#voting-procedures-borda-count)
+  - [Desirable Properties of Voting Procedures](#desirable-properties-of-voting-procedures)
+  - [Arrow's Theorem](#arrows-theorem)
+  - [The Gibbard-Satterthwaite Theorem](#the-gibbard-satterthwaite-theorem)
 
 ---
 
@@ -95,13 +103,76 @@ $$
 
 # Voting Procedures: Plurality
 
+**Social Choice Function**, which selects a single outcome according to all **preferences** of the voters. Each candidate gets one point for every **preference order** that ranks them **first**. The **winner** is the one with the **largest number of points**. For example, **Political elections in UK**. If we have only two candidates, then **plurality** is a simple **majority election**.
+
+## Anomalies with Plurality
+
+One anomaly with the plurality voting procedure is that it can produce a winner that is **not supported by a majority of voters**. For example, consider an election with $100$ voters and three candidates $\omega_1$, $\omega_2$, and $\omega_3$ where the distribution of votes is as follows:
+- $40%$ of voters vote for $\omega_1$
+- $30%$ of voters vote for $\omega_2$
+- $30%$ of voters vote for $\omega_3$
+
+In this scenario, ω1 would win the election with $40\%$ of the votes, even though a clear majority ($60\%$) of the voters prefer another candidate. This is a limitation of the plurality voting procedure in that it does not ensure that the winner is supported by a majority of the voters.
+
+## Strategic Manipulation by Tactical Voting
+
+The concept of strategic manipulation by tactical voting is a phenomenon where a voter may vote for a candidate other than their true preference in order to achieve a better outcome. This can occur when a voter believes that their true preference is not viable, and that by voting for a second choice, they can prevent a less desirable candidate from winning. This is also known as **strategic voting** or **insincere voting**. For example, if a voter's true preference is candidate $A$, but they believe that candidate $B$ is more likely to win than $A$, they may vote for $B$ in order to prevent candidate $C$ from winning, even if $B$ is not their true preference.
+
+$$
+    \text{Strategic voting: } \text{Vote for } B \text{ to prevent } C \text{ from winning}
+$$
+
+In this scenario, the voter is engaging in strategic manipulation of the vote, as they are not voting for their true preference. This can lead to a situation where the outcome of the election does not accurately reflect the true preferences of the voters. Let's take a look at following example, suppose my preferences are:
+
+$$
+    \omega_1 \succ \omega_2 \succ \omega_3
+$$
+
+I believe $48.9\%$ of voters have preferences:
+
+$$
+    \omega_2 \succ \omega_1 \succ \omega_3
+$$
+
+and I believe $49.1\%$ of voters have preferences
+
+$$
+    \omega_3 \succ \omega_2 \succ \omega_1
+$$
+
+Then if I can represent $2\%$ of voters, I may do better voting for $\omega_2$ , even though this is not my true preference profile.
+
+## Condorcet's Paradox
+
+Condorcet's paradox arises in voting scenarios where a **majority preference cycle** exists. Given a set of agents $Ag = \{1, 2, 3\}$ and outcomes $\Omega = \{\omega_1, \omega_2, \omega_3\}$, consider the preferences:
+
+$$
+\begin{align*}
+  \omega_1 & \succ_1 \omega_2 \succ_1 \omega_3 \\
+  \omega_3 & \succ_2 \omega_1 \succ_2 \omega_2 \\
+  \omega_2 & \succ_3 \omega_3 \succ_3 \omega_1
+\end{align*}
+$$
+
+In this setup, for any candidate chosen, there exists another candidate preferred by a majority, leading to no clear winner. This exemplifies Condorcet's paradox, where no option satisfies the majority.
+
 ---
 
 # Sequential Majority Elections
 
+## Anomalies with Sequential Pairwise Elections
+
+## Majority Graphs
+
 ---
 
 # Voting Procedures: Borda Count
+
+## Desirable Properties of Voting Procedures
+
+## Arrow's Theorem
+
+## The Gibbard-Satterthwaite Theorem
 
 ---
 
