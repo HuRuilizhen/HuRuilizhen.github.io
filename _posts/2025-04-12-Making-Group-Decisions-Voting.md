@@ -160,9 +160,44 @@ In this setup, for any candidate chosen, there exists another candidate preferre
 
 # Sequential Majority Elections
 
+A variant of plurality, in which players play in a series of rounds: either a linear sequence or a tree (knockout tournament). We can use an example to understand this:
+
+{% include image_caption.html imageurl="/images/sequential-pairwise-election.png" title="Sequential Majority Elections" caption="sequential majority elections" %}
+
 ## Anomalies with Sequential Pairwise Elections
 
+Here, we pick an ordering of the outcomes,which determines who plays against who.For example, if the agenda is:
+
+$$
+\langle \omega_2, \omega_3, \omega_4, \omega_1 \rangle
+$$
+
+Then the first election is between $\omega_2$ and $\omega_3$ , and the winner goes on to an election with \omega_4, and the winner of this election goes in an election with $\omega_1$. Anomalies can occur in sequential pairwise elections because the winner of an election may not be supported by a majority of the voters but depend on the **agenda**. Suppose we have:
+
+$$
+    \begin{align*}
+        \text{33 voters prefer } & \omega_1 \succ \omega_2 \succ \omega_3 \\
+        \text{33 voters prefer } & \omega_3 \succ \omega_1 \succ \omega_2 \\
+        \text{33 voters prefer } & \omega_2 \succ \omega_3 \succ \omega_1
+  \end{align*}
+$$
+
+Then for every candidate, we can fix an agenda for that candidate to win in a sequential pairwise election! This can be demonstrated better using a **majority graph**.
+
 ## Majority Graphs
+
+This idea is easiest to illustrate by using a majority graph, which is a directed graph with:
+- vertices represent candidates
+- an edge $(i, j)$ if $i$ would beat $j$ is a **simple majority election**.
+
+It is a compact representation of voter preferences. Let's take a look at an example:
+
+{% include image_caption.html imageurl="/images/majority-graph.png" title="Majority Graph" caption="majority graph" %}
+
+A Condorcet winner is a candidate that would beat every other candidate in a pairwise election. Like:
+
+{% include image_caption.html imageurl="/images/condorcet-winners.png" title="Condorcet Winner" caption="condorcet winner" %}
+
 
 ---
 
@@ -198,7 +233,7 @@ We already saw that sometimes, voters can benefit by s**trategically misrepresen
 
 which means no reasonable voting system can completely prevent voters from changing the outcome through dishonest voting. However, a news is that **Computational Complexity can Help Rescue**! 
 
-Bartholdi, Tovey, and Trick showed that there are elections that are prone to manipulation in principle, but where manipulation was computationally complex."Single Transferable Vote" is NP-hard to manipulate!
+Bartholdi, Tovey, and Trick showed that there are elections that are prone to manipulation in principle, but where manipulation was computationally complex."Single Transferable Vote" is a voting method that is NP-hard to manipulate!
 
 ---
 
