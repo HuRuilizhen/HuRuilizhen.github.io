@@ -168,11 +168,37 @@ In this setup, for any candidate chosen, there exists another candidate preferre
 
 # Voting Procedures: Borda Count
 
+The Borda count is a voting procedure that **takes into account the whole preference order of each voter**, unlike the plurality voting procedure which only considers the top ranked candidate. In the Borda count, each candidate is **assigned a score based on its position in each voter's preference order**. The score is calculated as follows: if a candidate appears first in a preference order, its score is incremented by $k-1$, where k is the number of candidates; if it appears second, its score is incremented by $k-2$, and so on, until the last candidate in the preference order has its score incremented by $0$. After all voters have been considered, the candidate with the highest score is declared the winner. This procedure is **more representative of the voters' true preferences** than the plurality procedure, as it takes into account the strength of opinion in favour of each candidate.
+
 ## Desirable Properties of Voting Procedures
+
+A desirable voting procedure should satisfy two fundamental properties: the **Pareto property** and **Independence of Irrelevant Alternatives (IIA)**. 
+
+- The **Pareto property** states that if all voters prefer candidate $\omega_i$ over candidate $\omega_j$, then the social choice should also rank $\omega_i$ higher than $\omega_j$. This is a basic requirement that the **social choice should respect the unanimous preference of the voters**.
+
+- The **IIA property** states that the **relative ranking of candidates** $\omega_i$ and $\omega_j$ should only **depend on the relative ranking** of $\omega_i$ and $\omega_j$ in **each voter's preference order**, and should not be affected by the **introduction or removal of "irrelevant" alternatives**. This property ensures that the social choice is focused on the true relative preferences of the voters, and is not influenced by external factors.
+
+In summary, a desirable voting procedure should satisfy the **Pareto property and the IIA property**, which are two fundamental requirements for a fair and reasonable social choice.
 
 ## Arrow's Theorem
 
+This theorem, proposed by economist Kenneth Arrow in 1951, reveals the fundamental impossibility of designing a fair and democratic voting system. The theorem states that:
+
+In a situation with **three or more candidates**, any voting system that satisfies the **Pareto property** and the **IIA property**, must be a **dictatorship**, meaning that the final social ranking is determined by a single individual's personal preference, without considering the opinions of others.
+
+We initially hoped to design a fair and democratic voting system that respects the preferences of all individuals and is not influenced by irrelevant alternatives.
+
+Arrow's theorem proves that such a system is technically impossible, unless we allow a single individual to determine the outcome (i.e., a dictatorship).
+
 ## The Gibbard-Satterthwaite Theorem
+
+We already saw that sometimes, voters can benefit by s**trategically misrepresenting their preferences**. Are there any voting methods which are non-manipulable, in the sense that voters can never benefit from misrepresenting preferences? The answer is given by the **Gibbard-Satterthwaite Theorem**：
+
+> In votes with three or more candidates, if a voting system is deterministic, non-authoritarian, and always produces a winner, then the system can be strategically manipulated.
+
+which means no reasonable voting system can completely prevent voters from changing the outcome through dishonest voting. However, a news is that **Computational Complexity can Help Rescue**! 
+
+Bartholdi, Tovey, and Trick showed that there are elections that are prone to manipulation in principle, but where manipulation was computationally complex."Single Transferable Vote" is NP-hard to manipulate!
 
 ---
 
