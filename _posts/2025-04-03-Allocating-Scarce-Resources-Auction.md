@@ -311,3 +311,5 @@ Related Posts / Websites 👇
 📑 [Ray - NTU SC4003 Lecture 8 Note: Game Theory Foundations](/Self-Interested-Agents-Game-Theory-Foundation)
 
 📑 [Ray - NTU SC4003 Lecture 10 Note: Voting Mechanism](/Making-Group-Decisions-Voting)
+
+📑 [Ray - NTU SC4003 Lecture 11 Note: Forming Coalition](/Forming-Coalition)

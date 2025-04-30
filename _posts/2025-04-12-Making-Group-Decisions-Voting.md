@@ -250,3 +250,5 @@ Related Posts / Websites 👇
 📑 [Ray - NTU SC4003 Lecture 8 Note: Game Theory Foundations](/Self-Interested-Agents-Game-Theory-Foundation)
 
 📑 [Ray - NTU SC4003 Lecture 9 Note: Allocating Scarce Resources: Auction](Allocating-Scarce-Resources-Auction#vickrey-auctions)
+
+📑 [Ray - NTU SC4003 Lecture 11 Note: Forming Coalition](/Forming-Coalition)

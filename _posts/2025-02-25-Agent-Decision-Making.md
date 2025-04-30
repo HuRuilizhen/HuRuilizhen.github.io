@@ -150,3 +150,5 @@ Related Posts / Websites 👇
 📑 [Ray - NTU SC4003 Lecture 9 Note: Allocating Scarce Resources: Auction](Allocating-Scarce-Resources-Auction#vickrey-auctions)
 
 📑 [Ray - NTU SC4003 Lecture 10 Note: Voting Mechanism](/Making-Group-Decisions-Voting)
+
+📑 [Ray - NTU SC4003 Lecture 11 Note: Forming Coalition](/Forming-Coalition)
