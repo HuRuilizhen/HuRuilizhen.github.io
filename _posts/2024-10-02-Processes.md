@@ -192,12 +192,12 @@ System must provide mechanisms for `Process Creation` and `Process Termination`.
 
 Related Posts 👇
 
-📑 [Operating System Overview]({{ site.url }}{{ site.baseurl }}/Operating-System-Overview)
+📑 [Operating System Overview](/Operating-System-Overview)
 
-📑 [Operating System Security]({{ site.url }}{{ site.baseurl }}/Operating-System-Security)
+📑 [Operating System Security](/Operating-System-Security)
 
-📑 [Threads]({{ site.url }}{{ site.baseurl }}/Threads)
+📑 [Threads](/Threads)
 
-📑 [File System]({{ site.url }}{{ site.baseurl }}/File-System)
+📑 [File System](/File-System)
 
-📑 [Memory Management]({{ site.url }}{{ site.baseurl }}/Memory-Management)
+📑 [Memory Management](/Memory-Management)

@@ -497,10 +497,10 @@ Related Posts / Websites 👇
 
 📑 [Quizlet - OS Final Flash Cards](https://quizlet.com/465647132/os-final-flash-cards/)
 
-📑 [Ray - Threads]({{ site.url }}{{ site.baseurl }}/Threads)
+📑 [Ray - Threads](/Threads)
 
-📑 [Ray - Processes]({{ site.url }}{{ site.baseurl }}/Processes)
+📑 [Ray - Processes](/Processes)
 
-📑 [Ray - File System]({{ site.url }}{{ site.baseurl }}/File-System)
+📑 [Ray - File System](/File-System)
 
-📑 [Ray - Main Memory and Virtual Memory]({{ site.url }}{{ site.baseurl }}/Main-Memory-and-Virtual-Memory)
+📑 [Ray - Main Memory and Virtual Memory](/Main-Memory-and-Virtual-Memory)

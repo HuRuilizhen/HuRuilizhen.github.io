@@ -379,4 +379,4 @@ When this form is submitted, the browser sends the user’s authentication cooki
 
 Related Posts / Websites 👇
 
-📑 [Ray - Firewalls, Tunnels, and Network Intrusion Detection]({{ site.url }}{{ site.baseurl }}/Firewalls-Tunnels-and-Network-Intrusion-Detection)
+📑 [Ray - Firewalls, Tunnels, and Network Intrusion Detection](/Firewalls-Tunnels-and-Network-Intrusion-Detection)
