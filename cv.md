@@ -218,7 +218,7 @@ description: "A CV Page of Author"
         <p>Guangzhou, Guangdong, China</p>
     </h4>
     <ul>
-        <li>Will be working on the client-side development of Enterprise WeChat using C++</li>
+        <li>Will be working on the PC client-side development of WeCom using C++ with duilib and Qt</li>
         <li>Expected to contribute to the development of new features and bug fixing</li>
     </ul>
     </div>

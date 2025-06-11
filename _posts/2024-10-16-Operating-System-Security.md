@@ -81,10 +81,10 @@ Assuming that an attacker **cannot find the salt associated with a userid** he i
 
 Related Posts 👇
 
-📑 [Operating System Overview]({{ site.url }}{{ site.baseurl }}/Operating-System-Overview)
+📑 [Operating System Overview](/Operating-System-Overview)
 
-📑 [Processes]({{ site.url }}{{ site.baseurl }}/Processes) and [Threads]({{ site.url }}{{ site.baseurl }}/Threads)
+📑 [Processes](/Processes) and [Threads](/Threads)
 
-📑 [File System]({{ site.url }}{{ site.baseurl }}/File-System)
+📑 [File System](/File-System)
 
-📑 [Memory Management]({{ site.url }}{{ site.baseurl }}/Memory-Management)
+📑 [Memory Management](/Memory-Management)

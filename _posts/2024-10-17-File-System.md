@@ -130,11 +130,10 @@ The **root** account is a super-user account, similar to the **Administrator** o
 
 Related Posts 👇
 
-📑 [Operating System Security](https://huruilizhen.github.io/Operating-System-Security)
+📑 [Operating System Security](/Operating-System-Security)
 
-📑 [Operating System Overview](https://huruilizhen.github.io/Operating-System-Overview)
+📑 [Operating System Overview](/Operating-System-Overview)
 
-📑 [Processes](https://huruilizhen.github.io/Processes) and [Threads](https://huruilizhen.github.io/Threads)
+📑 [Processes](/Processes) and [Threads](/Threads)
 
-📑 [Memory Management](https://huruilizhen.github.io/Memory-Management)
-
+📑 [Memory Management](/Memory-Management)

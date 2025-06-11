@@ -251,14 +251,14 @@ return {
 
 Reference: 
 
-📑 [How to make Linux terminal look awesome](https://www.geeksforgeeks.org/how-to-make-linux-terminal-look-awesome/)
+📑 [Geeksforgeeks - How to make Linux terminal look awesome](https://www.geeksforgeeks.org/how-to-make-linux-terminal-look-awesome/)
 
-📑 [7 Amazing Cli Tools](https://www.josean.com/posts/7-amazing-cli-tools)
+📑 [Josean - 7 Amazing Cli Tools](https://www.josean.com/posts/7-amazing-cli-tools)
 
-📑 [Fastfetch Setup in Ubuntu](https://launchpad.net/~zhangsongcui3371/+archive/ubuntu/fastfetch)
+📑 [Launchpad - Fastfetch Setup in Ubuntu](https://launchpad.net/~zhangsongcui3371/+archive/ubuntu/fastfetch)
 
-📑 [AstroNvim Official Document](https://docs.astronvim.com/)
+📑 [Astronvim - AstroNvim Official Document](https://docs.astronvim.com/)
 
-📑 [Codeium in Vim/Neovim](https://codeium.com/vim_tutorial)
+📑 [Codeium - Vim/Neovim](https://codeium.com/vim_tutorial)
 
-📑 [Codeium Github Repository](https://github.com/Exafunction/codeium.vim)
+📑 [Github - Codeium](https://github.com/Exafunction/codeium.vim)
