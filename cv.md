@@ -252,7 +252,7 @@ description: "A CV Page of Author"
             <div class="publication-authors">Yuqi Ma, <strong>Ruilizhen Hu</strong>, Ruixuan Qi, Jianfeng Mao, and Wenye Li</div>
             <div class="publication-venue">ICONIP 2024 (Accepted)</div>
             <div class="publication-links">
-                <a href="#">Preprint</a>
+                <a href="https://link.springer.com/chapter/10.1007/978-981-96-6954-7_15">Springer</a>
                 <a href="https://github.com/HuRuilizhen/NN-to-DAG">Code</a>
             </div>
         </div>
