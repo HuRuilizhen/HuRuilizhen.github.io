@@ -193,34 +193,43 @@ description: "A CV Page of Author"
             <p>Shenzhen, Guangdong, China</p>
         </h4>
         <ul>
-        <li>Led development of enterprise SaaS platform using Vue.js/Flask stack:
-            <ul class="nested-list">
-                <li>Built dynamic dashboard with real-time data visualization (ECharts integration)</li>
-                <li>Designed RESTful APIs handling 1k+ RPM with 99.9% uptime</li>
-            </ul>
-        </li>
-        <li>DevOps improvements:
-            <ul class="nested-list">
-                <li>Reduced CI/CD pipeline runtime from 12min → 4min through parallel testing</li>
-                <li>Implemented automated monitoring with Prometheus/Grafana</li>
-            </ul>
-        </li>
-        <li>Key contributor to architecture redesign:
-            <ul class="nested-list">
-                <li>Migrated monolithic backend to microservices (Docker/Kubernetes)</li>
-                <li>Improved API response time by 35% with Redis caching</li>
-            </ul>
-        </li>
-    </ul>
-    <h3>Tencent Holdings Limited<span>May. 2025 - Sep. 2025 (Expected)</span></h3>
-    <h4>
-        <p>Client-side Developer Intern (WXG)</p>
-        <p>Guangzhou, Guangdong, China</p>
-    </h4>
-    <ul>
-        <li>Will be working on the PC client-side development of WeCom using C++ with duilib and Qt</li>
-        <li>Expected to contribute to the development of new features and bug fixing</li>
-    </ul>
+            <li>Led development of enterprise SaaS platform using Vue.js/Flask stack:
+                <ul class="nested-list">
+                    <li>Built dynamic dashboard with real-time data visualization (ECharts integration)</li>
+                    <li>Designed RESTful APIs handling 1k+ RPM with 99.9% uptime</li>
+                </ul>
+            </li>
+            <li>DevOps improvements:
+                <ul class="nested-list">
+                    <li>Reduced CI/CD pipeline runtime from 12min → 4min through parallel testing</li>
+                    <li>Implemented automated monitoring with Prometheus/Grafana</li>
+                </ul>
+            </li>
+            <li>Key contributor to architecture redesign:
+                <ul class="nested-list">
+                    <li>Migrated monolithic backend to microservices (Docker/Kubernetes)</li>
+                    <li>Improved API response time by 35% with Redis caching</li>
+                </ul>
+            </li>
+        </ul>
+        <h3>Tencent Holdings Limited<span>May. 2025 - Sep. 2025 (Expected)</span></h3>
+        <h4>
+            <p>Developer Intern (WXG)</p>
+            <p>Guangzhou, Guangdong, China</p>
+        </h4>
+        <ul>
+            <li>Worked on WeCom PC client-side development using C++ with DuiLib/Qt</li>
+            <li>Implemented and maintained 45+ shortcut key features</li>
+            <li>Fixed 24+ defects in custom QTextEdit component</li>
+            <li>Developed a cross-platform native file selector to improve user experience</li>
+            <li>Conducted compiler optimization research:
+                <ul class="nested-list">
+                    <li>Explored LLVM modules & PCH, reducing frontend compile time by ~90% in experiments</li>
+                    <li>Implemented Bazel remote cache, cutting full build time by ~50% in personal tests</li>
+                </ul>
+            </li>
+            <li>Contributed 15+ internal technical docs (Qt components, shortcut key system, build optimization)</li>
+        </ul>
     </div>
     <div class="cv-section">
         <h2>Research Experience</h2>
