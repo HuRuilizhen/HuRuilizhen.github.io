@@ -43,6 +43,47 @@ The most exciting part after getting a new machine is configuration! In this pos
 
 ## Intalling Windows Terminal and PowerShell 7.x
 
+To get started, ensure you have Windows Terminal. If not, you can download it from the [Microsoft Terminal Install Page](https://learn.microsoft.com/en-us/windows/terminal/install). The default version of PowerShell that comes with Windows is PowerShell 5.1, but I recommend installing PowerShell 7.x for a better experience. For example, PowerShell 7.x provides access to the `Get-PSSubsystem` cmdlet, which is not available in PowerShell 5.1. The most useful function for me is `PSReadLine`, which can give you completion suggestions as you type (based on your history).
+
+Please refer to the [Installing PowerShell 7 on Windows](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.5) guide for installation instructions. Usually, I install PowerShell via [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) using the command:
+
+```powershell
+winget install --id Microsoft.Powershell --source winget
+```
+
+One thing to note is that the PROFILE variable in PowerShell 7.x points to a different location than in PowerShell 5.1. You can check your profile path by running:
+
+```powershell
+$PROFILE
+```
+
+Just for reference, you can check current PowerShell Modules and PSSusbsytems with the following commands. And here are my current outputs:
+
+<a name="powershell-modules-and-pssubsystems"></a>
+```powershell
+# PowerShell Modules
+> Get-Module
+
+ModuleType Version    PreRelease Name                                ExportedCommands
+---------- -------    ---------- ----                                ----------------
+Manifest   7.0.0.0               Microsoft.PowerShell.Management     {Add-Content, Clear-Content, Clear-Item, Clear-ItemProperty…}
+Manifest   7.0.0.0               Microsoft.PowerShell.Utility        {Add-Member, Add-Type, Clear-Variable, Compare-Object…}
+Script     0.0                   oh-my-posh-core                     {Enable-PoshLineError, Enable-PoshTooltips, Enable-PoshTransientPrompt, Set-PoshContext…}
+Script     2.3.6                 PSReadLine                          {Get-PSReadLineKeyHandler, Get-PSReadLineOption, Remove-PSReadLineKeyHandler, Set-PSReadLineKeyHandler…}
+Script     0.11.0                Terminal-Icons                      {Add-TerminalIconsColorTheme, Add-TerminalIconsIconTheme, Format-TerminalIcons, Get-TerminalIconsColorTheme…}
+
+# PSSusbsytems
+> Get-PSSubsystem
+
+Kind              SubsystemType      IsRegistered Implementations
+----              -------------      ------------ ---------------
+CommandPredictor  ICommandPredictor         False {}
+CrossPlatformDsc  ICrossPlatformDsc         False {}
+FeedbackProvider  IFeedbackProvider          True {General Feedback}
+```
+
+We will discuss some of these modules later in the post. Some modules may require additional installation steps, but they provide great functionality.
+
 ## Windows Terminal Startup
 
 ## Basic PowerShell Instructions
