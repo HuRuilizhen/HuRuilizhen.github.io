@@ -140,6 +140,52 @@ We will discuss some of these modules later in the post. Some modules may requir
 
 # Conclusion
 
+Customize your terminal to fit your workflow and enjoy a more efficient coding experience on Windows! And here is my final checklist of tools and settings:
+
+```powershell
+# Chocolatey Packages
+> choco list
+Chocolatey v2.5.1
+bat 0.25.0
+bottom 0.11.2
+chocolatey 2.5.1
+dust 1.2.3
+fastfetch 2.53.0
+fzf 0.59.0
+git 2.51.0.2
+git.install 2.51.0.2
+Lazydocker 0.23.3
+lazygit 0.55.1
+less 679.0.0
+neovim 0.11.4
+nodejs 22.20.0
+nodejs.install 22.20.0
+oh-my-posh 27.1.2
+ripgrep 14.1.0
+tldr 1.0.0
+tldr-plusplus 0.6.1
+winfetch 2.5.1
+zoxide 0.9.2
+```
+
+And here is my current profile settings:
+
+```powershell
+# ---- Oh My Posh ----
+oh-my-posh init pwsh --config "${env:POSH_THEMES_PATH}\powerlevel10k_rainbow.omp.json" | Invoke-Expression
+
+# ---- Terminal Icons ----
+Import-Module -Name Terminal-Icons
+  
+# ---- PSReadLine ----
+Set-PSReadLineOption -PredictionViewStyle ListView
+
+# ---- Zoxide ----
+# Just copy and pasted from tldr zoxide init instructions. It works! :)
+```
+
+For Powershell Modules and PSSusbsytems, refer to the [Powershell Modules and PSSubsystems Checklist](#powershell-modules-and-pssubsystems).
+
 ---
 
 Related Posts / Websites 👇
