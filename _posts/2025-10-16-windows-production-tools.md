@@ -136,11 +136,45 @@ We will discuss some of these modules later in the post. Some modules may requir
 
 ## astronvim - Distr of Neovim
 
+This is my favorite Neovim distribution. It comes with a lot of pre-configured plugins and settings that make it easy to use right out of the box. You can find more information and installation instructions on the [Astronvim GitHub page](https://github.com/AstroNvim/AstroNvim), or check the official website at [https://astronvim.com/](https://astronvim.com/). Before configuring Astronvim, make sure you have Neovim installed. You can install Neovim via Chocolatey with the command:
+
+```powershell
+choco install neovim
+```
+
+And also we have some dependencies for better coding experience:
+- Nerd Fonts: done at [font](#font). Necessary for proper display of icons in the status line and file explorer.
+- ripgrep: A fast search tool that is used by many Neovim plugins for searching files. Install via Chocolatey: `choco install ripgrep`. `<Leader>fw` to search files.
+- lazygit: done at [lazygit](#lazygit). Default git client for Astronvim. Install via Chocolatey: `choco install lazygit`. `<Leader>gg` to open lazygit.
+- gdu: Short for "go disk usage", A fast disk usage analyzer that can be used within Neovim. Install via Chocolatey: `choco install gdu`. `<Leader>gs` to open gdu.
+- bottom: done at [bottom](#bottom). A better performance monitor. Install via Chocolatey: `choco install bottom`. `<Leader>tt` to open bottom.
+- Python: Install via Chocolatey: `choco install python`. `<Leader>tp` to open Python REPL.
+- Node.js: Node is needed for a lot of the LSPs. Install via Chocolatey: `choco install nodejs`. `<Leader>tn` to open Node.js REPL.
+
+Next, just follow the [Astronvim Installation Guide](https://docs.astronvim.com/#-installation) to set it up. 
+
+- Make a backup of your current nvim config (if exists)
+    ```powershell
+    Move-Item $env:LOCALAPPDATA\nvim $env:LOCALAPPDATA\nvim.bak
+    ```
+- Clean neovim folders (Optional but recommended)
+    ```powershell
+    Move-Item $env:LOCALAPPDATA\nvim-data $env:LOCALAPPDATA\nvim-data.bak
+    ```
+- Clone the repository
+    ```powershell
+    git clone --depth 1 https://github.com/AstroNvim/template $env:LOCALAPPDATA\nvim
+    # remove template's git connection to set up your own later
+    Remove-Item $env:LOCALAPPDATA\nvim\.git -Recurse -Force
+    ``` 
+
+In another post of mine, I also talked about how to set up `windsurf` (powerful and free AI tool) with `Neovim`. please check it out [here](/Linux-Terminal-Beautify#integrate-with-ai-tools).
+
 ---
 
 # Conclusion
 
-Customize your terminal to fit your workflow and enjoy a more efficient coding experience on Windows! And here is my final checklist of tools and settings:
+Customize your terminal to fit your workflow and enjoy a more efficient coding experience on Windows! And here is my final checklist of tools and settings (I deleted some less relevant tools for brevity):
 
 ```powershell
 # Chocolatey Packages
