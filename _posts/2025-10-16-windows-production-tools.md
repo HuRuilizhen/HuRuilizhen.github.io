@@ -182,6 +182,35 @@ You can find more in `Settings > Actions`.
 
 ## Basic PowerShell Instructions
 
+Commands in PowerShell can be very different from those in traditional Unix-like shells. Tutorials for beginners can be found in the [PowerShell Documentation](https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/01-getting-started?view=powershell-7.5). There is a principal called "Verb-Noun" for cmdlet naming conventions. For example, `Get-Help`, `Set-Location`, `Get-Process`, etc. You can use `Get-Help <cmdlet-name>` to get help on any cmdlet. For example:
+
+```powershell
+# Get help for the Get-Process cmdlet
+Get-Help Get-Process
+
+# Get commands related to a specific noun
+Get-Command -Noun <noun>
+
+# Get processes running on the system (ps equivalent)
+Get-Process
+
+# Get current directory (pwd equivalent)
+Get-Location
+
+# Get Items in the current directory (ls equivalent)
+Get-ChildItem
+```
+
+Not that hard, right? Once you get used to it, PowerShell can be very powerful and flexible. But there is still a huge difference between PowerShell and traditional shells, so be sure to check out the documentation for more details. Especially, parameters and piping. Unlike traditional shells (such as CMD and Bash) that pass **text**, PowerShell passes rich ·.NET· **objects** that contain **properties** and **methods**. Here are some examples for reference:
+
+```powershell
+# Piping example: Get processes and sort by CPU usage
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 5
+
+# Parameter example: Get processes with a name containing "chrome" and stop them
+Get-Process -Name *chrome* | Stop-Process
+```
+
 ## Basic PowerShell Profile Setup
 
 Powershell profile is a file that contains commands and settings that are executed when you open a new PowerShell session. Consider it like a startup script for your PowerShell (.bashrc for Unix-like shells). You can add some basic commands and settings to your profile to make your life easier. Later, I will share my PowerShell profile setup in this post function by function. To open your profile, type `<editor> $PROFILE` in PowerShell. Again, note that `$PROFILE` is different for different PowerShell versions. So, make sure to replace it with the correct path.
