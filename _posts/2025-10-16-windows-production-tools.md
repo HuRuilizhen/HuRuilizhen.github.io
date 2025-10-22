@@ -24,6 +24,7 @@ The most exciting part after getting a new machine is configuration! In this pos
   - [font](#font)
   - [posh](#posh)
   - [terminal icons](#terminal-icons)
+  - [CompletionPredictor](#completionpredictor)
 - [Command-Line Tools](#command-line-tools)
   - [tldr - Community-driven man](#tldr---community-driven-man)
   - [bat - Better cat](#bat---better-cat)
@@ -247,11 +248,133 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 
 # Appearance Settings
 
+Oh My Posh is a PowerShell prompt theme that is very popular (like oh my zsh in Windows). It is a very nice theme, with many different themes and styles. In this section, I will share my configuration and settings for Oh My Posh~
+
 ## font
+
+Oh My Posh was designed to use **Nerd Fonts**. Nerd Fonts are popular fonts that are patched to include icons. To see the icons displayed in Oh My Posh, install a Nerd Font, and configure your terminal to use it. Installation and configuration instructions can be found on the [Oh My Posh Fonts](https://ohmyposh.dev/docs/installation/fonts). Installation by command:
+
+```powershell
+Install-PSResource -Name NerdFonts
+Import-Module -Name NerdFonts
+
+Install-NerdFont -Name FiraCode   # Tab completion works on name
+```
+
+Configuration in Windows Terminal. This can be easily done by modifying the Windows Terminal settings (default shortcut: `CTRL + SHIFT + ,`). In your settings.json file, add the `font.face` attribute under the defaults attribute in profiles:
+
+```json
+{
+    "profiles":
+    {
+        "defaults":
+        {
+            "font":
+            {
+                "face": "MesloLGM Nerd Font"
+            }
+        }
+    }
+}
+```
+
+Configuration in Visual Studio Code is also supported. If you are using the JSON based settings, you will need to update the terminal.integrated.fontFamily value. Example in case of MesloLGM Nerd Font Nerd Font:
+
+```json
+"terminal.integrated.fontFamily": "MesloLGM Nerd Font"
+```
 
 ## posh
 
+So called "The most customizable and fastest prompt engine for any shell". Check the [Oh My Posh GitHub Page](https://github.com/JanDeDobbeleer/oh-my-posh) and official website at [Oh My Posh](https://ohmyposh.dev/). We can install it via chocolatey:
+
+```powershell
+choco install oh-my-posh
+```
+
+or install it via winget:
+
+```powershell
+winget install JanDeDobbeleer.OhMyPosh --source winget --scope user --force
+```
+
+For the `PATH` to be reloaded, a restart of your terminal is advised. If oh-my-posh is not recognized as a command, you can run the installer again, or add it manually to your PATH. For example:
+
+```powershell
+$env:Path += ";C:\Users\user\AppData\Local\Programs\oh-my-posh\bin"
+```
+
+Next, need to configure shell to use oh-my-posh. Edit your PowerShell profile script, you can find its location under the `$PROFILE` variable in your preferred PowerShell version:
+
+```powershell
+<editor> $PROFILE
+```
+
+If it returns an error. It probably means that the profile is not created yet. To fix this, run the following command:
+
+```powershell
+New-Item -Path $PROFILE -ItemType File -Force
+```
+
+Add the following snippet as the last line to your PowerShell profile script:
+
+```powershell
+oh-my-posh init pwsh | Invoke-Expression
+```
+
+Restart your terminal or reload your PowerShell profile to apply the changes:
+
+```powershell
+. $PROFILE
+```
+
+Lastly, choose the theme you like. I use the `paradox` theme. You can find more themes and instructions on the [Oh My Posh Themes](https://ohmyposh.dev/docs/themes). For me, I chose the `powerlevel10k` theme. Edit your `$PROFILE` file and add the following line:
+
+```powershell
+# ---- Init Posh Theme ----
+oh-my-posh init pwsh --config "${env:POSH_THEMES_PATH}\powerlevel10k_rainbow.omp.json" | Invoke-Expression
+```
+
 ## terminal icons
+
+This is for better `Get-ChildItem` results, which shows icons. Refer to [Terminal-Icons GitHub Page](github.com/devblackops/Terminal-Icons?tab=readme-ov-file#installations). To install the module from the PowerShell Gallery:
+
+```powershell
+Install-Module -Name Terminal-Icons -Repository PSGallery
+```
+
+Configure the module by adding the following line to your `$PROFILE` file:
+
+```powershell
+# ---- Better Dir List ----
+Import-Module -Name Terminal-Icons
+```
+
+## CompletionPredictor
+
+This is for better `Tab` completion. Refer to [CompletionPredictor GitHub Page](https://github.com/PowerShell/CompletionPredictor?tab=readme-ov-file#use-the-predictor). The CompletionPredictor plugin is built on the Subsystem Plugin Model, which is available with PowerShell 7.2 or above. To display prediction suggestions from the CompletionPredictor, you need PSReadLine 2.2.2 or above.
+- [PowerShell 7.2 or above](https://learn.microsoft.com/en-us/powershell/scripting/learn/experimental-features?view=powershell-7.5#pssubsystempluginmodel)
+- [PSReadLine 2.2.2 or above](https://www.powershellgallery.com/packages/PSReadLine/2.2.2)
+
+```powershell
+# Enable PSSubsystemPluginModel, required restart
+Enable-ExperimentalFeature PSSubsystemPluginModel
+
+# Install PSReadLine
+Install-Module -Name PSReadLine -RequiredVersion 2.2.2
+
+# Install CompletionPredictor
+Install-Module -Name CompletionPredictor -Repository PSGallery
+Import-Module -Name CompletionPredictor
+Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+```
+
+For toggling between inline and list mode, press `F2`. I configured it in my `$PROFILE` file like:
+
+```powershell
+# ---- Better Prediction ----
+Set-PSReadLineOption -PredictionViewStyle ListView
+```
 
 ---
 
