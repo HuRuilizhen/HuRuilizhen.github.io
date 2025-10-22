@@ -22,5 +22,4 @@ docker run --rm `
   -p 4000:4000 `
   -it jekyll/jekyll `
   jekyll serve --host 0.0.0.0
-
 ```
