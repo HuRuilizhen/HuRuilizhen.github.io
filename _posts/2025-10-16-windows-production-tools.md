@@ -377,6 +377,9 @@ For toggling between inline and list mode, press `F2`. I configured it in my `$P
 Set-PSReadLineOption -PredictionViewStyle ListView
 ```
 
+<br>
+{% include image_caption.html imageurl="https://github.com/PowerShell/CompletionPredictor/raw/main/tools/images/CompletionPredictor.gif" title="CompletionPredictor" caption="A screenshot of using CompletionPredictor, from https://github.com/PowerShell/CompletionPredictor" %}
+
 ---
 
 # Command-Line Tools
@@ -465,6 +468,8 @@ This [open source](https://github.com/jesseduffield/lazygit) tui tool just boost
 ```powershell
 choco install lazygit
 ```
+<br>
+{% include image_caption.html imageurl="https://github.com/jesseduffield/lazygit/raw/assets/demo/commit_and_push-compressed.gif" title="LazyGit" caption="A screenshot of using lazygit, from https://github.com/jesseduffield/lazygit" %}
 
 ## lazydocker - TUI for docker commands
 
@@ -473,6 +478,9 @@ Another powerful [open source](https://github.com/jesseduffield/lazydocker) tui 
 ```powershell
 choco install lazydocker
 ```
+
+<br>
+{% include image_caption.html imageurl="https://github.com/jesseduffield/lazydocker/raw/master/docs/resources/demo3.gif" title="LazyDocker" caption="A screenshot of using lazydocker, from https://github.com/jesseduffield/lazydocker" %}
 
 ## astronvim - Distr of Neovim
 
