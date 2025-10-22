@@ -170,7 +170,7 @@ Next, just follow the [Astronvim Installation Guide](https://docs.astronvim.com/
     Remove-Item $env:LOCALAPPDATA\nvim\.git -Recurse -Force
     ``` 
 
-In another post of mine, I also talked about how to set up `windsurf` (powerful and free AI tool) with `Neovim`. please check it out [here](/Linux-Terminal-Beautify#integrate-with-ai-tools).
+In another post of mine, I also talked about how to set up `windsurf` (powerful but free AI tool) with `Neovim`. please check it out [here](/Linux-Terminal-Beautify#integrate-with-ai-tools).
 
 ---
 
