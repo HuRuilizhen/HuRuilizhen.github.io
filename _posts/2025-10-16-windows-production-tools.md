@@ -411,7 +411,7 @@ A fancy tool to show system info. Check out [winfetch GitHub Page](https://githu
 choco install winfetch
 ```
 
-See my cover of this post. It can even show images in the terminal! I show my avatar of Github :wink:
+See my cover of this post. It can even show images in the terminal! I show my avatar on Github~
 
 ## dust - Quick du
 
