@@ -86,6 +86,100 @@ We will discuss some of these modules later in the post. Some modules may requir
 
 ## Windows Terminal Startup
 
+Personally, I like to set Windows Terminal with transparent background and Quake Mode (slide down from the top of the screen with a hotkey). Go to the Windows Terminal Settings, `Settings > General > Appearance > Transparency`. Enable Quake Mode by following the instructions on the [Microsoft Quake Mode Page](https://learn.microsoft.com/en-us/windows/terminal/tips-and-tricks?WT.mc_id=DT-MVP-5004452#quake-mode). You can also set the background image, font, and other settings. Here is my current profile settings in json format:
+
+```json
+{
+  "startup": {
+    "defaultProfile": "PowerShell",
+    "defaultTerminalApplication": "Windows Terminal",
+    "language": "English (United States)",
+    "defaultImeInputMode": "Default",
+    "launchOnMachineStartup": true,
+    "firstWindowPreference": "openTabWithDefaultProfile",
+    "newInstanceBehavior": "createNewWindow",
+    "launchSize": {
+      "columns": 120,
+      "rows": 30
+    },
+    "launchParameters": "default"
+  }
+}
+```
+
+My appearance settings for PowerShell:
+
+```json
+{
+  "profiles": {
+    "list": [
+      {
+        "name": "PowerShell",
+        "colorScheme": "Campbell",
+        "font": {
+          "face": "MesloLGM Nerd Font",
+          "size": 12,
+          "weight": "normal"
+        },
+        "lineHeight": 1.2,
+        "cellWidth": 0.6,
+        "useAcrylic": false,
+        "opacity": 60,
+        "cursorShape": "bar",
+        "cursorColor": "#FFFFFF",
+        "padding": "8, 8, 8, 8",
+        "scrollbarState": "visible",
+        "intenseTextStyle": "bright",
+        "backgroundImage": null,
+        "backgroundImageStretchMode": "none",
+        "experimental.retroTerminalEffect": false,
+        "antialiasingMode": "cleartype",
+        "adjustIndistinguishableTextLightness": "never",
+        "useAtlasEngine": true,
+        "useAcrylicMaterial": false,
+        "backgroundImageOpacity": 1.0,
+        "backgroundImageAlignment": "center",
+        "cursorHeight": 100,
+        "fontFeatures": [],
+        "builtinGlyphs": true,
+        "experimental.retroTerminalEffect": false,
+        "useAcrylic": false,
+        "acrylicOpacity": 0.6,
+        "experimental.pixelShaderPath": null,
+        "intenseTextStyle": "bright",
+        "backgroundImageOpacity": 1.0,
+        "backgroundImageStretchMode": "none",
+        "backgroundImageAlignment": "center",
+        "useAtlasEngine": true,
+        "experimental.retroTerminalEffect": false,
+        "backgroundImageOpacity": 1.0,
+        "useAcrylic": false,
+        "backgroundOpacity": 60,
+        "experimental.pixelShaderPath": null,
+        "intenseTextStyle": "bright",
+        "backgroundImage": null,
+        "experimental.retroTerminalEffect": false,
+        "builtinGlyphs": true,
+        "experimental.useColorEmoji": true
+      }
+    ]
+  }
+}
+```
+
+Also, if you want to use Windows Terminal effectively, shortcut keys and hotkeys can be very useful. 
+- `ctrl+shift+c` to close the current tab
+- `ctrl+shift+t` to open a new tab
+- `ctrl+shift+n` to open a new window
+- `ctrl+shift+m` to open marker mode
+- `ctrl+tab` to switch tabs forward
+- `ctrl+shift+tab` to switch tabs backwards
+- `f11` to toggle fullscreen mode
+- `ctrl+f12` to toggle focus mode
+- `ctrl+shift+p` to open the command palette
+
+You can find more in `Settings > Actions`.
+
 ## Basic PowerShell Instructions
 
 ## Basic PowerShell Profile Setup
