@@ -5,11 +5,21 @@ Welcome to my personal blog. This site is continuously evolving as I dedicate ti
 ## Local Deployment
 
 To run local deployment test run following commands:
+
 ```bash
+# mac or linux
 docker run --rm \
 --volume="$PWD:/srv/jekyll:Z" \
 --volume="$PWD/vendor/bundle:/usr/local/bundle:Z" \
 -p 4000:4000 \
 -it jekyll/jekyll \
 jekyll serve --host 0.0.0.0
+
+# windows
+docker run --rm `
+  -v "$(pwd):/srv/jekyll" `
+  -v "$(pwd)/vendor/bundle:/usr/local/bundle" `
+  -p 4000:4000 `
+  -it jekyll/jekyll `
+  jekyll serve --host 0.0.0.0
 ```
