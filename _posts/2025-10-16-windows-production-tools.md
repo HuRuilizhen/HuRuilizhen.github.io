@@ -455,9 +455,23 @@ choco install zoxide
 
 # Development Settings
 
+In this section, I will introduce some useful tui tools for development.
+
 ## lazygit - TUI for git commands
 
+This [open source](https://github.com/jesseduffield/lazygit) tui tool just boost my git workflow. The most magic part is that it can commit patch by patch! You can find more information and installation instructions on the [LazyGit Post](https://jesseduffield.com/Lazygit-5-Years-On/). Installation via Chocolatey:
+
+```powershell
+choco install lazygit
+```
+
 ## lazydocker - TUI for docker commands
+
+Another powerful [open source](https://github.com/jesseduffield/lazydocker) tui tool. It will level up your docker experience. The author is [jesseduffield](https://github.com/jesseduffield), the same author of [lazygit](https://github.com/jesseduffield/lazygit). Installation via Chocolatey:
+
+```powershell
+choco install lazydocker
+```
 
 ## astronvim - Distr of Neovim
 
