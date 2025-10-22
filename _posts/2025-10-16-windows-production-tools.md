@@ -90,6 +90,8 @@ We will discuss some of these modules later in the post. Some modules may requir
 
 ## Basic PowerShell Profile Setup
 
+Powershell profile is a file that contains commands and settings that are executed when you open a new PowerShell session. Consider it like a startup script for your PowerShell (.bashrc for Unix-like shells). You can add some basic commands and settings to your profile to make your life easier. Later, I will share my PowerShell profile setup in this post function by function. To open your profile, type `<editor> $PROFILE` in PowerShell. Again, note that `$PROFILE` is different for different PowerShell versions. So, make sure to replace it with the correct path.
+
 ---
 
 # Package Management Tools
