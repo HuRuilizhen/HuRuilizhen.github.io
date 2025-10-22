@@ -382,17 +382,74 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 
 ## tldr - Community-driven man
 
+A much more user-friendly man command. You can find more information and installation instructions on the [tldr GitHub Page](https://github.com/tldr-pages/tldr). Installation via Chocolatey:
+
+```powershell
+choco install tldr
+```
+
+It can show you the command example, usage, and description. And even some **initialization settings**. (I actually use this tool a lot. And for zoxide initialization, I just copy and paste given suggestions into my `$PROFILE`.)
+
+
 ## bat - Better cat
+
+Basically, this is a better `cat` command with syntax highlighting and user-friendly pagenation. Check out [bat GitHub Page](https://github.com/sharkdp/bat). Installation via Chocolatey:
+
+```powershell
+choco install bat
+```
 
 ## winfetch - System Info
 
+A fancy tool to show system info. Check out [winfetch GitHub Page](https://github.com/lptstr/winfetch). Installation via Chocolatey:
+
+```powershell
+choco install winfetch
+```
+
+See my cover of this post. It can even show images in the terminal! I show my avatar of Github :wink:
+
 ## dust - Quick du
+
+Quicker du replacement. It is written in Rust. Check out [dust GitHub Page](https://github.com/bootandy/dust). Installation via Chocolatey:
+
+```powershell
+choco install dust
+```
+
+gdu is another quick du replacement. It is written in Go. Check out [gdu GitHub Page](https://github.com/dundee/gdu). Installation via Chocolatey:
+
+```powershell
+choco install gdu
+```
+
+(actually, I prefer gdu's ui over dust's ui)
 
 ## bottom - Better top
 
+Opposite of top. Just joking. Check out [bottom GitHub Page](https://github.com/ClementTsang/bottom). Installation via Chocolatey:
+
+```powershell
+choco install bottom
+```
+
+It is also a dependency of astronvim.
+
 ## fzf - Fuzzy finder
 
+Greatness needs no words! Check out [fzf GitHub Page](https://github.com/junegunn/fzf). Installation via Chocolatey:
+
+```powershell
+choco install fzf
+```
+
 ## zoxide - Smart cd
+
+It will change your terminal change path cmd from `cd` to `z`. Check out [zoxide GitHub Page](https://github.com/ajeetdsouza/zoxide). Installation via Chocolatey:
+
+```powershell
+choco install zoxide
+```
 
 ---
 
