@@ -581,3 +581,13 @@ Related Posts / Websites 👇
 📑 [Microsoft - Installing Powershell on Windows](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.5)
 
 📑 [Microsoft - Get PSSsubsystem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-pssubsystem?view=powershell-7.5)
+
+📑 [Microsoft - Get-Module](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-module?view=powershell-7.5)
+
+📑 [GitHub - winget](https://github.com/microsoft/winget-cli), [GitHub - chocolatey](https://github.com/chocolatey/choco) 
+
+📑 [GitHub - oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh)
+
+📑 [GitHub - tldr](https://github.com/tldr-pages/tldr), [GitHub - bat](https://github.com/sharkdp/bat), [GitHub - dust](https://github.com/bootandy/dust), [GitHub - gdu](https://github.com/dundee/gdu), [GitHub - fzf](https://github.com/junegunn/fzf), [GitHub - zoxide](https://github.com/ajeetdsouza/zoxide)
+
+📑 [GitHub - lazygit](https://github.com/jesseduffield/lazygit), [GitHub - lazydocker](https://github.com/jesseduffield/lazydocker), [GitHub - neovim](https://github.com/neovim/neovim)
