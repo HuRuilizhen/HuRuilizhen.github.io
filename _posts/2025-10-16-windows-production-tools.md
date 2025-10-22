@@ -219,9 +219,29 @@ Powershell profile is a file that contains commands and settings that are execut
 
 # Package Management Tools
 
+Like apt for Ubuntu, yum for CentOS, brew for macOS, etc. Windows Terminal comes with a package manager called **winget** and a package manager called **chocolatey**. They are both very useful and easy to use. But focus on different use cases. I both of them for different purposes.
+
 ## winget
 
+Officially produced by Microsoft, it is lightweight, modern, and tightly integrated with the system. It is more like "App Store CLI" for Windows, focusing on installing and managing free open source or store applications. Features:
+- **Official Installation**: In most cases, the official installer (e.g., .msi, .exe) is called and then installed using its silent parameters. The more modern MSIX is also supported.
+- **Secure Source**: Microsoft will perform some scanning and verification, and the source is relatively trustworthy.
+- **Simple Usage**: The command line syntax is more modern and concise.
+
+You can find more information on the [Winget GitHub page](https://github.com/microsoft/winget-cli) or check the official website at [Windows Package Manager](https://learn.microsoft.com/en-us/windows/package-manager/). It is available for Windows 11 by default most of the time. You can also install it via the Windows Store by searching for "Winget". For some useful commands, you can refer to the [Winget documentation](https://learn.microsoft.com/en-us/windows/package-manager/winget/install?source=recommendations). 
+
 ## chocolatey
+
+Chocolatey is an "automated software deployment platform" for Windows that manages software as code. Features:
+- **Community Driven** : Community projects, commercial company support. "Trust lies in the community." The packages in the public repository are provided by different maintainers, and users need to make their own judgments.
+- **Powerful Installation**: It completely relies on automated scripts (PowerShell) to download and install silently, and can handle very complex installation processes (such as entering serial numbers, copying files, etc.).
+- **Classic Syntax**: The command line syntax is classic and powerful, and some commands are more complex.
+
+Download and install Chocolatey via the [Chocolatey GitHub page](https://github.com/chocolatey/chocolatey) and official website at [Chocolatey Installation](https://chocolatey.org/install).  Run the following command:
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
 
 ---
 
