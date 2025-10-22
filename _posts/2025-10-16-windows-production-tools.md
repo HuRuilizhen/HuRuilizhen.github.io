@@ -38,6 +38,7 @@ The most exciting part after getting a new machine is configuration! In this pos
   - [lazydocker - TUI for docker commands](#lazydocker---tui-for-docker-commands)
   - [astronvim - Distr of Neovim](#astronvim---distr-of-neovim)
 - [Conclusion](#conclusion)
+
 ---
 
 # Installation and Startup
