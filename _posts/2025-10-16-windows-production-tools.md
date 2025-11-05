@@ -37,6 +37,7 @@ The most exciting part after getting a new machine is configuration! In this pos
   - [lazygit - TUI for git commands](#lazygit---tui-for-git-commands)
   - [lazydocker - TUI for docker commands](#lazydocker---tui-for-docker-commands)
   - [astronvim - Distr of Neovim](#astronvim---distr-of-neovim)
+  - [OpenSSH Server and Client](#openssh-server-and-client)
 - [Conclusion](#conclusion)
 
 ---
@@ -518,6 +519,85 @@ Next, just follow the [Astronvim Installation Guide](https://docs.astronvim.com/
 
 In another post of mine, I also talked about how to set up `windsurf` (powerful but free AI tool) with `Neovim`. please check it out [here](/Linux-Terminal-Beautify#integrate-with-ai-tools).
 
+## OpenSSH Server and Client
+
+Setting up SSH is a little bit different on Windows compared to Unix-like systems, see [OpenSSH Installation Guide](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=powershell&pivots=windows-11). But still a easy task. First, check if you have administrator privileges:
+
+```powershell
+(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+```
+
+If got `True`, you can just run the following command to check if OpenSSH is installed. Remember to run it with administrator privileges:
+
+```powershell
+Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
+```
+
+If got something like this:
+
+```powershell
+Name  : OpenSSH.Client~~~~0.0.1.0
+State : NotPresent
+
+Name  : OpenSSH.Server~~~~0.0.1.0
+State : NotPresent
+```
+
+We need to install through following command:
+
+```powershell
+# Install the OpenSSH Client
+Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+
+# Install the OpenSSH Server
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+```
+
+It will take a few minutes to install. Once done, run the following commands to start the sshd service:
+
+```powershell
+# Start the sshd service
+Start-Service sshd
+
+# OPTIONAL but recommended:
+Set-Service -Name sshd -StartupType 'Automatic'
+
+# Confirm the Firewall rule is configured. It should be created automatically by setup. Run the following to verify
+if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyContinue)) {
+    Write-Output "Firewall Rule 'OpenSSH-Server-In-TCP' does not exist, creating it..."
+    New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+} else {
+    Write-Output "Firewall rule 'OpenSSH-Server-In-TCP' has been created and exists."
+}
+```
+
+Next, we need to set up SSH keys. It is different for administrators and non-administrators. For non-administrators, we can add public keys to the `authorized_keys` file of the user.
+
+```powershell
+nvim ~\.ssh\authorized_keys
+```
+
+For administrators, add public keys to the `administrators_authorized_keys` file which located at `C:\ProgramData\ssh\`:
+
+```powershell
+nvim C:\ProgramData\ssh\administrators_authorized_keys
+```
+
+Initially, OpenSSH server will use `cmd.exe` as the default shell. Let's change it to `powershell.exe`:
+
+```powershell
+$NewItemPropertyParams = @{
+    Path         = "HKLM:\SOFTWARE\OpenSSH"
+    Name         = "DefaultShell"
+    Value        = "C:\Program Files\PowerShell\7\pwsh.exe" # or change to the path of favorite shell executable
+    PropertyType = "String"
+    Force        = $true
+}
+New-ItemProperty @NewItemPropertyParams
+```
+
+Boom! We are now ready to use SSH to connect to the Windows machine!
+
 ---
 
 # Conclusion
@@ -583,6 +663,10 @@ Related Posts / Websites 👇
 📑 [Microsoft - Get PSSsubsystem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-pssubsystem?view=powershell-7.5)
 
 📑 [Microsoft - Get-Module](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-module?view=powershell-7.5)
+
+📑 [Microsoft - OpenSSH Installation Guide](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=powershell&pivots=windows-11)
+
+📑 [Microsoft - OpenSSH Key Management](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement)
 
 📑 [GitHub - winget](https://github.com/microsoft/winget-cli), [GitHub - chocolatey](https://github.com/chocolatey/choco) 
 
