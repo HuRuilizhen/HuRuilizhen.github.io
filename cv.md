@@ -148,11 +148,12 @@ description: "A CV Page of Author"
             <ul>
                 <li>Academic Standing Top 8.5% (11th/129 in MGPA Ranking)</li>
                 <li>
-                    Under Graduate Teaching Fellowship
+                    Undergraduate Student Teaching Fellowship (USTF)
                     <ul class="nested-list">
-                        <li>CSC1003 Introduction to Computer Science and Java Programming (Autumn 2023)</li>
-                        <li>CSC1003 Introduction to Computer Science and Java Programming (Autumn 2024)</li>
-                        <li>CSC2003 Itroduction to Java Programming (Spring 2024)</li>
+                        <li>CSC1003 - Introduction to Computer Science and Java Programming (Autumn 2023)</li>
+                        <li>CSC1003 - Introduction to Computer Science and Java Programming (Autumn 2024)</li>
+                        <li>CSC2003 - Introduction to Java Programming (Spring 2024)</li>
+                        <li>CSC3170 - Database System (Autumn 2025)</li>
                     </ul>
                 </li>
             </ul>
@@ -164,94 +165,53 @@ description: "A CV Page of Author"
     </div>
     <div class="cv-section">
         <h2>Work Experience</h2>
-        <h3>
-            Shenzhen Zhongzhilechuang Technology Co., Ltd.
-            <span>Nov. 2022 - Jun. 2024</span>
-        </h3>
+        <h3>The Jianchen Science and Technology Ltd.<span>Jul. 2024 - Jan. 2025</span></h3>
         <h4>
-            <p>Informatics Competition Instructor (Part-time Contract)</p>
-            <p>Shenzhen, Guangdong, China</p>
+            <p>Co-founder &amp; Full Stack Developer</p>
+            <p>Shenzhen, Guangdong</p>
         </h4>
         <ul>
-            <li>Mentored 15+ middle / high school students in algorithm design and programming, achieving:
-                <ul class="nested-list">
-                    <li>3× First Prize (CSP-J/S 2023 Second Round)</li>
-                    <li>5× Second Prize (CSP-J/S 2023 Second/Advanced Round)</li>
-                </ul>
-            </li>
-            <li>Designed and deployed a Django-based educational blog platform (<a href="http://blogweb.fun">blogweb.fun</a>):
-                <ul class="nested-list">
-                    <li>Implemented user authentication, content management, and commenting system</li>
-                    <li>Optimized page load speed by 40% through caching strategies</li>
-                    <li>Open-source codebase: <a href="https://github.com/HuRuiilzhen/Blog-Web">github.com/HuRuiilzhen/Blog-Web</a></li>
-                </ul>
-            </li>
+            <li>Co-founded a student startup focused on automating text revision workflows for the publishing industry.</li>
+            <li>Contributed to the construction of an AI-assisted editorial correction system, including data acquisition from publishers and preparation of annotated PDF datasets containing correction marks for OCR model fine-tuning.</li>
+            <li>Designed and implemented a task scheduling and orchestration module to support asynchronous and batch processing of large-scale PDF document correction jobs.</li>
+            <li>Developed the company official website and implemented the majority of business-facing front-end and back-end functionalities (excluding algorithm development), enabling end-to-end integration between OCR models and downstream vision workflows.</li>
+            <li>Built front-end interfaces using <strong>Vue.js</strong> and back-end services with <strong>Flask</strong>, supporting real-world publisher trials and internal production workflows.</li>
         </ul>
-        <h3>The Jianchen Science and Technology Ltd.<span>Jul. 2024 - Present</span></h3>
+        <h3>Tencent Holdings Limited – Weixin Group<span>May. 2025 - Sep. 2025</span></h3>
         <h4>
-            <p>Full Stack Developer (Intern)</p>
-            <p>Shenzhen, Guangdong, China</p>
+            <p>Intern, PC Client Developer</p>
+            <p>Guangzhou, Guangdong</p>
         </h4>
         <ul>
-            <li>Led development of enterprise SaaS platform using Vue.js/Flask stack:
-                <ul class="nested-list">
-                    <li>Built dynamic dashboard with real-time data visualization (ECharts integration)</li>
-                    <li>Designed RESTful APIs handling 1k+ RPM with 99.9% uptime</li>
-                </ul>
-            </li>
-            <li>DevOps improvements:
-                <ul class="nested-list">
-                    <li>Reduced CI/CD pipeline runtime from 12min → 4min through parallel testing</li>
-                    <li>Implemented automated monitoring with Prometheus/Grafana</li>
-                </ul>
-            </li>
-            <li>Key contributor to architecture redesign:
-                <ul class="nested-list">
-                    <li>Migrated monolithic backend to microservices (Docker/Kubernetes)</li>
-                    <li>Improved API response time by 35% with Redis caching</li>
-                </ul>
-            </li>
-        </ul>
-        <h3>Tencent Holdings Limited<span>May. 2025 - Sep. 2025 (Expected)</span></h3>
-        <h4>
-            <p>Developer Intern (WXG)</p>
-            <p>Guangzhou, Guangdong, China</p>
-        </h4>
-        <ul>
-            <li>Worked on WeCom PC client-side development using C++ with DuiLib/Qt</li>
-            <li>Implemented and maintained 45+ shortcut key features</li>
-            <li>Fixed 24+ defects in custom QTextEdit component</li>
-            <li>Developed a cross-platform native file selector to improve user experience</li>
-            <li>Conducted compiler optimization research:
-                <ul class="nested-list">
-                    <li>Explored LLVM modules & PCH, reducing frontend compile time by ~90% in experiments</li>
-                    <li>Implemented Bazel remote cache, cutting full build time by ~50% in personal tests</li>
-                </ul>
-            </li>
-            <li>Contributed 15+ internal technical docs (Qt components, shortcut key system, build optimization)</li>
+            <li>Developed cross-platform desktop modules using <strong>Qt</strong> and <strong>C++</strong>, interfacing with native Windows and macOS APIs to ensure consistent client behavior.</li>
+            <li>Optimized build and link workflows in a large-scale C++ codebase using <strong>Clang</strong> and <strong>Bazel</strong>, contributing to modularization and reducing incremental build latency.</li>
+            <li>Investigated and resolved complex runtime issues in multi-threaded components; improved code stability and debuggability through systematic profiling and debugging practices.</li>
         </ul>
     </div>
     <div class="cv-section">
         <h2>Research Experience</h2>
-        <h3>Directed Acyclic Graph Scheduling Algorithms<span>Nov. 2023 - Jul. 2024</span></h3>
+        <h3>Research on Directed Acyclic Graph Scheduling Algorithms<span>Nov. 2023 - Jul. 2024</span></h3>
         <h4>
-            <p>Supervised by <a href="https://www.sribd.cn/en/teacher/20">Prof. Wenye Li</a></p>
-            <p>Shenzhen, Guangdong, China</p>
+            <p>Supervised by <a href="https://math4ai.cuhk.edu.cn/en/teacher/41">Prof. Wenye Li</a>; Experimentation Lead</p>
+            <p>Shenzhen, Guangdong</p>
         </h4>
         <ul>
-            <li>Replicated and maintained NN-to-DAG repository from academic papers</li>
-            <li>Developed novel dynamic programming-based scheduling algorithm</li>
-            <li>Led data collection/analysis for algorithm validation</li>
+            <li>Studied scheduling algorithms for directed acyclic graphs (DAGs), with a focus on approximate dynamic programming approaches.</li>
+            <li>Led the replication, maintenance, and extension of experimental implementations from prior literature, and conducted large-scale data collection and performance evaluation.</li>
+            <li>Co-authored the paper <strong>An Approximate Dynamic Programming Method for Directed Acyclic Graph</strong>, accepted by ICONIP 2024 (Auckland, New Zealand) (<a href="https://link.springer.com/chapter/10.1007/978-981-96-6954-7_15">paper</a>).</li>
+            <li>Served as the primary technical contributor for a patent application on a novel DAG scheduling method and system (CN202410923163.0, <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=170p0gh0rd580ry0ey610cx0xj149157&svcp_stk=1_3Lg3MlSxXq_HNUFUhQPF_Y29cZqwQ8FpkC0fOxy6BcSD8LYBTinB-J1v97o0rQszVnw_AiaGO5yaKUm5vpYhtS-4apP8kFKCtEHUqAEYbzquabDxYP05QjJu10-CfRXn6hZFWeaGWnEQT4dy-R9YLgV17AKk6JdoS1pN1gzrx7IF4p7SSyr0S71zxeRBH2xh">patent</a>).</li>
+            <li>Maintained an open-source experimental codebase to support reproducibility and benchmarking (<a href="https://github.com/HuRuilizhen/NN-to-DAG/">code</a>).</li>
         </ul>
-        <h3>Kolmogorov-Arnold Auto-Encoder for Representation Learning<span>Aug. 2024 - Oct. 2024</span></h3>
+        <h3>Research on Kolmogorov-Arnold Auto-Encoder for Representation Learning<span>Sep. 2024 - Jan. 2025</span></h3>
         <h4>
-            <p>Supervised by <a href="https://www.sribd.cn/en/teacher/20">Prof. Wenye Li</a></p>
-            <p>Shenzhen, Guangdong, China</p>
+            <p>Supervised by <a href="https://math4ai.cuhk.edu.cn/en/teacher/41">Prof. Wenye Li</a>; Research Contributor (Method &amp; Experiments)</p>
+            <p>Shenzhen, Guangdong</p>
         </h4>
         <ul>
-            <li>Proposed hybrid architecture combining KAN networks with autoencoders</li>
-            <li>Conducted comparative experiments on latent representation quality</li>
-            <li>Implemented open-source framework for reproducibility</li>
+            <li>Proposed the Kolmogorov-Arnold Auto-Encoder (KAE), integrating Kolmogorov-Arnold Networks (KAN) with auto-encoders to enhance representation learning.</li>
+            <li>Designed and conducted extensive experiments demonstrating improved latent representation quality, reduced reconstruction error, and superior performance on retrieval, classification, and denoising tasks.</li>
+            <li>Co-authored the paper <strong>KAE: Kolmogorov-Arnold Auto-Encoder for Representation Learning</strong> (<a href="https://arxiv.org/abs/2501.00420">paper</a>).</li>
+            <li>Contributed to the development and public release of an open-source implementation to ensure reproducibility (<a href="https://github.com/SciYu/KAE">code</a>).</li>
         </ul>
     </div>
     <div class="cv-section">
@@ -288,8 +248,8 @@ description: "A CV Page of Author"
         <ul>
             <li>Operating Systems: Ubuntu, Mac OS</li>
             <li>Markup Languages: HTML5, CSS3, Markdown, LaTeX</li>
-            <li>Programming Languages: Java, JavaScript, C++, Python, Rust</li>
-            <li>Development Frameworks: Vue.js, Flask, Django</li>
+            <li>Programming Languages: Java, JavaScript, TypeScript, C++, Python, Rust</li>
+            <li>Development Frameworks: Vue.js, React.js, Next.js, Nest.js, Flask, Django</li>
             <li>Database Systems: MongoDB, PostgreSQL, MySQL, SQLite</li>
             <li>Version Control: Git</li>
             <li>Hosting Tools: Heroku, Alibaba Cloud</li>
@@ -322,6 +282,13 @@ description: "A CV Page of Author"
         </h4>
         <h3>
             Dean's List, SDS/FE Programme <span>Sep. 2024</span>
+        </h3>
+        <h4>
+            <p>School of Data Science, The Chinese University of Hong Kong, Shenzhen</p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
+        <h3>
+            Dean's List, SDS/FE Programme <span>Sep. 2025</span>
         </h3>
         <h4>
             <p>School of Data Science, The Chinese University of Hong Kong, Shenzhen</p>
