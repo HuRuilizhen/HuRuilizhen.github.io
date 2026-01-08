@@ -32,8 +32,6 @@ navigation:
     url: /
   - text: Archives
     url: /archives
-  - text: Gallery
-    url: /gallery
   - text: About
     url: /about
   - text: CV
