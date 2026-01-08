@@ -9,10 +9,11 @@
 lang: en-US
 
 # Site title
-title: "Ray's Site 🎒"
+title: "Ray Hu"
 
 # A description of the site for meta tag, search engine results.
-description: "Hey there! 👋 Welcome to Hu Ray's playground, where you can find blog posts about tech, life stories, and maybe some notes. Grab a cup of ☕️ and let's have some fun!"
+description: "A personal site for technical notes, projects, and selected writing by Ray Hu."
+
 
 # The subpath of your site, e.g. /blog, for generating urls.
 baseurl: ""
@@ -32,8 +33,6 @@ navigation:
     url: /
   - text: Archives
     url: /archives
-  - text: Gallery
-    url: /gallery
   - text: About
     url: /about
   - text: CV
@@ -42,14 +41,14 @@ navigation:
     url: /contact
 
 # The shortname for your Disqus site to enable comments.
-disqus: justgoodthemes
+disqus: huruilizhen-github-io 
 
 # Colors
 accent_color: '#C73B45'
 
 # Site footer
 footer:
-  content: "&copy; Scriptor all rights reserved. Theme by [JustGoodThemes](https://www.justgoodthemes.com)."
+  content: "&copy; 2026 Ray Hu. Theme based on Scriptor by [JustGoodThemes](https://www.justgoodthemes.com)."
   has_social: true
 
 # Plugins
