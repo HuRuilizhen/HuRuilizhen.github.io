@@ -179,7 +179,7 @@ description: "A CV Page of Author"
         </ul>
         <h3>Tencent Holdings Limited – Weixin Group<span>May. 2025 - Sep. 2025</span></h3>
         <h4>
-            <p>Intern, PC Client Developer</p>
+            <p>PC Client Developer Intern</p>
             <p>Guangzhou, Guangdong</p>
         </h4>
         <ul>
@@ -246,7 +246,7 @@ description: "A CV Page of Author"
     <div class="cv-section">
         <h2>Technical Skills</h2>
         <ul>
-            <li>Operating Systems: Ubuntu, Mac OS</li>
+            <li>Operating Systems: Ubuntu, macOS</li>
             <li>Markup Languages: HTML5, CSS3, Markdown, LaTeX</li>
             <li>Programming Languages: Java, JavaScript, TypeScript, C++, Python, Rust</li>
             <li>Development Frameworks: Vue.js, React.js, Next.js, Nest.js, Flask, Django</li>
@@ -278,7 +278,7 @@ description: "A CV Page of Author"
         </h3>
         <h4>
             <p>China Collegiate Programming Contest Committee</p>
-            <p>Weihai, Shangdong, China</p>
+            <p>Weihai, Shandong, China</p>
         </h4>
         <h3>
             Dean's List, SDS/FE Programme <span>Sep. 2024</span>
