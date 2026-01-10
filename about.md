@@ -1,21 +1,31 @@
 ---
 layout: page
-title: About Me
-description: Simple Introduction about Author
+title: About
+description: About Ray Hu
 feature_image: images/about.jpeg
 ---
 
-# 👋 Hello, I'm Ruilizhen HU! You can also call me Ray! 🚀
+I’m a software engineer based in Shenzhen, China, with a background in
+computer science. My work and interests center around building reliable,
+maintainable software systems, with particular attention to correctness
+and practical engineering trade-offs.
 
-A soon-to-be Computer Science graduate from The Chinese University of Hong Kong, Shenzhen, about to embark on a new journey as a software engineer at a leading internet company 🐧 in mainland China. I'm passionate about machine learning, algorithms, and full-stack development. In my free time, I enjoy traveling, reading manga, playing video games, and exploring new technologies and trends. Always eager to learn and explore more, I'm excited to see what the future holds! The figure above is a picture of me (with my girlfriend) in the past.
+My current focus includes:
 
-<p align="center">
-  <img src="https://github-readme-quotes-bay.vercel.app/quote?font=Redressed&theme=graywhite" />
-</p>
+- General software engineering with an emphasis on clean design and maintainability
+- Systems-related topics such as concurrency fundamentals and performance considerations
+- Small tools and experimental components built to better understand system behavior
+
+This website serves as a long-term record of my technical work and notes, including
+engineering write-ups, experiments, and selected study or research materials. Most
+content is written to clarify problems encountered in practice rather than as
+polished tutorials.
+
+Outside of work, I enjoy traveling and reading.
 
 ---
 
-## 💬 Comment Board
+## Comments
 
 <script src="https://utteranc.es/client.js"
         repo="HuRuilizhen/HuRuilizhen"
