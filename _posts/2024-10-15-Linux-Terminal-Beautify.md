@@ -4,7 +4,7 @@ title: "Linux Terminal Beautify"
 description: "A quick start on how to beautify the terminal in Linux"
 date: 2024-10-15
 feature_image: images/terminal.png
-tags: ['command-line-interface', 'linux']
+tags: ['linux', 'configuration', 'command-line-interface']
 ---
 
 Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left it idle for a long time, I now try to turn it into a productivity tool. The first thing needs to be done is to beautify the terminal just like the one in my `Macbook Air`. Here is how I did it: 💻
