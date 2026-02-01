@@ -4,7 +4,7 @@ title: "Linux Terminal Beautify"
 description: "A quick start on how to beautify the terminal in Linux"
 date: 2024-10-15
 feature_image: images/terminal.png
-tags: ['command-line-interface', 'linux']
+tags: ['linux', 'configuration', 'command-line-interface']
 ---
 
 Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left it idle for a long time, I now try to turn it into a productivity tool. The first thing needs to be done is to beautify the terminal just like the one in my `Macbook Air`. Here is how I did it: 💻
@@ -12,6 +12,7 @@ Ever since I mistakenly refreshed my desktop to `Ubuntu 24.04` system and left i
 <!--more-->
 
 ## Table of Content
+
 - [Shell Setup](#shell-setup)
   - [ZSH](#zsh)
   - [Oh My ZSH](#oh-my-zsh)
@@ -73,6 +74,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 - Then set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
 - Restart your terminal or type `source ~/.zshrc`
 - Set the same terminal font in VSCode `"terminal.integrated.fontFamily": "'0xProto Nerd Font'"` (optional)
+- Reset powerlevel10k theme configuration by command `p10k configure`
 
 With a screenshot, you can see terminal with `Powerlevel10k` theme:
 
@@ -80,7 +82,7 @@ With a screenshot, you can see terminal with `Powerlevel10k` theme:
 
 ## zsh-autosuggestions
   
-A plugin that suggests commands based on what you have typed. 
+A plugin that suggests commands based on what you have typed.
 
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -134,6 +136,7 @@ git clone –depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 | `<command> <file path>/**` | Combine fzf with other commands |
 
 - Additionally, if you want to make `fzf` work with `editor`, you can add following lines in `~/.zshrc`:
+
 ```bash
 function open-editor-with-fzf() {
     local file=$(find . -type f | fzf --preview="cat {}")
@@ -160,6 +163,7 @@ And setting alias `ls` to `eza` in `~/.zshrc`
 alias ls="eza --color=always --long --git --icons=always --no-time --no-user --no-permissions"
 alias ll="eza --color=always --long --git --icons=always --header"
 ```
+
 Then restart your terminal or type `source ~/.zshrc`, and try `ls` and `ll`.
 
 {% include image_caption.html imageurl="/images/terminal-with-eza-ls.png" title="Terminal with eza ls" caption="Terminal with eza ls"%}
@@ -178,9 +182,10 @@ See different commands with `tldr` using `tldr <command>`, here is an example co
 
 {% include image_caption.html imageurl="/images/terminal-with-tldr.png" title="Terminal with tldr" caption="Terminal with tldr"%}
 
-{% include image_caption.html imageurl="/images/terminal-with-man.png" title="Terminal with man" caption="Terminal with man"%}    
+{% include image_caption.html imageurl="/images/terminal-with-man.png" title="Terminal with man" caption="Terminal with man"%}
 
 ## fastfetch
+
 A command-line system information tool that is easy to use and fast. The install process is a bit different from others. We need to add `ppa:zhangsongcui3371/fastfetch` to our sources, and then install it.
 
 ```bash
@@ -200,17 +205,23 @@ By the way, we can directly install `fastfetch` by typing `brew install fastfetc
 # Editor Setup
 
 ## Neovim
+
 AstroNvim is an aesthetically pleasing and feature-rich neovim config that is extensible and easy to use with a great set of plugins. To install it, you need to install `neovim` first.
+
 ```bash
 sudo apt install neovim
 ```
+
 - Then clean up cache and state files:
+
 ```bash
 mv ~/.local/share/nvim ~/.local/share/nvim.bak
 mv ~/.local/state/nvim ~/.local/state/nvim.bak
 mv ~/.cache/nvim ~/.cache/nvim.bak
 ```
+
 - Clone [AstroNvim](https://github.com/AstroNvim/AstroNvim) repository
+
 ```bash
 git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
 # remove template's git connection to set up your own later
@@ -218,7 +229,8 @@ rm -rf ~/.config/nvim/.git
 nvim
 ```
 
-## Integrate with AI Tools 
+## Integrate with AI Tools
+
 Codeium is a powerful code assistant that provides an AI-powered code completion, code refactoring, and code formatting. I usually use it in my daily work before with `VSCode`. Let's do it in `Neovim`, add a new file named `codeium.lua` in `~/.config/nvim/lua/plugins/` and add the following lines:
 
 ```lua
@@ -249,7 +261,7 @@ return {
 
 ---
 
-Reference: 
+Reference:
 
 📑 [Geeksforgeeks - How to make Linux terminal look awesome](https://www.geeksforgeeks.org/how-to-make-linux-terminal-look-awesome/)
 

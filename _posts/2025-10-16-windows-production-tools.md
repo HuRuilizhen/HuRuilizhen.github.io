@@ -4,14 +4,15 @@ title: "Windows Terminal Configuration"
 description: "Configuration of Windows Terminal with PowerShell and related tools"
 date: 2025-10-16
 feature_image: images/windows-terminal-configuration.png
-tags: ['windows', 'command-line-interface']
+tags: ['windows', 'configuration', 'command-line-interface']
 ---
 
-The most exciting part after getting a new machine is configuration! In this post, I will share my configuration of Windows Terminal with PowerShell, focusing on the appearance settings, package management tools, command-line tools, and editor settings. I will walk you through the process of setting up a beautiful and functional terminal experience on Windows, which will greatly enhance your productivity and coding experience. 
+The most exciting part after getting a new machine is configuration! In this post, I will share my configuration of Windows Terminal with PowerShell, focusing on the appearance settings, package management tools, command-line tools, and editor settings. I will walk you through the process of setting up a beautiful and functional terminal experience on Windows, which will greatly enhance your productivity and coding experience.
 
 <!--more-->
 
 ## Table of Contents
+
 - [Installation and Startup](#installation-and-startup)
   - [Intalling Windows Terminal and PowerShell 7.x](#intalling-windows-terminal-and-powershell-7x)
   - [Windows Terminal Startup](#windows-terminal-startup)
@@ -63,6 +64,7 @@ $PROFILE
 Just for reference, you can check current PowerShell Modules and PSSusbsytems with the following commands. And here are my current outputs:
 
 <a name="powershell-modules-and-pssubsystems"></a>
+
 ```powershell
 # PowerShell Modules
 > Get-Module
@@ -170,7 +172,8 @@ My appearance settings for PowerShell:
 }
 ```
 
-Also, if you want to use Windows Terminal effectively, shortcut keys and hotkeys can be very useful. 
+Also, if you want to use Windows Terminal effectively, shortcut keys and hotkeys can be very useful.
+
 - `ctrl+shift+c` to close the current tab
 - `ctrl+shift+t` to open a new tab
 - `ctrl+shift+n` to open a new window
@@ -227,15 +230,17 @@ Like apt for Ubuntu, yum for CentOS, brew for macOS, etc. Windows Terminal comes
 ## winget
 
 Officially produced by Microsoft, it is lightweight, modern, and tightly integrated with the system. It is more like "App Store CLI" for Windows, focusing on installing and managing free open source or store applications. Features:
+
 - **Official Installation**: In most cases, the official installer (e.g., .msi, .exe) is called and then installed using its silent parameters. The more modern MSIX is also supported.
 - **Secure Source**: Microsoft will perform some scanning and verification, and the source is relatively trustworthy.
 - **Simple Usage**: The command line syntax is more modern and concise.
 
-You can find more information on the [Winget GitHub Page](https://github.com/microsoft/winget-cli) or check the official website at [Windows Package Manager](https://learn.microsoft.com/en-us/windows/package-manager/). It is available for Windows 11 by default most of the time. You can also install it via the Windows Store by searching for "Winget". For some useful commands, you can refer to the [Winget documentation](https://learn.microsoft.com/en-us/windows/package-manager/winget/install?source=recommendations). 
+You can find more information on the [Winget GitHub Page](https://github.com/microsoft/winget-cli) or check the official website at [Windows Package Manager](https://learn.microsoft.com/en-us/windows/package-manager/). It is available for Windows 11 by default most of the time. You can also install it via the Windows Store by searching for "Winget". For some useful commands, you can refer to the [Winget documentation](https://learn.microsoft.com/en-us/windows/package-manager/winget/install?source=recommendations).
 
 ## chocolatey
 
 Chocolatey is an "automated software deployment platform" for Windows that manages software as code. Features:
+
 - **Community Driven** : Community projects, commercial company support. "Trust lies in the community." The packages in the public repository are provided by different maintainers, and users need to make their own judgments.
 - **Powerful Installation**: It completely relies on automated scripts (PowerShell) to download and install silently, and can handle very complex installation processes (such as entering serial numbers, copying files, etc.).
 - **Classic Syntax**: The command line syntax is classic and powerful, and some commands are more complex.
@@ -355,6 +360,7 @@ Import-Module -Name Terminal-Icons
 ## CompletionPredictor
 
 This is for better `Tab` completion. Refer to [CompletionPredictor GitHub Page](https://github.com/PowerShell/CompletionPredictor?tab=readme-ov-file#use-the-predictor). The CompletionPredictor plugin is built on the Subsystem Plugin Model, which is available with PowerShell 7.2 or above. To display prediction suggestions from the CompletionPredictor, you need PSReadLine 2.2.2 or above.
+
 - [PowerShell 7.2 or above](https://learn.microsoft.com/en-us/powershell/scripting/learn/experimental-features?view=powershell-7.5#pssubsystempluginmodel)
 - [PSReadLine 2.2.2 or above](https://www.powershellgallery.com/packages/PSReadLine/2.2.2)
 
@@ -394,7 +400,6 @@ choco install tldr
 ```
 
 It can show you the command example, usage, and description. And even some **initialization settings**. (I actually use this tool a lot. And for zoxide initialization, I just copy and paste given suggestions into my `$PROFILE`.)
-
 
 ## bat - Better cat
 
@@ -469,6 +474,7 @@ This [open source](https://github.com/jesseduffield/lazygit) tui tool just boost
 ```powershell
 choco install lazygit
 ```
+
 <br>
 {% include image_caption.html imageurl="https://github.com/jesseduffield/lazygit/raw/assets/demo/commit_and_push-compressed.gif" title="LazyGit" caption="A screenshot of using lazygit, from https://github.com/jesseduffield/lazygit" %}
 
@@ -492,6 +498,7 @@ choco install neovim
 ```
 
 And also we have some dependencies for better coding experience:
+
 - Nerd Fonts: done at [font](#font). Necessary for proper display of icons in the status line and file explorer.
 - ripgrep: A fast search tool that is used by many Neovim plugins for searching files. Install via Chocolatey: `choco install ripgrep`. `<Leader>fw` to search files.
 - lazygit: done at [lazygit](#lazygit). Default git client for Astronvim. Install via Chocolatey: `choco install lazygit`. `<Leader>gg` to open lazygit.
@@ -500,22 +507,27 @@ And also we have some dependencies for better coding experience:
 - Python: Install via Chocolatey: `choco install python`. `<Leader>tp` to open Python REPL.
 - Node.js: Node is needed for a lot of the LSPs. Install via Chocolatey: `choco install nodejs`. `<Leader>tn` to open Node.js REPL.
 
-Next, just follow the [Astronvim Installation Guide](https://docs.astronvim.com/#-installation) to set it up. 
+Next, just follow the [Astronvim Installation Guide](https://docs.astronvim.com/#-installation) to set it up.
 
 - Make a backup of your current nvim config (if exists)
+
     ```powershell
     Move-Item $env:LOCALAPPDATA\nvim $env:LOCALAPPDATA\nvim.bak
     ```
+
 - Clean neovim folders (Optional but recommended)
+
     ```powershell
     Move-Item $env:LOCALAPPDATA\nvim-data $env:LOCALAPPDATA\nvim-data.bak
     ```
+
 - Clone the repository
+
     ```powershell
     git clone --depth 1 https://github.com/AstroNvim/template $env:LOCALAPPDATA\nvim
     # remove template's git connection to set up your own later
     Remove-Item $env:LOCALAPPDATA\nvim\.git -Recurse -Force
-    ``` 
+    ```
 
 In another post of mine, I also talked about how to set up `windsurf` (powerful but free AI tool) with `Neovim`. please check it out [here](/Linux-Terminal-Beautify#integrate-with-ai-tools).
 
@@ -668,7 +680,7 @@ Related Posts / Websites 👇
 
 📑 [Microsoft - OpenSSH Key Management](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement)
 
-📑 [GitHub - winget](https://github.com/microsoft/winget-cli), [GitHub - chocolatey](https://github.com/chocolatey/choco) 
+📑 [GitHub - winget](https://github.com/microsoft/winget-cli), [GitHub - chocolatey](https://github.com/chocolatey/choco)
 
 📑 [GitHub - oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh)
 
