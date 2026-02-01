@@ -235,11 +235,19 @@ description: "A CV Page of Author"
             </div>
         </div>
         <div class="publication-item">
-            <div class="publication-title">A Novel Scheduling Method and Associated Equipment for Directed Acyclic Graphs</div>
+            <div class="publication-title">A Scheduling Method and Related Equipment Applied to Directed Acyclic Graph</div>
             <div class="publication-authors"><strong>Ruilizhen Hu</strong>, Yuqi Ma, Wenye Li, Yungbin Zhao</div>
             <div class="publication-venue">China National Intellectual Property Administration</div>
             <div class="publication-links">
-                <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=170p0gh0rd580ry0ey610cx0xj149157">Patent Link</a>
+                <a href="https://patents.google.com/patent/CN118656215A/en">Patent Link</a>
+            </div>
+        </div>
+        <div class="publication-item">
+            <div class="publication-title">File Reconstruction Method, System, Electronic Device and Medium Based on Machine Learning</div>
+            <div class="publication-authors"><strong>Ruilizhen Hu</strong>, Bohan Wu, Ziyue Cai, Chuxuan Jia, Haonan Xue, Yan Ke</div>
+            <div class="publication-venue">China National Intellectual Property Administration</div>
+            <div class="publication-links">
+                <a href="https://patents.google.com/patent/CN120635917A/en">Patent Link</a>
             </div>
         </div>
     </div>
