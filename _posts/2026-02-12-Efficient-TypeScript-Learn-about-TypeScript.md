@@ -16,13 +16,13 @@ This article starts a reading-notes series on ***Efficient TypeScript***. Many d
 <!--toc:start-->
 - [Term 01: Understand the Relations between TypeScript and JavaScript](#term-01-understand-the-relations-between-typescript-and-javascript)
 - [Term 02: Learn about TypeScript Options](#term-02-learn-about-typescript-options)
+- [Term 03: Code Generation is Independent of the Type System](#term-03-code-generation-is-independent-of-the-type-system)
   - [Code with Incorrect Type will also Produce Output](#code-with-incorrect-type-will-also-produce-output)
   - [Unable to Check TypeScript Type at Runtime](#unable-to-check-typescript-type-at-runtime)
   - [Type Operations cannot Affect Runtime Values](#type-operations-cannot-affect-runtime-values)
   - [the Runtime Type may be Different from the Declared Type](#the-runtime-type-may-be-different-from-the-declared-type)
   - [cannot Overload a Function Based on a TypeScript Type](#cannot-overload-a-function-based-on-a-typescript-type)
   - [TypeScript Types Have No Impact on Runtime Performance](#typescript-types-have-no-impact-on-runtime-performance)
-- [Term 03: Code Generation is Independent of the Type System](#term-03-code-generation-is-independent-of-the-type-system)
 - [Term 04: Accustomed to Structural Typing](#term-04-accustomed-to-structural-typing)
 - [Term 05: Restrict the Use of Any Type](#term-05-restrict-the-use-of-any-type)
   - [any Type do not Have Type Safety](#any-type-do-not-have-type-safety)
@@ -40,6 +40,10 @@ This article starts a reading-notes series on ***Efficient TypeScript***. Many d
 
 # Term 02: Learn about TypeScript Options
 
+---
+
+# Term 03: Code Generation is Independent of the Type System
+
 ## Code with Incorrect Type will also Produce Output
 
 ## Unable to Check TypeScript Type at Runtime
@@ -51,10 +55,6 @@ This article starts a reading-notes series on ***Efficient TypeScript***. Many d
 ## cannot Overload a Function Based on a TypeScript Type
 
 ## TypeScript Types Have No Impact on Runtime Performance
-
----
-
-# Term 03: Code Generation is Independent of the Type System
 
 ---
 
