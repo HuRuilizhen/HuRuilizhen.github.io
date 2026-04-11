@@ -349,11 +349,65 @@ In this model, testing is no longer an isolated activity but an integral part of
 
 ## Build Artifacts
 
+The output of a Python packaging process is not the source code itself, but a set of distributable artifacts. The two primary formats are source distributions (sdist) and built distributions (wheel), each serving a different role in the ecosystem.
+
+A source distribution contains the raw project files and requires a build step during installation. In contrast, a wheel is a pre-built artifact that can be installed directly without executing the build process, making it faster and more predictable. For this reason, wheels have become the preferred distribution format in most cases, as they reduce installation overhead and eliminate variability introduced by local build environments.
+
+An important but often overlooked aspect of packaging is that the contents of these artifacts are not implicitly derived from the repository. Instead, they are determined by the build configuration and inclusion rules defined by the project. This means that not all files present in the source tree are guaranteed to be included in the final distribution, and conversely, unintended files may be packaged if not explicitly excluded. In practice, these inclusion rules are defined through the project’s build configuration (e.g., in `pyproject.toml`, see [https://packaging.python.org/en/latest/guides/writing-pyproject-toml/](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)), which ultimately determines what is shipped to users.
+
+```toml
+# pyproject configuration example
+[tool.hatch.build.targets.wheel]
+packages = ["src/mypkg"]
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+  "/src/mypkg",
+  "/README.md",
+  "/LICENSE",
+  "/pyproject.toml",
+]
+```
+
+As a result, building a package is not merely a mechanical step, but a process of curating what is actually shipped to users. Ensuring that the correct modules, data files, and metadata are included—and nothing more—is essential for producing reliable and reproducible distributions. In this sense, distribution artifacts represent a controlled snapshot of the project, rather than a direct reflection of the repository state.
+
 ## Publishing to PyPI
+
+Once a package has been built into distributable artifacts, the next step is to make those artifacts available to users. In the Python ecosystem, this is typically done by publishing them to a package index such as the [Python Package Index (PyPI)](https://pypi.org/), which serves as the central distribution layer for Python packages.
+
+It is important to distinguish between building and publishing. The build step produces artifacts—such as wheels and source distributions while publishing is the act of uploading those artifacts to an index where they can be discovered and installed. Tools like pip do not interact with source repositories directly; instead, they retrieve pre-built distributions from package indexes, resolving dependencies and selecting appropriate artifacts for the target environment.
+
+In practice, publishing involves uploading pre-built artifacts to the index, typically authenticated via API tokens rather than user credentials. This separation of build and distribution reinforces a more reliable workflow: artifacts are produced in a controlled environment and then distributed without modification.
+
+From a system perspective, PyPI functions as a registry rather than a build service. It does not generate packages, but hosts and serves them. This distinction ensures that installation remains fast and predictable, as it relies on already prepared artifacts rather than executing arbitrary build steps at install time.
 
 ## Versioning and Release Strategy
 
+Versioning is often treated as a simple numbering scheme, but in practice it defines the contract between a package and its users. A version is not merely a label, it communicates compatibility guarantees and sets expectations about how the package can evolve over time.
+
+In this context, versioning should be approached as part of a broader release strategy. Changes to a package—whether bug fixes, new features, or breaking modifications—must be reflected consistently in version increments. This ensures that users can reason about upgrades and manage dependencies without unexpected regressions.
+
+Semantic versioning provides a widely adopted convention for expressing these guarantees, but its effectiveness depends on discipline rather than the specification itself. A version number is only meaningful if it accurately reflects the nature of the changes it represents. Inconsistent or misleading versioning erodes trust and makes dependency management significantly more difficult.
+
+> Term SemVer: SemVer is a versioning scheme that encodes compatibility guarantees into version numbers using the `MAJOR.MINOR.PATCH` format. `MAJOR` Changes: incremented when there are **breaking changes** (incompatible changes); `MINOR` Changes: incremented when adding functionality in a backward-compatible manner; `PATCH` Changes: incremented for backward-compatible bug fixes. 
+
+A well-defined release strategy also considers how and when versions are published. This may include the use of pre-release versions for unstable features, clear boundaries for breaking changes, and alignment between version tags and published artifacts. By treating versioning as a deliberate and consistent practice, projects can provide a stable and predictable experience for downstream users.
+
 ## Common Pitfalls
+
+A recurring class of issues in Python packaging arises from the gap between local development and actual distribution. Code that works correctly in a local environment does not necessarily behave the same way once packaged and installed, leading to failures that only surface after release.
+
+One common example is import-related errors caused by differences between the source tree and the installed package. When code is executed directly from the project directory, modules may be resolved through the local file structure rather than through the installed distribution. This can mask missing files or incorrect package layouts, resulting in import failures for end users.
+
+Another frequent issue is incomplete distribution contents. Since build artifacts are defined by explicit inclusion rules, required files—such as data assets or auxiliary modules—may be omitted if not properly configured. These omissions often go unnoticed during local development, but lead to runtime errors once the package is installed from a distribution.
+
+Dependency-related problems are equally prevalent. A package may rely on libraries that are available in the developer’s environment but are not declared in its metadata. While the code appears to function correctly locally, installation in a clean environment exposes missing dependencies, causing immediate failures.
+
+Version inconsistencies can also introduce subtle but impactful issues. If version identifiers are not managed consistently across source code, build artifacts, and release tags, users may unknowingly install incorrect or mismatched versions. This undermines the reliability of versioning as a communication mechanism and complicates debugging and support.
+
+Finally, non-reproducible builds present a more systemic challenge. When build outputs depend on environmental factors—such as dynamic versioning, implicit dependencies, or machine-specific configurations—the same source code may produce different artifacts across environments. This lack of determinism makes it difficult to verify and trust published packages.
+
+Taken together, these pitfalls highlight a common theme: correctness in packaging is not defined by local success, but by the reliability and consistency of the distributed artifacts. Ensuring that a package behaves as expected after installation requires deliberate attention to structure, configuration, and reproducibility throughout the build and release process.
 
 ---
 
