@@ -40,15 +40,15 @@ Python packaging has long been shaped by a fragmented ecosystem of loosely conne
   - [Interface-Level Testing: CLI and Public APIs](#interface-level-testing-cli-and-public-apis)
   - [Testing in CI](#testing-in-ci)
 - [Packaging & Publishing](#packaging-publishing)
-  - [Artifacts](#artifacts)
-  - [PyPI](#pypi)
-  - [Versioning](#versioning)
-  - [Pitfalls](#pitfalls)
+  - [Build Artifacts](#build-artifacts)
+  - [Publishing to PyPI](#publishing-to-pypi)
+  - [Versioning and Release Strategy](#versioning-and-release-strategy)
+  - [Common Pitfalls](#common-pitfalls)
 - [CI/CD](#cicd)
-  - [Why](#why)
-  - [Pipeline](#pipeline)
-  - [Release](#release)
-  - [Security](#security)
+  - [From CI to CD](#from-ci-to-cd)
+  - [Pipeline Design](#pipeline-design)
+  - [Automated Releases](#automated-releases)
+  - [Security and Trust](#security-and-trust)
 - [Putting It All Together](#putting-it-all-together)
   - [Template](#template)
   - [Workflow](#workflow)
@@ -347,25 +347,25 @@ In this model, testing is no longer an isolated activity but an integral part of
 
 # Packaging & Publishing
 
-## Artifacts
+## Build Artifacts
 
-## PyPI
+## Publishing to PyPI
 
-## Versioning
+## Versioning and Release Strategy
 
-## Pitfalls
+## Common Pitfalls
 
 ---
 
 # CI/CD
 
-## Why
+## From CI to CD
 
-## Pipeline
+## Pipeline Design
 
-## Release
+## Automated Releases
 
-## Security
+## Security and Trust
 
 ---
 
