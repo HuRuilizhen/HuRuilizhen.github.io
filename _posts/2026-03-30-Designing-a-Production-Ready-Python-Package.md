@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Designing a Production-Ready Python Package: Structure, Tooling, and Automation"
-description: "Configuration of Windows Terminal with PowerShell and related tools"
+description: "A practical guide to structuring, testing, packaging, and publishing a production-ready Python package with modern tooling."
 date: 2026-03-30
-feature_image: https://pypi.org/static/images/logo-large.516e776d.svg 
+feature_image: https://pypi.org/static/images/logo-large.516e776d.svg
 tags: ['python', 'package', 'best-practices']
 ---
 
@@ -11,10 +11,10 @@ Python packaging has long been shaped by a fragmented ecosystem of loosely conne
 
 <!--more-->
 
-## Table of Content
+## Table of Contents
 
 <!--toc:start-->
-  - [Table of Content](#table-of-content)
+  - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
   - [The Problem](#the-problem)
   - [Goals](#goals)
@@ -70,7 +70,6 @@ This article aims to present a modern, production-oriented approach to Python pa
 ## Fragmented Era
 
 Before the recent consolidation of Python tooling, package development typically involved assembling a collection of independent tools, each responsible for a narrow aspect of the workflow. Linting (e.g., [flake8](https://flake8.pycqa.org/en/latest/),  [pylint](https://pylint.readthedocs.io/en/stable/)), formatting (e.g., [Black](https://black.readthedocs.io/en/stable/)), import organization (e.g., [isort](https://here-be-pythons.readthedocs.io/en/latest/python/isort.html)), dependency management, and packaging (e.g., [setuptools](https://setuptools.pypa.io/en/latest/)) were handled by separate utilities, often with overlapping responsibilities and inconsistent conventions.
-
 > Term LSP: The **L**anguage **S**erver **P**rotocol defines the protocol used between an editor or IDE and a language server that provides language features like auto complete, go to definition, find all references etc. For more infomation, visit: [https://microsoft.github.io/language-server-protocol/](https://microsoft.github.io/language-server-protocol/)
 
 > Term Linter: A **linter** is a static code analysis tool used to provide diagnostics around programming errors, bugs, stylistic errors and suspicious constructs. Linters can be executed as a standalone program in a terminal, where it usually expects one or more input files to lint. 
@@ -284,7 +283,7 @@ Integrating code quality tools into the development workflow is as important as 
 
 In modern Python projects, configuration is typically centralized in `pyproject.toml`, allowing tools like Ruff to operate with minimal setup and without scattered configuration files. This provides a single source of truth for code quality rules, reducing ambiguity and simplifying maintenance.
 
-More importantly, code quality checks should be integrated into automated workflows rather than relying on manual execution. While local tooling—such as editor integrations or pre-commit hooks can provide immediate feedback, they are inherently optional and can be bypassed. **C**ontinuous **I**ntegration pipelines, on the other hand, serve as an enforcement layer, ensuring that all changes meet the defined standards before they are merged.
+More importantly, code quality checks should be integrated into automated workflows rather than relying on manual execution. While local tooling, such as editor integrations or pre-commit hooks, can provide immediate feedback, they are inherently optional and can be bypassed. **C**ontinuous **I**ntegration pipelines, on the other hand, serve as an enforcement layer, ensuring that all changes meet the defined standards before they are merged.
 
 > Term **C**ontinuous **I**ntegration, CI: Frequently merge code and automatically validate it (build + test), ensuring the codebase is always in an integratable state. It ends with the production of an artifact. 
 
@@ -457,3 +456,21 @@ Versioning extends this system by acting as a contract between the package and i
 CI/CD completes the picture by transforming these practices into enforceable rules. A well-designed pipeline ensures that only validated code becomes distributable artifacts, and that releases are a natural consequence of versioning rather than a separate, manual process.
 
 Ultimately, the reliability of a Python package emerges from the alignment of these elements. When structure, tooling, versioning, and automation are treated as parts of a unified system, the result is not only a functional package, but a predictable and trustworthy distribution process.
+
+---
+
+Related Posts / Websites 👇
+
+📑 [PyPA - Packaging Python Projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+
+📑 [PyPA - Writing your `pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
+
+📑 [pytest - Good Integration Practices](https://docs.pytest.org/en/latest/goodpractices.html)
+
+📑 [Ruff Documentation](https://docs.astral.sh/ruff/)
+
+📑 [PyPA - Publishing package distribution releases using GitHub Actions CI/CD workflows](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/)
+
+📑 [GitHub Docs - Configuring OpenID Connect in PyPI](https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-pypi)
+
+📑 [SemVer Specification](https://semver.org/)
