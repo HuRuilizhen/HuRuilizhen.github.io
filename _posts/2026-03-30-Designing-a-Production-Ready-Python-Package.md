@@ -231,9 +231,37 @@ Overall, a well-structured testing setup emphasizes isolation, discoverability, 
 
 ## setup.py → pyproject
 
+Historically, Python packaging relied on `setup.py` as both a configuration file and an executable script. While flexible, this approach blurred the boundary between definition and execution, allowing arbitrary code to run during the build process. As a result, builds were often difficult to reason about, inconsistent across environments, and tightly coupled to specific tooling conventions.
+
+The introduction of `pyproject.toml` marked a shift toward a more declarative and standardized packaging model. Instead of embedding logic in Python code, project metadata and build configuration are expressed in a structured format that can be interpreted uniformly by different tools. This separation enables a clearer contract between the project and the build system, reducing implicit behavior and improving reproducibility.
+
+Equally important, `pyproject.toml` serves as a unified configuration entry point for the broader Python tooling ecosystem. Beyond packaging, tools for linting, formatting, and dependency management increasingly rely on the same file, reducing configuration sprawl and promoting consistency across the project.
+
+With setup.py, defining a package requires executing Python code. With pyproject.toml, the package is described as data, allowing build tools to operate without arbitrary code execution. In effect, this transition reframes packaging from an execution-driven process to a configuration-driven one. By standardizing how projects declare their structure and requirements, `pyproject.toml` provides a more predictable and maintainable foundation for modern Python development.
+
+> Tips: `setup.py` executes code to define a package; `pyproject.toml` describes a package without executing code.
+
 ## Backends
 
+While `pyproject.toml` defines the structure and metadata of a project, it does not perform the build itself. This responsibility is delegated to a build backend, which implements the logic required to transform source code into distributable artifacts such as wheels or source distributions. Common backends include [setuptools](https://setuptools.pypa.io/en/latest/), [hatchling](https://github.com/pypa/hatch), and [poetry-core](https://github.com/python-poetry/poetry-core).
+
+A build backend can be understood as the execution layer of the packaging system. It interprets the project definition provided in `pyproject.toml` and carries out the necessary steps to build the package. Different backends may offer varying levels of abstraction and additional features, but they all conform to a common interface, allowing tools like pip to interact with them in a standardized way.
+
+This separation between definition and execution is a key aspect of modern Python packaging. By decoupling project configuration from build logic, the ecosystem allows developers to choose a backend that fits their needs without changing how the project is described. In other words, `pyproject.toml` specifies what the project is, while the build backend determines how it is built.
+
+In practice, this model enables a more modular and extensible tooling landscape, where improvements in build systems can be adopted independently of project configuration, and where projects remain interoperable across different tools and environments.
+
 ## Recommendation
+
+Choosing a build system is less about individual tools and more about understanding the trade-offs between different design approaches. In practice, a good build setup should prioritize simplicity, predictability, and compatibility with the broader Python ecosystem. These criteria help ensure that the project remains easy to maintain, behaves consistently across environments, and integrates smoothly with standard tooling.
+
+From this perspective, build systems can be broadly divided into two categories. Minimal backends, such as setuptools or hatchling, focus on implementing the standard packaging interface with minimal abstraction. They align closely with the `pyproject.toml` specification, offer greater transparency, and reduce the risk of tool-specific lock-in. This makes them well-suited for libraries and projects that prioritize stability and long-term maintainability.
+
+In contrast, integrated toolchains, such as poetry, provide a more opinionated and feature-rich experience by combining dependency management, packaging, and environment handling into a single workflow. While this can improve developer ergonomics, it also introduces additional abstraction and tighter coupling to the tool itself, which may increase complexity over time.
+
+In most cases, a minimal, standard-aligned backend is the preferable choice. It keeps the configuration surface small, avoids unnecessary indirection, and adheres closely to the evolving Python packaging standards. 
+
+> Tips: Integrated toolchains remain a reasonable option when their additional features are explicitly needed, but they should be adopted with an understanding of the trade-offs involved.
 
 ---
 
