@@ -110,9 +110,120 @@ This evolution—from fragmented tools, to partial standardization, to broader u
 
 ## src vs flat
 
+A fundamental decision in structuring a Python package is whether to use a flat layout or a src-based layout. While both can work, they differ significantly in how imports are resolved during development and testing.
+
+```bash
+# flat layout package example
+demo/
+  foo/
+    __init__.py
+  run.py
+
+# src-based layout package example
+demo/
+  src/
+    foo/
+      __init__.py
+  run.py
+```
+
+In a flat layout, the package directory resides at the project root, making it directly discoverable by Python’s import system. Since the current working directory is included in `sys.path`, imports such as `import mypkg` succeed by resolving modules from the source tree itself. This behavior is convenient, but it can mask issues: code that works locally may fail after installation, as the import no longer relies on the source directory but on the installed package.
+
+```bash
+# import path example
+❯ python3.11
+Python 3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 17.0.0 (clang-1700.6.3.2)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> sys.path
+[
+  '', # current working directory, where you run python script
+  '/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python311.zip',
+  '/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11',
+  '/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/lib-dynload',
+  '/opt/homebrew/lib/python3.11/site-packages'
+]
+```
+
+The `src/` layout addresses this by placing the package under a dedicated source directory (e.g., `src/mypkg`). In this setup, the project root is no longer sufficient for resolving imports, and the package must be installed (or explicitly added to the import path) before it can be used. This enforces a stricter and more realistic workflow, ensuring that imports behave consistently between local development and deployed environments.
+
+Beyond consistency, the `src/` layout also helps prevent import shadowing, where modules in the project unintentionally override standard library or third-party packages due to their presence in the working directory. By separating the source tree from Python’s default import path, this class of subtle and environment-dependent bugs is effectively eliminated.
+
+> Tips: Flat layouts test whether code can be imported from the source tree; `src/` layouts test whether it works as an installed package. For production-oriented packages, the `src/` layout provides stronger guarantees around correctness and reproducibility, and is therefore generally preferred over the flat layout.
+
 ## Package Organization
 
+Once the project layout is established, the next concern is how to organize code within the package itself. A well-structured package should reflect logical boundaries in the system, rather than incidental implementation details.
+
+At a minimum, modules should be grouped by functionality, with each subpackage representing a coherent responsibility. This helps maintain a clear separation of concerns and avoids the accumulation of large, monolithic modules that are difficult to reason about. Deep and overly nested hierarchies should also be avoided, as they tend to increase cognitive overhead without providing meaningful structure.
+
+```bash
+# anti-pattern example: layer-based / technical role-based
+mypkg/
+  models/
+  services/
+  utils/
+  helpers/
+
+# anti-pattern example: over-engineered / over-nested
+mypkg/
+  core/
+    domain/
+      entities/
+      services/
+    infrastructure/
+      adapters/
+      repositories/
+```
+
+A common anti-pattern is organizing code by technical roles rather than functional boundaries. For example, separating modules into `models/`, `services/`, and `utils/`. While this may appear structured, it often leads to fragmented logic, where a single feature is spread across multiple directories, increasing coupling and making changes harder to implement. Another frequent issue is the overuse of generic `utils` or `helpers` modules, which tend to accumulate unrelated functionality and become implicit dependency hubs. In contrast, organizing code by functionality keeps related components together, making the system easier to understand, maintain, and evolve.
+
+> Tips: Functional organization keeps related logic together, reducing the need to navigate across multiple layers to understand or modify a feature.
+
+Equally important is defining a stable public interface. The top-level package (typically via `__init__.py`) should expose only the components intended for external use, while internal modules remain encapsulated. This distinction between public and private APIs becomes especially valuable as the package evolves, allowing internal refactoring without breaking downstream users.
+
+For projects that include command-line interfaces, it is often useful to isolate CLI-related code into a dedicated module (e.g., `cli/` or `__main__.py`), keeping it separate from core application logic. This separation ensures that the core package remains reusable as a library, independent of how it is invoked.
+
+```bash
+# functionality-based package structure example 
+src/
+  mypkg/
+    __init__.py
+
+    user/
+      __init__.py
+      models.py
+      service.py
+
+    auth/
+      __init__.py
+      service.py
+      tokens.py
+
+    cli/
+      __init__.py
+      main.py
+
+    _internal/
+      config.py
+      logging.py
+```
+
+In the above structure, related components, such as models, services, and helpers—are colocated within the same feature directory, rather than being split across technical layers. This makes the codebase easier to navigate and reduces the need to traverse multiple modules to understand or modify a feature. Separating CLI logic into its own module further ensures that the core package remains reusable as a library, while internal utilities can be grouped under a clearly marked private namespace.
+
+In practice, an effective package structure is one that makes the codebase easy to navigate, minimizes coupling between components, and provides a clear entry point for both users and maintainers.
+
 ## tests
+
+Testing is an integral part of a production-ready package, and its structure should reinforce clarity, isolation, and ease of execution. In practice, pytest has become the de facto standard for Python testing due to its simplicity and flexibility, and is a natural choice for most projects.
+
+A common and effective approach is to place all tests in a dedicated `tests/` directory at the project root, rather than embedding them within the package itself. This separation keeps production code and verification logic distinct, avoids unintentionally packaging test code during distribution, and makes the project layout easier to reason about. It also aligns well with pytest’s default discovery mechanisms, requiring minimal configuration.
+
+Within the `tests/` directory, test modules are typically organized to mirror the package structure, though this does not need to be strictly enforced. A loose correspondence is often sufficient to maintain navigability without introducing unnecessary rigidity. The goal is to make it straightforward to locate the tests associated with a given feature, while preserving flexibility as the codebase evolves.
+
+For projects that expose a command-line interface, it is important to treat the CLI as an external interface and test it accordingly. Rather than relying solely on internal function calls, tests should validate behavior through invocation mechanisms such as subprocess execution or CLI runners. This ensures that the interface behaves correctly from a user’s perspective, independent of its internal implementation.
+
+Overall, a well-structured testing setup emphasizes isolation, discoverability, and alignment with real usage patterns, helping to ensure that the package behaves consistently across development and deployment environments.
 
 ---
 
