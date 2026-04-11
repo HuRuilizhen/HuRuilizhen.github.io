@@ -34,7 +34,6 @@ Python packaging has long been shaped by a fragmented ecosystem of loosely conne
   - [Traditional Issues](#traditional-issues)
   - [Ruff replaces](#ruff-replaces)
   - [Integration](#integration)
-  - [Ruff vs Black](#ruff-vs-black)
 - [Testing](#testing)
   - [pytest](#pytest)
   - [Structure](#structure)
@@ -269,11 +268,33 @@ In most cases, a minimal, standard-aligned backend is the preferable choice. It 
 
 ## Traditional Issues
 
+As discussed earlier, Python tooling has historically been fragmented across multiple specialized utilities. This fragmentation is particularly evident in the domain of code quality, where linting, formatting, and import organization are treated as separate concerns, each managed by an independent tool.
+
+While this separation provides flexibility, it also introduces coordination overhead. Developers must configure and run multiple tools in tandem, often dealing with overlapping responsibilities and subtle inconsistencies between them. As a result, maintaining code quality becomes less about enforcing standards and more about managing the interactions between tools.
+
+This context sets the stage for a shift toward consolidation, where code quality is treated as a unified concern rather than a collection of loosely connected processes.
+
 ## Ruff replaces
+
+Rather than merely replacing individual tools, Ruff changes how code quality is enforced in practice. Traditional workflows relied on orchestrating multiple utilities—each responsible for a specific task—requiring developers to coordinate execution order, resolve conflicts, and maintain separate configurations.
+
+With Ruff, these concerns are consolidated into a single execution model. Linting, formatting, and import organization are applied through a unified interface, allowing code quality checks to be performed in a single pass. This reduces both the operational overhead and the potential for inconsistency between tools, shifting the focus from tool coordination to outcome consistency.
+
+This shift also affects how developers interact with the toolchain. Instead of running multiple commands or integrating several tools into CI pipelines, code quality enforcement becomes a streamlined step, often reducible to a single command. As a result, the workflow becomes more predictable and easier to automate, particularly in larger projects where consistency is critical.
+
+In this sense, Ruff represents not just a consolidation of functionality, but a simplification of the development workflow itself.
 
 ## Integration
 
-## Ruff vs Black
+Integrating code quality tools into the development workflow is as important as choosing the tools themselves. The goal is not merely to run checks, but to ensure that code quality is enforced consistently and automatically across all stages of development.
+
+In modern Python projects, configuration is typically centralized in `pyproject.toml`, allowing tools like Ruff to operate with minimal setup and without scattered configuration files. This provides a single source of truth for code quality rules, reducing ambiguity and simplifying maintenance.
+
+More importantly, code quality checks should be integrated into automated workflows rather than relying on manual execution. While local tooling—such as editor integrations or pre-commit hooks can provide immediate feedback, they are inherently optional and can be bypassed. **C**ontinuous **I**ntegration pipelines, on the other hand, serve as an enforcement layer, ensuring that all changes meet the defined standards before they are merged.
+
+In practice, this means that code quality becomes a required step in the development lifecycle, not a best-effort guideline. By embedding checks into CI, projects can guarantee consistency across contributors and environments, eliminating discrepancies between local setups and production code.
+
+Ultimately, effective integration shifts code quality from a developer responsibility to a system property, where adherence to standards is enforced automatically rather than manually maintained.
 
 ---
 
