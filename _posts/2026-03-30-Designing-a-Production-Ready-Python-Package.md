@@ -35,9 +35,10 @@ Python packaging has long been shaped by a fragmented ecosystem of loosely conne
   - [Ruff replaces](#ruff-replaces)
   - [Integration](#integration)
 - [Testing](#testing)
-  - [pytest](#pytest)
-  - [Structure](#structure)
-  - [CLI testing](#cli-testing)
+  - [What to Test](#what-to-test)
+  - [Testing as a Contract](#testing-as-a-contract)
+  - [Interface-Level Testing: CLI and Public APIs](#interface-level-testing-cli-and-public-apis)
+  - [Testing in CI](#testing-in-ci)
 - [Packaging & Publishing](#packaging-publishing)
   - [Artifacts](#artifacts)
   - [PyPI](#pypi)
@@ -304,11 +305,43 @@ Ultimately, effective integration shifts code quality from a developer responsib
 
 # Testing
 
-## pytest
+> Tips: Tests are not just for catching bugs, they define what correct behavior means and ensure that it remains stable over time.
 
-## Structure
+## What to Test
 
-## CLI testing
+A common mistake in testing is to focus on implementation details rather than observable behavior. For a production-ready package, tests should primarily target the public API—the functions, classes, and interfaces that users interact with directly. This ensures that tests remain stable even as internal implementations evolve.
+
+Beyond the public interface, core logic should be thoroughly exercised, especially in areas where correctness is critical or where failures would have significant impact. Edge cases also deserve explicit attention, as they often represent the boundaries where assumptions break down and unexpected behavior emerges.
+
+In contrast, testing internal helpers or transient implementation details tends to introduce unnecessary coupling between tests and code structure. Such tests are more likely to break during refactoring without providing meaningful signal. A well-designed test suite, therefore, focuses on behavior rather than structure, validating what the system does rather than how it is implemented.
+
+## Testing as a Contract
+
+At a deeper level, tests serve not only as a mechanism for detecting defects, but as a formalization of expected behavior. In this sense, a test suite functions as a contract: it defines what the package guarantees to its users and establishes the boundaries within which changes are considered safe.
+
+This perspective becomes particularly important as a project evolves. When implementation details change—whether for optimization, refactoring, or new features—the test suite provides a consistent reference point, ensuring that externally visible behavior remains intact. As long as the contract is preserved, internal changes can be made with confidence.
+
+Viewing tests as a contract also clarifies their role in long-term maintenance. Rather than being a one-time verification step, tests become a living specification that documents intended behavior and guards against regression. This shifts the purpose of testing from reactive bug detection to proactive stability assurance, reinforcing the reliability of the package over time.
+
+## Interface-Level Testing: CLI and Public APIs
+
+A practical way to apply the principles of behavior-driven testing is to focus on interface boundaries. Tests should exercise the system through the same entry points that users interact with, rather than relying on internal implementation details.
+
+For libraries, this typically means testing the public API directly—invoking exposed functions and classes as they are intended to be used. This approach ensures that tests validate observable behavior and remain stable even when internal structures change.
+
+For command-line tools, the boundary is the CLI itself. Instead of calling internal functions, tests should invoke the command-line interface as an external process, verifying outputs, exit codes, and side effects. This more closely reflects real-world usage and helps uncover issues that would not surface through direct function calls alone.
+
+By consistently testing at interface boundaries, projects can reduce coupling between tests and implementation, improve the reliability of test results, and ensure that the system behaves correctly from the user’s perspective. This aligns testing with actual usage patterns, making it both more robust and more meaningful.
+
+## Testing in CI
+
+Defining what to test and how to structure tests is only part of the equation. To be effective, testing must be consistently enforced across all changes, which is where CI plays a central role.
+
+Local testing provides fast feedback, but it ultimately depends on developer discipline and can be bypassed, whether intentionally or unintentionally. CI, in contrast, establishes an automated and consistent execution environment where tests are run on every change, ensuring that all contributions are validated against the same standards.
+
+By integrating tests into the CI pipeline—typically as a required step for pull requests—projects can enforce correctness as a non-negotiable condition for merging code. This transforms testing from a best-effort practice into a guaranteed property of the development process, preventing regressions and maintaining stability over time.
+
+In this model, testing is no longer an isolated activity but an integral part of the delivery pipeline. Combined with automated code quality checks, it forms a comprehensive validation layer that ensures both correctness and consistency before code reaches production.
 
 ---
 
