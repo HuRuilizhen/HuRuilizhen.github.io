@@ -1,0 +1,476 @@
+---
+layout: post
+title: "Designing a Production-Ready Python Package: Structure, Tooling, and Automation"
+description: "A practical guide to structuring, testing, packaging, and publishing a production-ready Python package with modern tooling."
+date: 2026-03-30
+feature_image: https://pypi.org/static/images/logo-large.516e776d.svg
+tags: ['python', 'package', 'best-practices']
+---
+
+Python packaging has long been shaped by a fragmented ecosystem of loosely connected tools—linters, formatters, build systems, and release workflows—each solving a piece of the problem but rarely forming a coherent whole. Recent developments, particularly the rise of tools like Ruff and the standardization around `pyproject.toml`, are beginning to change this landscape. This article presents a practical, end-to-end approach to designing a production-ready Python package, covering project structure, modern tooling choices, and CI/CD automation, with an emphasis on clarity, consistency, and maintainability.
+
+<!--more-->
+
+## Table of Contents
+
+<!--toc:start-->
+  - [Table of Contents](#table-of-contents)
+- [Introduction](#introduction)
+  - [The Problem](#the-problem)
+  - [Goals](#goals)
+- [The Evolution of Python Tooling](#the-evolution-of-python-tooling)
+  - [Fragmented Era](#fragmented-era)
+  - [Early Attempts at Standardization: Black](#early-attempts-at-standardization-black)
+  - [Toward Unification: Ruff](#toward-unification-ruff)
+- [Project Structure](#project-structure)
+  - [src vs flat](#src-vs-flat)
+  - [Package Organization](#package-organization)
+  - [tests](#tests)
+- [Build System](#build-system)
+  - [setup.py → pyproject](#setuppy-pyproject)
+  - [Backends](#backends)
+  - [Recommendation](#recommendation)
+- [Code Quality](#code-quality)
+  - [Traditional Issues](#traditional-issues)
+  - [Ruff replaces](#ruff-replaces)
+  - [Integration](#integration)
+- [Testing](#testing)
+  - [What to Test](#what-to-test)
+  - [Testing as a Contract](#testing-as-a-contract)
+  - [Interface-Level Testing: CLI and Public APIs](#interface-level-testing-cli-and-public-apis)
+  - [Testing in CI](#testing-in-ci)
+- [Packaging & Publishing](#packaging-publishing)
+  - [Build Artifacts](#build-artifacts)
+  - [Publishing to PyPI](#publishing-to-pypi)
+  - [Versioning and Release Strategy](#versioning-and-release-strategy)
+  - [Common Pitfalls](#common-pitfalls)
+- [CI/CD](#cicd)
+  - [Pipeline Design](#pipeline-design)
+  - [Automated Releases](#automated-releases)
+  - [Security and Trust](#security-and-trust)
+- [Conclusion](#conclusion)
+<!--toc:end-->
+
+---
+
+# Introduction
+
+## The Problem
+
+Python package development has historically relied on a collection of loosely connected tools, each addressing a specific concern—linting, formatting, dependency management, building, and publishing. While this modularity provides flexibility, it often results in fragmented workflows, duplicated configuration, and inconsistent project conventions. Developers are left to manually assemble their own toolchains, making even simple tasks—such as maintaining code quality or releasing a package—more complex than necessary. The difficulty lies not in any single tool, but in the lack of a cohesive system that ties them together into a predictable and maintainable workflow.
+
+## Goals
+
+This article aims to present a modern, production-oriented approach to Python packaging by establishing a coherent workflow that spans the entire lifecycle of a package—from project structure and build configuration to code quality, testing, and automated releases. Rather than enumerating all available tools, the focus is on practical decisions and trade-offs, highlighting a streamlined toolchain centered around pyproject.toml and Ruff. The goal is to reduce complexity, improve consistency, and provide a clear, reproducible foundation for building and maintaining Python packages in real-world projects.
+
+---
+
+# The Evolution of Python Tooling
+
+## Fragmented Era
+
+Before the recent consolidation of Python tooling, package development typically involved assembling a collection of independent tools, each responsible for a narrow aspect of the workflow. Linting (e.g., [flake8](https://flake8.pycqa.org/en/latest/),  [pylint](https://pylint.readthedocs.io/en/stable/)), formatting (e.g., [Black](https://black.readthedocs.io/en/stable/)), import organization (e.g., [isort](https://here-be-pythons.readthedocs.io/en/latest/python/isort.html)), dependency management, and packaging (e.g., [setuptools](https://setuptools.pypa.io/en/latest/)) were handled by separate utilities, often with overlapping responsibilities and inconsistent conventions.
+> Term LSP: The **L**anguage **S**erver **P**rotocol defines the protocol used between an editor or IDE and a language server that provides language features like auto complete, go to definition, find all references etc. For more infomation, visit: [https://microsoft.github.io/language-server-protocol/](https://microsoft.github.io/language-server-protocol/)
+
+> Term Linter: A **linter** is a static code analysis tool used to provide diagnostics around programming errors, bugs, stylistic errors and suspicious constructs. Linters can be executed as a standalone program in a terminal, where it usually expects one or more input files to lint. 
+
+This modular ecosystem provided flexibility, but at the cost of cohesion. Configuration was scattered across multiple files—such as setup.py (packaging), setup.cfg (tool configuration), tox.ini (testing / environment), and requirements.txt (dependencies) —making it difficult to maintain a clear and unified project setup. Tool interactions were not always predictable, and developers frequently had to resolve conflicts between formatting rules or manually coordinate execution order across tools.
+
+As a result, the complexity of Python packaging did not stem from any individual tool, but from the need to compose many tools into a working system. The lack of a cohesive workflow meant that even routine tasks—such as enforcing code quality or preparing a release—required non-trivial effort and careful orchestration.
+
+## Early Attempts at Standardization: Black
+
+The introduction of [Black](https://black.readthedocs.io/en/stable/) marked an important step toward reducing this fragmentation by standardizing one aspect of the development process: code formatting. By adopting a strictly opinionated approach with minimal configuration, Black eliminated many of the debates and inconsistencies surrounding code style, allowing teams to converge on a single, deterministic format.
+
+This shift demonstrated that developers were willing to trade configurability for consistency, especially when it simplified collaboration and reduced cognitive overhead. However, Black addressed only a single dimension of the broader problem. Linting, import management, packaging, and workflow orchestration remained distributed across separate tools, each with its own configuration and execution model.
+
+In this sense, Black can be seen as an early attempt at standardization—one that proved the value of unification, but also highlighted the limitations of solving fragmentation at only one layer of the toolchain.
+
+## Toward Unification: Ruff
+
+More recent developments, particularly the emergence of [Ruff](https://docs.astral.sh/ruff/), signal a broader shift from tool composition toward tool consolidation. Rather than focusing on a single concern, Ruff integrates multiple responsibilities—such as linting, import sorting, and code modernization—into a single, high-performance tool built on a unified internal architecture.
+
+By analyzing source code through a single parsing pipeline and applying a wide range of rules within the same execution context, Ruff significantly reduces both runtime overhead and configuration complexity. It also enables automatic fixes for many classes of issues, further streamlining the development workflow.
+
+More importantly, Ruff changes the structure of the toolchain itself. Instead of coordinating multiple tools with overlapping responsibilities, developers can rely on a more centralized and consistent system. When combined with the standardization of project configuration through pyproject.toml, this shift enables a more cohesive and maintainable packaging workflow.
+
+This evolution—from fragmented tools, to partial standardization, to broader unification—reflects a gradual movement toward simplicity at the system level, rather than improvements in isolated components.
+
+---
+
+# Project Structure
+
+## src vs flat
+
+A fundamental decision in structuring a Python package is whether to use a flat layout or a src-based layout. While both can work, they differ significantly in how imports are resolved during development and testing.
+
+```bash
+# flat layout package example
+demo/
+  foo/
+    __init__.py
+  run.py
+
+# src-based layout package example
+demo/
+  src/
+    foo/
+      __init__.py
+  run.py
+```
+
+In a flat layout, the package directory resides at the project root, making it directly discoverable by Python’s import system. Since the current working directory is included in `sys.path`, imports such as `import mypkg` succeed by resolving modules from the source tree itself. This behavior is convenient, but it can mask issues: code that works locally may fail after installation, as the import no longer relies on the source directory but on the installed package.
+
+```bash
+# import path example
+❯ python3.11
+Python 3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 17.0.0 (clang-1700.6.3.2)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> sys.path
+[
+  '', # current working directory, where you run python script
+  '/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python311.zip',
+  '/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11',
+  '/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/lib-dynload',
+  '/opt/homebrew/lib/python3.11/site-packages'
+]
+```
+
+The `src/` layout addresses this by placing the package under a dedicated source directory (e.g., `src/mypkg`). In this setup, the project root is no longer sufficient for resolving imports, and the package must be installed (or explicitly added to the import path) before it can be used. This enforces a stricter and more realistic workflow, ensuring that imports behave consistently between local development and deployed environments.
+
+Beyond consistency, the `src/` layout also helps prevent import shadowing, where modules in the project unintentionally override standard library or third-party packages due to their presence in the working directory. By separating the source tree from Python’s default import path, this class of subtle and environment-dependent bugs is effectively eliminated.
+
+> Tips: Flat layouts test whether code can be imported from the source tree; `src/` layouts test whether it works as an installed package. For production-oriented packages, the `src/` layout provides stronger guarantees around correctness and reproducibility, and is therefore generally preferred over the flat layout.
+
+## Package Organization
+
+Once the project layout is established, the next concern is how to organize code within the package itself. A well-structured package should reflect logical boundaries in the system, rather than incidental implementation details.
+
+At a minimum, modules should be grouped by functionality, with each subpackage representing a coherent responsibility. This helps maintain a clear separation of concerns and avoids the accumulation of large, monolithic modules that are difficult to reason about. Deep and overly nested hierarchies should also be avoided, as they tend to increase cognitive overhead without providing meaningful structure.
+
+```bash
+# anti-pattern example: layer-based / technical role-based
+mypkg/
+  models/
+  services/
+  utils/
+  helpers/
+
+# anti-pattern example: over-engineered / over-nested
+mypkg/
+  core/
+    domain/
+      entities/
+      services/
+    infrastructure/
+      adapters/
+      repositories/
+```
+
+A common anti-pattern is organizing code by technical roles rather than functional boundaries. For example, separating modules into `models/`, `services/`, and `utils/`. While this may appear structured, it often leads to fragmented logic, where a single feature is spread across multiple directories, increasing coupling and making changes harder to implement. Another frequent issue is the overuse of generic `utils` or `helpers` modules, which tend to accumulate unrelated functionality and become implicit dependency hubs. In contrast, organizing code by functionality keeps related components together, making the system easier to understand, maintain, and evolve.
+
+> Tips: Functional organization keeps related logic together, reducing the need to navigate across multiple layers to understand or modify a feature.
+
+Equally important is defining a stable public interface. The top-level package (typically via `__init__.py`) should expose only the components intended for external use, while internal modules remain encapsulated. This distinction between public and private APIs becomes especially valuable as the package evolves, allowing internal refactoring without breaking downstream users.
+
+For projects that include command-line interfaces, it is often useful to isolate CLI-related code into a dedicated module (e.g., `cli/` or `__main__.py`), keeping it separate from core application logic. This separation ensures that the core package remains reusable as a library, independent of how it is invoked.
+
+```bash
+# functionality-based package structure example 
+src/
+  mypkg/
+    __init__.py
+
+    user/
+      __init__.py
+      models.py
+      service.py
+
+    auth/
+      __init__.py
+      service.py
+      tokens.py
+
+    cli/
+      __init__.py
+      main.py
+
+    _internal/
+      config.py
+      logging.py
+```
+
+In the above structure, related components, such as models, services, and helpers—are colocated within the same feature directory, rather than being split across technical layers. This makes the codebase easier to navigate and reduces the need to traverse multiple modules to understand or modify a feature. Separating CLI logic into its own module further ensures that the core package remains reusable as a library, while internal utilities can be grouped under a clearly marked private namespace.
+
+In practice, an effective package structure is one that makes the codebase easy to navigate, minimizes coupling between components, and provides a clear entry point for both users and maintainers.
+
+## tests
+
+Testing is an integral part of a production-ready package, and its structure should reinforce clarity, isolation, and ease of execution. In practice, pytest has become the de facto standard for Python testing due to its simplicity and flexibility, and is a natural choice for most projects.
+
+A common and effective approach is to place all tests in a dedicated `tests/` directory at the project root, rather than embedding them within the package itself. This separation keeps production code and verification logic distinct, avoids unintentionally packaging test code during distribution, and makes the project layout easier to reason about. It also aligns well with pytest’s default discovery mechanisms, requiring minimal configuration.
+
+Within the `tests/` directory, test modules are typically organized to mirror the package structure, though this does not need to be strictly enforced. A loose correspondence is often sufficient to maintain navigability without introducing unnecessary rigidity. The goal is to make it straightforward to locate the tests associated with a given feature, while preserving flexibility as the codebase evolves.
+
+For projects that expose a command-line interface, it is important to treat the CLI as an external interface and test it accordingly. Rather than relying solely on internal function calls, tests should validate behavior through invocation mechanisms such as subprocess execution or CLI runners. This ensures that the interface behaves correctly from a user’s perspective, independent of its internal implementation.
+
+Overall, a well-structured testing setup emphasizes isolation, discoverability, and alignment with real usage patterns, helping to ensure that the package behaves consistently across development and deployment environments.
+
+---
+
+# Build System
+
+## setup.py → pyproject
+
+Historically, Python packaging relied on `setup.py` as both a configuration file and an executable script. While flexible, this approach blurred the boundary between definition and execution, allowing arbitrary code to run during the build process. As a result, builds were often difficult to reason about, inconsistent across environments, and tightly coupled to specific tooling conventions.
+
+The introduction of `pyproject.toml` marked a shift toward a more declarative and standardized packaging model. Instead of embedding logic in Python code, project metadata and build configuration are expressed in a structured format that can be interpreted uniformly by different tools. This separation enables a clearer contract between the project and the build system, reducing implicit behavior and improving reproducibility.
+
+Equally important, `pyproject.toml` serves as a unified configuration entry point for the broader Python tooling ecosystem. Beyond packaging, tools for linting, formatting, and dependency management increasingly rely on the same file, reducing configuration sprawl and promoting consistency across the project.
+
+With setup.py, defining a package requires executing Python code. With pyproject.toml, the package is described as data, allowing build tools to operate without arbitrary code execution. In effect, this transition reframes packaging from an execution-driven process to a configuration-driven one. By standardizing how projects declare their structure and requirements, `pyproject.toml` provides a more predictable and maintainable foundation for modern Python development.
+
+> Tips: `setup.py` executes code to define a package; `pyproject.toml` describes a package without executing code.
+
+## Backends
+
+While `pyproject.toml` defines the structure and metadata of a project, it does not perform the build itself. This responsibility is delegated to a build backend, which implements the logic required to transform source code into distributable artifacts such as wheels or source distributions. Common backends include [setuptools](https://setuptools.pypa.io/en/latest/), [hatchling](https://github.com/pypa/hatch), and [poetry-core](https://github.com/python-poetry/poetry-core).
+
+A build backend can be understood as the execution layer of the packaging system. It interprets the project definition provided in `pyproject.toml` and carries out the necessary steps to build the package. Different backends may offer varying levels of abstraction and additional features, but they all conform to a common interface, allowing tools like pip to interact with them in a standardized way.
+
+This separation between definition and execution is a key aspect of modern Python packaging. By decoupling project configuration from build logic, the ecosystem allows developers to choose a backend that fits their needs without changing how the project is described. In other words, `pyproject.toml` specifies what the project is, while the build backend determines how it is built.
+
+In practice, this model enables a more modular and extensible tooling landscape, where improvements in build systems can be adopted independently of project configuration, and where projects remain interoperable across different tools and environments.
+
+## Recommendation
+
+Choosing a build system is less about individual tools and more about understanding the trade-offs between different design approaches. In practice, a good build setup should prioritize simplicity, predictability, and compatibility with the broader Python ecosystem. These criteria help ensure that the project remains easy to maintain, behaves consistently across environments, and integrates smoothly with standard tooling.
+
+From this perspective, build systems can be broadly divided into two categories. Minimal backends, such as setuptools or hatchling, focus on implementing the standard packaging interface with minimal abstraction. They align closely with the `pyproject.toml` specification, offer greater transparency, and reduce the risk of tool-specific lock-in. This makes them well-suited for libraries and projects that prioritize stability and long-term maintainability.
+
+In contrast, integrated toolchains, such as poetry, provide a more opinionated and feature-rich experience by combining dependency management, packaging, and environment handling into a single workflow. While this can improve developer ergonomics, it also introduces additional abstraction and tighter coupling to the tool itself, which may increase complexity over time.
+
+In most cases, a minimal, standard-aligned backend is the preferable choice. It keeps the configuration surface small, avoids unnecessary indirection, and adheres closely to the evolving Python packaging standards. 
+
+> Tips: Integrated toolchains remain a reasonable option when their additional features are explicitly needed, but they should be adopted with an understanding of the trade-offs involved.
+
+---
+
+# Code Quality
+
+## Traditional Issues
+
+As discussed earlier, Python tooling has historically been fragmented across multiple specialized utilities. This fragmentation is particularly evident in the domain of code quality, where linting, formatting, and import organization are treated as separate concerns, each managed by an independent tool.
+
+While this separation provides flexibility, it also introduces coordination overhead. Developers must configure and run multiple tools in tandem, often dealing with overlapping responsibilities and subtle inconsistencies between them. As a result, maintaining code quality becomes less about enforcing standards and more about managing the interactions between tools.
+
+This context sets the stage for a shift toward consolidation, where code quality is treated as a unified concern rather than a collection of loosely connected processes.
+
+## Ruff replaces
+
+Rather than merely replacing individual tools, Ruff changes how code quality is enforced in practice. Traditional workflows relied on orchestrating multiple utilities—each responsible for a specific task—requiring developers to coordinate execution order, resolve conflicts, and maintain separate configurations.
+
+With Ruff, these concerns are consolidated into a single execution model. Linting, formatting, and import organization are applied through a unified interface, allowing code quality checks to be performed in a single pass. This reduces both the operational overhead and the potential for inconsistency between tools, shifting the focus from tool coordination to outcome consistency.
+
+This shift also affects how developers interact with the toolchain. Instead of running multiple commands or integrating several tools into CI pipelines, code quality enforcement becomes a streamlined step, often reducible to a single command. As a result, the workflow becomes more predictable and easier to automate, particularly in larger projects where consistency is critical.
+
+In this sense, Ruff represents not just a consolidation of functionality, but a simplification of the development workflow itself.
+
+## Integration
+
+Integrating code quality tools into the development workflow is as important as choosing the tools themselves. The goal is not merely to run checks, but to ensure that code quality is enforced consistently and automatically across all stages of development.
+
+In modern Python projects, configuration is typically centralized in `pyproject.toml`, allowing tools like Ruff to operate with minimal setup and without scattered configuration files. This provides a single source of truth for code quality rules, reducing ambiguity and simplifying maintenance.
+
+More importantly, code quality checks should be integrated into automated workflows rather than relying on manual execution. While local tooling, such as editor integrations or pre-commit hooks, can provide immediate feedback, they are inherently optional and can be bypassed. **C**ontinuous **I**ntegration pipelines, on the other hand, serve as an enforcement layer, ensuring that all changes meet the defined standards before they are merged.
+
+> Term **C**ontinuous **I**ntegration, CI: Frequently merge code and automatically validate it (build + test), ensuring the codebase is always in an integratable state. It ends with the production of an artifact. 
+
+> Term **C**ontinuous **D**eployment, CD: Automatically deliver or deploy validated code to runtime environments, ensuring it is always ready to be released. It begins by taking over that artifact. 
+
+In practice, this means that code quality becomes a required step in the development lifecycle, not a best-effort guideline. By embedding checks into CI, projects can guarantee consistency across contributors and environments, eliminating discrepancies between local setups and production code.
+
+Ultimately, effective integration shifts code quality from a developer responsibility to a system property, where adherence to standards is enforced automatically rather than manually maintained.
+
+---
+
+# Testing
+
+> Tips: Tests are not just for catching bugs, they define what correct behavior means and ensure that it remains stable over time.
+
+## What to Test
+
+A common mistake in testing is to focus on implementation details rather than observable behavior. For a production-ready package, tests should primarily target the public API—the functions, classes, and interfaces that users interact with directly. This ensures that tests remain stable even as internal implementations evolve.
+
+Beyond the public interface, core logic should be thoroughly exercised, especially in areas where correctness is critical or where failures would have significant impact. Edge cases also deserve explicit attention, as they often represent the boundaries where assumptions break down and unexpected behavior emerges.
+
+In contrast, testing internal helpers or transient implementation details tends to introduce unnecessary coupling between tests and code structure. Such tests are more likely to break during refactoring without providing meaningful signal. A well-designed test suite, therefore, focuses on behavior rather than structure, validating what the system does rather than how it is implemented.
+
+## Testing as a Contract
+
+At a deeper level, tests serve not only as a mechanism for detecting defects, but as a formalization of expected behavior. In this sense, a test suite functions as a contract: it defines what the package guarantees to its users and establishes the boundaries within which changes are considered safe.
+
+This perspective becomes particularly important as a project evolves. When implementation details change—whether for optimization, refactoring, or new features—the test suite provides a consistent reference point, ensuring that externally visible behavior remains intact. As long as the contract is preserved, internal changes can be made with confidence.
+
+Viewing tests as a contract also clarifies their role in long-term maintenance. Rather than being a one-time verification step, tests become a living specification that documents intended behavior and guards against regression. This shifts the purpose of testing from reactive bug detection to proactive stability assurance, reinforcing the reliability of the package over time.
+
+## Interface-Level Testing: CLI and Public APIs
+
+A practical way to apply the principles of behavior-driven testing is to focus on interface boundaries. Tests should exercise the system through the same entry points that users interact with, rather than relying on internal implementation details.
+
+For libraries, this typically means testing the public API directly—invoking exposed functions and classes as they are intended to be used. This approach ensures that tests validate observable behavior and remain stable even when internal structures change.
+
+For command-line tools, the boundary is the CLI itself. Instead of calling internal functions, tests should invoke the command-line interface as an external process, verifying outputs, exit codes, and side effects. This more closely reflects real-world usage and helps uncover issues that would not surface through direct function calls alone.
+
+By consistently testing at interface boundaries, projects can reduce coupling between tests and implementation, improve the reliability of test results, and ensure that the system behaves correctly from the user’s perspective. This aligns testing with actual usage patterns, making it both more robust and more meaningful.
+
+## Testing in CI
+
+Defining what to test and how to structure tests is only part of the equation. To be effective, testing must be consistently enforced across all changes, which is where CI plays a central role.
+
+Local testing provides fast feedback, but it ultimately depends on developer discipline and can be bypassed, whether intentionally or unintentionally. CI, in contrast, establishes an automated and consistent execution environment where tests are run on every change, ensuring that all contributions are validated against the same standards.
+
+By integrating tests into the CI pipeline—typically as a required step for pull requests—projects can enforce correctness as a non-negotiable condition for merging code. This transforms testing from a best-effort practice into a guaranteed property of the development process, preventing regressions and maintaining stability over time.
+
+In this model, testing is no longer an isolated activity but an integral part of the delivery pipeline. Combined with automated code quality checks, it forms a comprehensive validation layer that ensures both correctness and consistency before code reaches production.
+
+---
+
+# Packaging & Publishing
+
+## Build Artifacts
+
+The output of a Python packaging process is not the source code itself, but a set of distributable artifacts. The two primary formats are source distributions (sdist) and built distributions (wheel), each serving a different role in the ecosystem.
+
+A source distribution contains the raw project files and requires a build step during installation. In contrast, a wheel is a pre-built artifact that can be installed directly without executing the build process, making it faster and more predictable. For this reason, wheels have become the preferred distribution format in most cases, as they reduce installation overhead and eliminate variability introduced by local build environments.
+
+An important but often overlooked aspect of packaging is that the contents of these artifacts are not implicitly derived from the repository. Instead, they are determined by the build configuration and inclusion rules defined by the project. This means that not all files present in the source tree are guaranteed to be included in the final distribution, and conversely, unintended files may be packaged if not explicitly excluded. In practice, these inclusion rules are defined through the project’s build configuration (e.g., in `pyproject.toml`, see [https://packaging.python.org/en/latest/guides/writing-pyproject-toml/](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)), which ultimately determines what is shipped to users.
+
+```toml
+# pyproject configuration example
+[tool.hatch.build.targets.wheel]
+packages = ["src/mypkg"]
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+  "/src/mypkg",
+  "/README.md",
+  "/LICENSE",
+  "/pyproject.toml",
+]
+```
+
+As a result, building a package is not merely a mechanical step, but a process of curating what is actually shipped to users. Ensuring that the correct modules, data files, and metadata are included—and nothing more—is essential for producing reliable and reproducible distributions. In this sense, distribution artifacts represent a controlled snapshot of the project, rather than a direct reflection of the repository state.
+
+## Publishing to PyPI
+
+Once a package has been built into distributable artifacts, the next step is to make those artifacts available to users. In the Python ecosystem, this is typically done by publishing them to a package index such as the [Python Package Index (PyPI)](https://pypi.org/), which serves as the central distribution layer for Python packages.
+
+It is important to distinguish between building and publishing. The build step produces artifacts—such as wheels and source distributions while publishing is the act of uploading those artifacts to an index where they can be discovered and installed. Tools like pip do not interact with source repositories directly; instead, they retrieve pre-built distributions from package indexes, resolving dependencies and selecting appropriate artifacts for the target environment.
+
+In practice, publishing involves uploading pre-built artifacts to the index, typically authenticated via API tokens rather than user credentials. This separation of build and distribution reinforces a more reliable workflow: artifacts are produced in a controlled environment and then distributed without modification.
+
+From a system perspective, PyPI functions as a registry rather than a build service. It does not generate packages, but hosts and serves them. This distinction ensures that installation remains fast and predictable, as it relies on already prepared artifacts rather than executing arbitrary build steps at install time.
+
+## Versioning and Release Strategy
+
+Versioning is often treated as a simple numbering scheme, but in practice it defines the contract between a package and its users. A version is not merely a label, it communicates compatibility guarantees and sets expectations about how the package can evolve over time.
+
+In this context, versioning should be approached as part of a broader release strategy. Changes to a package—whether bug fixes, new features, or breaking modifications—must be reflected consistently in version increments. This ensures that users can reason about upgrades and manage dependencies without unexpected regressions.
+
+Semantic versioning provides a widely adopted convention for expressing these guarantees, but its effectiveness depends on discipline rather than the specification itself. A version number is only meaningful if it accurately reflects the nature of the changes it represents. Inconsistent or misleading versioning erodes trust and makes dependency management significantly more difficult.
+
+> Term SemVer: SemVer is a versioning scheme that encodes compatibility guarantees into version numbers using the `MAJOR.MINOR.PATCH` format. `MAJOR` Changes: incremented when there are **breaking changes** (incompatible changes); `MINOR` Changes: incremented when adding functionality in a backward-compatible manner; `PATCH` Changes: incremented for backward-compatible bug fixes. 
+
+A well-defined release strategy also considers how and when versions are published. This may include the use of pre-release versions for unstable features, clear boundaries for breaking changes, and alignment between version tags and published artifacts. By treating versioning as a deliberate and consistent practice, projects can provide a stable and predictable experience for downstream users.
+
+## Common Pitfalls
+
+A recurring class of issues in Python packaging arises from the gap between local development and actual distribution. Code that works correctly in a local environment does not necessarily behave the same way once packaged and installed, leading to failures that only surface after release.
+
+One common example is import-related errors caused by differences between the source tree and the installed package. When code is executed directly from the project directory, modules may be resolved through the local file structure rather than through the installed distribution. This can mask missing files or incorrect package layouts, resulting in import failures for end users.
+
+Another frequent issue is incomplete distribution contents. Since build artifacts are defined by explicit inclusion rules, required files—such as data assets or auxiliary modules—may be omitted if not properly configured. These omissions often go unnoticed during local development, but lead to runtime errors once the package is installed from a distribution.
+
+Dependency-related problems are equally prevalent. A package may rely on libraries that are available in the developer’s environment but are not declared in its metadata. While the code appears to function correctly locally, installation in a clean environment exposes missing dependencies, causing immediate failures.
+
+Version inconsistencies can also introduce subtle but impactful issues. If version identifiers are not managed consistently across source code, build artifacts, and release tags, users may unknowingly install incorrect or mismatched versions. This undermines the reliability of versioning as a communication mechanism and complicates debugging and support.
+
+Finally, non-reproducible builds present a more systemic challenge. When build outputs depend on environmental factors—such as dynamic versioning, implicit dependencies, or machine-specific configurations—the same source code may produce different artifacts across environments. This lack of determinism makes it difficult to verify and trust published packages.
+
+Taken together, these pitfalls highlight a common theme: correctness in packaging is not defined by local success, but by the reliability and consistency of the distributed artifacts. Ensuring that a package behaves as expected after installation requires deliberate attention to structure, configuration, and reproducibility throughout the build and release process.
+
+---
+
+# CI/CD
+
+## Pipeline Design
+
+A well-designed CI/CD pipeline is not merely a sequence of automated tasks, but a system for enforcing guarantees about the software being produced. Each stage in the pipeline serves a distinct purpose, collectively ensuring that the final artifact is correct, complete, and ready for distribution.
+
+In the context of Python packaging, a typical pipeline can be understood as a progression of validation and transformation steps: linting, testing, building, and publishing. Linting enforces code quality and consistency, preventing stylistic and structural issues from entering the codebase. Testing verifies functional correctness, ensuring that the behavior of the package remains stable across changes. Building transforms the validated source code into distributable artifacts, capturing a reproducible snapshot of the project. Finally, publishing makes these artifacts available to users through a package index.
+
+The ordering of these stages is deliberate. Validation steps precede artifact creation to ensure that only correct code is packaged, while publishing is deferred until all guarantees have been satisfied. This sequencing reduces the risk of distributing broken or inconsistent artifacts and reinforces a clear boundary between development and release.
+
+Rather than treating the pipeline as an operational detail, it is more accurate to view it as an executable specification of the project’s quality standards. By encoding expectations—such as passing tests, consistent formatting, and reproducible builds—directly into the pipeline, teams ensure that these standards are applied uniformly and automatically.
+
+In this sense, a CI/CD pipeline does not simply run tasks; it defines what it means for a package to be releasable. Any artifact that emerges from the pipeline has, by construction, satisfied the conditions required for distribution, making the release process both predictable and trustworthy.
+
+In practice, these concepts are typically implemented using CI/CD systems such as [GitHub Actions](https://docs.github.com/en/actions) or [GitLab CI](https://docs.gitlab.com/user/project/quick_actions/). For concrete examples, refer to the official documentation or minimal workflow templates. Recommend reading: [PyPI Trusted Publishers](https://docs.pypi.org/trusted-publishers/).
+
+## Automated Releases
+
+In a well-structured workflow, releasing a package is not a manual step, but a deterministic outcome of versioning and validation. Once a version is defined and the corresponding code has passed all pipeline checks, the release process can be fully automated.
+
+A common pattern is to treat version tags as the trigger for release. When a new version is introduced—typically through a version bump and an associated tag—the pipeline interprets this as an intent to publish. The same system that validates the code then proceeds to build the corresponding artifacts and publish them to the package index. In this model, versioning, validation, and distribution are tightly coupled, eliminating the need for ad hoc release procedures.
+
+This approach has several advantages. It ensures that every published version has passed the full set of quality checks, as release is contingent on a successful pipeline execution. It also removes ambiguity from the release process: there is a single, consistent path from version definition to artifact publication, reducing the likelihood of human error or inconsistent states.
+
+From a design perspective, automated releases shift responsibility from individuals to the system. Rather than relying on developers to remember the correct sequence of steps, the pipeline encodes the release logic directly. As a result, publishing becomes a predictable and repeatable operation, aligned with the guarantees established earlier in the workflow.
+
+In this sense, a release is not something that is performed, but something that is derived. Once the conditions are met—correct versioning, passing validation, and successful artifact generation—the system completes the process by making the package available to users.
+
+## Security and Trust
+
+The reliability of a software package is not determined solely by its functionality, but also by the trustworthiness of its distribution process. Users depend on the assumption that the package they install corresponds exactly to the source that was validated and released, without unintended modifications or interference.
+
+In this context, security is not an isolated concern, but an integral part of the distribution pipeline. The same system that enforces correctness must also ensure that artifacts are published in a controlled and verifiable manner. This includes authenticating publishing actions, restricting who or what can trigger releases, and maintaining a clear linkage between source code, build outputs, and published versions.
+
+Modern workflows increasingly rely on token-based authentication and automated publishing mechanisms to reduce the risks associated with manual processes. By delegating publishing responsibilities to the CI/CD system, projects minimize exposure to credential leakage and eliminate inconsistencies introduced by local environments. In particular, approaches such as trusted publishing establish a direct relationship between the build pipeline and the package index, removing the need for long-lived credentials and strengthening the integrity of the release process.
+
+From a broader perspective, trust emerges from consistency and transparency. A reproducible build process, a deterministic release pipeline, and a clearly defined versioning strategy together provide users with confidence that what they install is both authentic and reliable. Security, in this sense, is not a separate layer added after the fact, but a property of a well-designed system.
+
+Ultimately, a trustworthy package is one whose entire lifecycle—from source code to published artifact—is governed by explicit, verifiable rules. By embedding these guarantees into the pipeline itself, projects move beyond ad hoc practices and establish a foundation for secure and dependable software distribution.
+
+---
+
+# Conclusion
+
+Designing a production-ready Python package is less about selecting individual tools and more about establishing a coherent system for building, validating, and distributing software. Each component—project structure, build configuration, code quality tooling, and CI/CD—contributes to a larger workflow that defines how a package is produced and maintained.
+
+At its core, packaging is centered around artifacts rather than source code. What users install is not the repository itself, but a curated and reproducible distribution that must be explicitly defined and consistently generated.
+
+Versioning extends this system by acting as a contract between the package and its users. Meaningful version numbers communicate compatibility guarantees and enable predictable upgrades, but only when applied with discipline and consistency.
+
+CI/CD completes the picture by transforming these practices into enforceable rules. A well-designed pipeline ensures that only validated code becomes distributable artifacts, and that releases are a natural consequence of versioning rather than a separate, manual process.
+
+Ultimately, the reliability of a Python package emerges from the alignment of these elements. When structure, tooling, versioning, and automation are treated as parts of a unified system, the result is not only a functional package, but a predictable and trustworthy distribution process.
+
+---
+
+Related Posts / Websites 👇
+
+📑 [PyPA - Packaging Python Projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+
+📑 [PyPA - Writing your `pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
+
+📑 [pytest - Good Integration Practices](https://docs.pytest.org/en/latest/goodpractices.html)
+
+📑 [Ruff Documentation](https://docs.astral.sh/ruff/)
+
+📑 [PyPA - Publishing package distribution releases using GitHub Actions CI/CD workflows](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/)
+
+📑 [GitHub Docs - Configuring OpenID Connect in PyPI](https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-pypi)
+
+📑 [SemVer Specification](https://semver.org/)
