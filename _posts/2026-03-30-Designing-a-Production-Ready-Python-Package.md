@@ -292,6 +292,10 @@ In modern Python projects, configuration is typically centralized in `pyproject.
 
 More importantly, code quality checks should be integrated into automated workflows rather than relying on manual execution. While local tooling—such as editor integrations or pre-commit hooks can provide immediate feedback, they are inherently optional and can be bypassed. **C**ontinuous **I**ntegration pipelines, on the other hand, serve as an enforcement layer, ensuring that all changes meet the defined standards before they are merged.
 
+> Term **C**ontinuous **I**ntegration, CI: Frequently merge code and automatically validate it (build + test), ensuring the codebase is always in an integratable state. It ends with the production of an artifact. 
+
+> Term **C**ontinuous **D**eployment, CD: Automatically deliver or deploy validated code to runtime environments, ensuring it is always ready to be released. It begins by taking over that artifact. 
+
 In practice, this means that code quality becomes a required step in the development lifecycle, not a best-effort guideline. By embedding checks into CI, projects can guarantee consistency across contributors and environments, eliminating discrepancies between local setups and production code.
 
 Ultimately, effective integration shifts code quality from a developer responsibility to a system property, where adherence to standards is enforced automatically rather than manually maintained.
