@@ -34,6 +34,7 @@ The most exciting part after getting a new machine is configuration! In this pos
   - [bottom - Better top](#bottom---better-top)
   - [fzf - Fuzzy finder](#fzf---fuzzy-finder)
   - [zoxide - Smart cd](#zoxide---smart-cd)
+  - [yazi - TUI file manager](#yazi---tui-file-manager)
 - [Development Settings](#development-settings)
   - [lazygit - TUI for git commands](#lazygit---tui-for-git-commands)
   - [lazydocker - TUI for docker commands](#lazydocker---tui-for-docker-commands)
