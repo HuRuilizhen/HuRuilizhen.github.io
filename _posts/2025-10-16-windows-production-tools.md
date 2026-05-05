@@ -461,6 +461,24 @@ It will change your terminal change path cmd from `cd` to `z`. Check out [zoxide
 choco install zoxide
 ```
 
+## yazi - TUI file manager
+
+This is a blazing fast terminal file manager written in Rust. Check out [Yazi Official Docs](https://yazi-rs.github.io/) or the [Yazi GitHub Page](https://github.com/sxyazi/yazi). Installation via Chocolatey:
+
+```powershell
+choco install yazi
+```
+
+It is a very nice match for terminal-based workflows, especially if you already use tools like `fzf`, `zoxide`, `bat`, and `ripgrep`.
+
+One important note for Windows users: `yazi` relies on the `file` tool to detect file mime types, and unlike Unix-like systems, Windows does not provide it by default. The community-recommended solution is to reuse the `file.exe` shipped with Git for Windows:
+
+```powershell
+setx YAZI_FILE_ONE "C:\Program Files\Git\usr\bin\file.exe"
+```
+
+After that, restart your terminal. This is also the recommended setup in the official Yazi docs. If you installed Git in a different location, change the path accordingly.
+
 ---
 
 # Development Settings
@@ -639,6 +657,7 @@ ripgrep 14.1.0
 tldr 1.0.0
 tldr-plusplus 0.6.1
 winfetch 2.5.1
+yazi 26.1.22
 zoxide 0.9.2
 ```
 
@@ -656,6 +675,12 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 
 # ---- Zoxide ----
 # Just copy and pasted from tldr zoxide init instructions. It works! :)
+```
+
+If you also use `yazi`, remember that Windows needs an extra environment variable for `file.exe` support:
+
+```powershell
+setx YAZI_FILE_ONE "C:\Program Files\Git\usr\bin\file.exe"
 ```
 
 For Powershell Modules and PSSusbsytems, refer to the [Powershell Modules and PSSubsystems Checklist](#powershell-modules-and-pssubsystems).
@@ -684,6 +709,6 @@ Related Posts / Websites 👇
 
 📑 [GitHub - oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh)
 
-📑 [GitHub - tldr](https://github.com/tldr-pages/tldr), [GitHub - bat](https://github.com/sharkdp/bat), [GitHub - dust](https://github.com/bootandy/dust), [GitHub - gdu](https://github.com/dundee/gdu), [GitHub - fzf](https://github.com/junegunn/fzf), [GitHub - zoxide](https://github.com/ajeetdsouza/zoxide)
+📑 [GitHub - tldr](https://github.com/tldr-pages/tldr), [GitHub - bat](https://github.com/sharkdp/bat), [GitHub - dust](https://github.com/bootandy/dust), [GitHub - gdu](https://github.com/dundee/gdu), [GitHub - fzf](https://github.com/junegunn/fzf), [GitHub - zoxide](https://github.com/ajeetdsouza/zoxide), [GitHub - yazi](https://github.com/sxyazi/yazi)
 
 📑 [GitHub - lazygit](https://github.com/jesseduffield/lazygit), [GitHub - lazydocker](https://github.com/jesseduffield/lazydocker), [GitHub - neovim](https://github.com/neovim/neovim)
