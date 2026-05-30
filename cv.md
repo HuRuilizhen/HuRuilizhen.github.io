@@ -302,6 +302,13 @@ description: "A CV Page of Author"
             <p>School of Data Science, The Chinese University of Hong Kong, Shenzhen</p>
             <p>Shenzhen, Guangdong, China</p>
         </h4>
+        <h3>
+            Outstanding Graduate <span>May 2026</span>
+        </h3>
+        <h4>
+            <p>School of Data Science, The Chinese University of Hong Kong, Shenzhen</p>
+            <p>Shenzhen, Guangdong, China</p>
+        </h4>
     </div>
 </div>
 
