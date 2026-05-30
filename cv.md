@@ -217,9 +217,9 @@ description: "A CV Page of Author"
     <div class="cv-section">
         <h2>Publications & Patents</h2>
         <div class="publication-item">
-            <div class="publication-title">An Approximate Dynamic Programming Method for Directed Acyclic Graph</div>
+            <div class="publication-title">An Approximate Dynamic Programming Method for Directed Acyclic Graph Scheduling Problem</div>
             <div class="publication-authors">Yuqi Ma, <strong>Ruilizhen Hu</strong>, Ruixuan Qi, Jianfeng Mao, and Wenye Li</div>
-            <div class="publication-venue">ICONIP 2024 (Accepted)</div>
+            <div class="publication-venue">ICONIP 2024</div>
             <div class="publication-links">
                 <a href="https://link.springer.com/chapter/10.1007/978-981-96-6954-7_15">Springer</a>
                 <a href="https://github.com/HuRuilizhen/NN-to-DAG">Code</a>
@@ -228,10 +228,20 @@ description: "A CV Page of Author"
         <div class="publication-item">
             <div class="publication-title">KAE: Kolmogorov-Arnold Auto-Encoder for Representation Learning</div>
             <div class="publication-authors">Fangchen Yu, <strong>Ruilizhen Hu</strong>, Yidong Lin, Yuqi Ma, Zhenghao Huang, Wenye Li</div>
-            <div class="publication-venue">arXiv preprint (Submitted)</div>
+            <div class="publication-venue">arXiv preprint</div>
             <div class="publication-links">
                 <a href="https://arxiv.org/abs/2501.00420">arXiv</a>
                 <a href="https://github.com/SciYu/KAE">Code</a>
+            </div>
+        </div>
+        <div class="publication-item">
+            <div class="publication-title">HiPhO: How Far Are (M)LLMs from Humans in the Latest High School Physics Olympiad Benchmark?</div>
+            <div class="publication-authors">Fangchen Yu, Haiyuan Wan, Qianjia Cheng, Yuchen Zhang, Jiacheng Chen, Fujun Han, Yulun Wu, Junchi Yao, <strong>Ruilizhen Hu</strong>, Ning Ding, Yu Cheng, Tao Chen, Lei Bai, Dongzhan Zhou, Yun Luo, Ganqu Cui, Peng Ye</div>
+            <div class="publication-venue">arXiv preprint</div>
+            <div class="publication-links">
+                <a href="https://arxiv.org/abs/2509.07894">arXiv</a>
+                <a href="https://github.com/SciYu/HiPhO">Code</a>
+                <a href="https://huggingface.co/datasets/SciYu/HiPhO">Dataset</a>
             </div>
         </div>
         <div class="publication-item">
