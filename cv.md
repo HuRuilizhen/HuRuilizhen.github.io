@@ -311,5 +311,3 @@ description: "A CV Page of Author"
         </h4>
     </div>
 </div>
-
-> or, if you're old-school, you can still download the PDF version <a href="https://drive.google.com/file/d/11NBcbhpz-SWUbhM0L7TXcR34u68qVq3I/view?usp=drive_link">here</a>!
