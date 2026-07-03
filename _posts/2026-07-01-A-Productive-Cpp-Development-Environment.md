@@ -19,7 +19,10 @@ In this post, we will explore how to build a productive C++ development environm
 - [System Tool Chain Layer](#system-tool-chain-layer)
   - [Compiler](#compiler)
   - [Build System](#build-system)
+  - [Generators](#generators)
+  - [Compilation Metadata](#compilation-metadata)
   - [Dependency Strategy](#dependency-strategy)
+  - [Build Type Model](#build-type-model)
 - [Project Structure](#project-structure)
 - [Development Workflow](#development-workflow)
   - [Configuration](#configuration)
@@ -55,7 +58,7 @@ cmake --preset debug
 build it,
 
 ```bash
-cmake --build build/debug
+cmake --build --preset debug-build
 ```
 
 and debug the resulting binary directly,
@@ -76,9 +79,183 @@ An IDE can be a very good interface, but it should remain an interpreter of the 
 
 ## Compiler
 
+If the previous section explained the motivation, this section defines the **engineering contract**. Everything above the compiler and build system, including `clangd`, the editor, and the debugger, depends on this layer behaving predictably. The invariant is simple: **the build system is the only source of compilation truth**.
+
+At the compiler layer, the primary compiler in this setup is `clang++`, while `gcc` remains a secondary choice for compatibility or distribution-specific environments. On `macOS`, the practical default is usually `clang++`, since it is the system compiler. On `Linux`, either `clang++` or `gcc` may be available depending on the distribution, but the workflow described in this post is written with `clang++` as the preferred path. The language baseline is `C++20`, and there is no implicit fallback to older standards. If a project requires `C++20`, then that requirement should be stated explicitly in the build configuration rather than silently degraded by local machine defaults.
+
+Direct compiler invocation is not part of the normal workflow. It may still be useful for quick debugging or for isolating a small compilation issue, for example:
+
+```bash
+clang++ -std=c++20 -Wall -Wextra -O0 main.cpp
+```
+
+However, this kind of command should be treated as a temporary debugging tool rather than the standard way to build the project. More importantly, compiler flags should not be maintained manually across shell history, editor settings, and local notes. The ownership rule here is strict: compile flags belong to the build system, and in this setup that means `CMake`.
+
 ## Build System
 
+The build system is therefore the real center of the environment. This post uses [`CMake`](https://cmake.org/) as the single source of truth, with [`Ninja`](https://ninja-build.org/) as the preferred generator and `Make` kept only as a legacy fallback. The standard workflow is:
+
+```bash
+cmake --preset debug
+cmake --build --preset debug-build
+```
+
+An out-of-source build is required. Build artifacts, cache files, generated metadata, and configuration state should live in the build directory rather than being mixed into the source tree. This rule should hold regardless of project size. Even for a small executable, keeping source and build state separate makes the workflow easier to reason about, easier to clean, and easier to connect to tools that expect a stable build directory.
+
+`CMake` is not chosen here merely because it is popular. It is required because this setup needs a cross-platform abstraction layer, a reliable way to export compilation metadata for `clangd`, and compatibility with the surrounding editor and tooling ecosystem. Once `CMake` becomes the authority, the compiler stops being configured manually and starts executing instructions that come from one declarative source.
+
+For a modern CMake-based project, the recommended mode is **preset-driven configuration**. This model can be understood as two layers. The first is the configuration layer, which is file-driven and described by [`CMakePresets.json`](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html). That file declares the source directory, build directory, generator, and cache variables for each named configuration. The second is the execution layer, where the command line becomes the only operational entrypoint through the workflow shown above.
+
+This separation is important because it prevents configuration details from being scattered across shell history, editor tasks, and ad hoc scripts. Once a preset is defined, the CLI simply selects and executes it.
+
+`CMakePresets.json` should live at the project root and be treated as versioned project configuration rather than personal machine state. In practice, that means the project can define not only configure presets, but also build presets, test presets, and workflow presets. The configure preset captures how the build tree is created, the build preset captures how the generated build tree should be built, the test preset captures how `ctest` should be run, and the workflow preset can chain multiple stages together. CMake exposes these layers directly through the CLI, for example [`cmake --build [<dir>] --preset <preset>`](https://cmake.org/cmake/help/latest/manual/cmake.1.html) for builds, [`ctest --preset <preset>`](https://cmake.org/cmake/help/latest/manual/ctest.1.html) for tests, and [`cmake --workflow --preset <preset>`](https://cmake.org/cmake/help/latest/manual/cmake.1.html) for running a configured sequence of stages.
+
+This workflow support matters because it lets the project define not only static configuration, but also expected execution order. Instead of teaching every developer which exact configure, build, and test commands should be run in sequence, the project can encode that behavior once and expose it as a named workflow. In practice, that usually means a workflow such as `debug-full` can configure, build, and test the same build tree consistently from one command.
+
+```bash
+cmake --workflow --preset debug-full
+```
+
+For test presets specifically, the project still needs to define tests in CMake itself, typically through `enable_testing()` and `add_test(...)`. Presets standardize how those tests are executed; they do not create test definitions automatically.
+
+The older pattern
+
+```bash
+cmake -S . -B build -G Ninja
+```
+
+is still valid CMake, but in this setup it should be treated as a legacy mode. It is acceptable for temporary experiments, CI scripts, or environments where presets are not available, but it should not be the primary developer workflow inside the project. If the project already knows its generator, build directory layout, and cache variables, those decisions should live in `CMakePresets.json` rather than being retyped manually.
+
+A minimal preset file may look like this:
+
+```json
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug-build",
+      "configurePreset": "debug",
+      "jobs": 8
+    },
+    {
+      "name": "release-build",
+      "configurePreset": "release",
+      "jobs": 8
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug-test",
+      "configurePreset": "debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "release-test",
+      "configurePreset": "release",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "debug-full",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "debug"
+        },
+        {
+          "type": "build",
+          "name": "debug-build"
+        },
+        {
+          "type": "test",
+          "name": "debug-test"
+        }
+      ]
+    }
+  ]
+}
+```
+
+The point of this file is not verbosity for its own sake. It turns configuration into versioned project state. Instead of every developer deciding locally where the build directory lives or whether compile commands should be exported, the project records those choices once and makes them reproducible.
+
+## Generators
+
+It is worth separating the concept of a **build system** from the concept of a **generator**, because they are related but not identical. `CMake` is a meta-build system: it reads `CMakeLists.txt` and preset configuration, resolves targets and cache variables, and then emits files for a concrete backend. That backend is called a generator. Officially, CMake supports command-line generators such as `Ninja` and Unix Makefiles, as well as IDE-oriented generators such as Visual Studio and Xcode project files, all documented in the [`cmake-generators(7)` manual](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html).
+
+The practical relationship is straightforward. The build system defines the project model, while the generator determines which concrete tool will execute that model. If the generator is `Ninja`, CMake emits `build.ninja` and related files. If the generator is Unix Makefiles, CMake emits `Makefile`-based build scripts. The project semantics should remain the same, but the execution backend changes.
+
+In this article, `Ninja` is preferred because it is fast, explicit, and fits well with a CLI-first workflow. `Make` remains a fallback for older or more constrained environments, but it is not the primary recommendation. The key point is that developers should not think of the generator as a casual local preference. It is part of the configured build contract and therefore belongs in presets or other versioned build configuration.
+
+## Compilation Metadata
+
+The next part of the contract is compilation metadata. The key artifact is `compile_commands.json`, which must be generated explicitly:
+
+```bash
+cmake --preset debug
+```
+
+assuming that the preset enables `CMAKE_EXPORT_COMPILE_COMMANDS=ON`. By default, `compile_commands.json` is emitted into the corresponding build directory rather than the source root. In the preset example above, that means it would appear at `build/debug/compile_commands.json` or `build/release/compile_commands.json`. This matters because many editor integrations expect the file to exist either in the active build directory or to be symlinked from the project root. The important rule is that the file belongs to build state, not source state.
+
+This file is not a convenience feature for one editor plugin. It is the machine-readable description of how each translation unit is compiled. Each entry records the source file, include paths, compiler flags, macro definitions, and language standard associated with a concrete compile command. For `clangd`, this database is foundational because `clangd` operates by reading compilation metadata and constructing an AST from it. It does not reliably infer the real build configuration from the source tree alone.
+
+That is why missing or stale compilation metadata produces very specific failures: incorrect header resolution, broken go-to-definition, false diagnostics, or symbols that appear to vanish in the editor even though the project still builds. In many teams this is misdiagnosed as an editor problem, but in practice it usually means the compilation database is absent, outdated, or inconsistent with the actual build directory.
+
 ## Dependency Strategy
+
+Dependency strategy is intentionally kept conservative in the baseline setup. No global dependency manager is required. System package managers such as `brew` or `apt` are acceptable for installing the toolchain itself. `vcpkg` and `Conan` are both valid options when a project needs stronger dependency management, but they are treated as optional extensions rather than part of the core environment. `vcpkg` brings a relatively heavy integration footprint, while `Conan` is better suited to full dependency graph management.
+
+The current decision is to exclude dependency management from the baseline configuration on purpose. The reason is not that these tools are bad, but that the minimal setup should reduce external state and keep reproducibility centered on the build system itself. Regardless of which package strategy a real project eventually adopts, dependencies should not alter the semantics of the build system, silently rewrite compiler invocation rules, or break LSP correctness.
+
+## Build Type Model
+
+Finally, the build type model must also be explicit. A `Debug` configuration should keep optimization disabled, symbols enabled, and optionally allow sanitizers such as `ASAN` or `UBSAN`. A `Release` configuration should enable optimization such as `O2` or `O3`, minimize or strip symbols when appropriate, and typically disable runtime assertions. These two modes should live in distinct build directories rather than being switched in place. In other words, `Debug` and `Release` are not just flags; they are separate build states with different semantics for compilation, execution, and debugging.
+
+A practical baseline looks like this:
+
+| Build Type | Optimization | Debug Symbols | Sanitizers | Assertions | Build Directory |
+| ---------- | ------------ | ------------- | ---------- | ---------- | --------------- |
+| `Debug`    | `O0`         | enabled       | optional   | enabled    | `build/debug`   |
+| `Release`  | `O2` / `O3`  | minimal       | disabled   | typically disabled | `build/release` |
+
+Taken together, this layer defines a strict division of responsibilities: the build system defines compilation truth, the compiler executes that truth, tooling consumes the exported metadata, and the IDE does not define any build semantics on its own.
 
 ---
 
