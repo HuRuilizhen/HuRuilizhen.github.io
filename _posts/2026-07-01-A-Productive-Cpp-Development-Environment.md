@@ -23,7 +23,11 @@ In this post, we will explore how to build a productive C++ development environm
   - [Compilation Metadata](#compilation-metadata)
   - [Dependency Strategy](#dependency-strategy)
   - [Build Type Model](#build-type-model)
-- [Project Structure](#project-structure)
+- [Project Structure Contract](#project-structure-contract)
+  - [Baseline Layout](#baseline-layout)
+  - [Directory Semantics](#directory-semantics)
+  - [Test Directory Organization](#test-directory-organization)
+  - [Constraint Model](#constraint-model)
 - [Development Workflow](#development-workflow)
   - [Configuration](#configuration)
   - [Build](#build)
@@ -259,7 +263,120 @@ Taken together, this layer defines a strict division of responsibilities: the bu
 
 ---
 
-# Project Structure
+# Project Structure Contract
+
+For a C++ project built around `CMake`, `clangd`, and `CTest`, directory layout is not just an aesthetic choice. It affects how build metadata is generated, how headers are interpreted, how tests are registered, and how debugging artifacts remain separated from source state. The principle is simple: **filesystem layout should follow toolchain assumptions, not personal preference**.
+
+This matters because the build system, language server, debugger, and test runner all touch the same project tree, but they do not interpret every directory in the same way. `CMake` needs a stable source root and predictable generated directories. `clangd` relies on build metadata that points back into source and header trees. The debugger expects binaries and symbols to come from a known build output. `CTest` needs test registration to be explicit rather than inferred from ad hoc file placement. A layout that looks tidy to one developer but violates these assumptions usually creates friction later.
+
+## Baseline Layout
+
+For this setup, a practical baseline looks like this:
+
+```text
+project/
+├── CMakeLists.txt
+├── CMakePresets.json
+├── src/
+├── include/
+├── tests/
+├── cmake/
+└── build/
+```
+
+This structure is intentionally modest. It is large enough to separate public headers, implementation files, helper CMake modules, tests, and generated artifacts, but small enough that the project does not become over-architected before it has real complexity.
+
+## Directory Semantics
+
+Before going further, it is useful to define what each directory is allowed to mean.
+
+The `src/` directory holds implementation files, typically `.cpp` translation units and internal implementation headers when needed. It is not the place where the project's external contract is defined. In other words, `src/` describes how the software is implemented, not what it promises to other targets.
+
+The `include/` directory holds public interface headers. These headers define the external contract of the project and should not depend on private build tree artifacts or fragile internal layout assumptions. If a header under `include/` only works because some local build detail leaks into it, then the boundary between public API and implementation has already become unclear. In practice, many projects go one step further and place public headers under a namespaced path such as `include/<project-name>/...` to reduce header name collisions and make the installation boundary more explicit.
+
+The `tests/` directory holds test code. Test sources should live there rather than being mixed into production directories, and they should be added to the build graph explicitly through `CMake`. Just as importantly, test layout should not distort the production build graph. Tests exist to validate production code, not to redefine how that code is organized.
+
+The `build/` directory is fully generated state. It should never be committed, and it should never contain authoritative source code. Build outputs, cache files, generated metadata such as `compile_commands.json`, object files, binaries, and test artifacts belong there precisely because they are derived state rather than maintained source state. The same rule applies to generated headers: if the build system creates headers during configuration or build, those files belong to the build tree rather than being written back into `include/` or `src/`.
+
+The `cmake/` directory is optional but useful once the project grows beyond a single `CMakeLists.txt`. It is the right place for helper modules, reusable configuration fragments, and toolchain abstractions that should not clutter the project root. What it should not become is a second source tree with unclear ownership.
+
+## Test Directory Organization
+
+One part of project structure deserves separate discussion: test layout. In practice, C++ projects do **not** have one universal standard for how the `tests/` directory should be organized. Several patterns are common, and each solves a different scaling problem.
+
+The first pattern is a flat structure:
+
+```text
+tests/
+├── test_a.cpp
+└── test_b.cpp
+```
+
+This is the simplest model. Each file may become its own test target, or several files may be grouped into a single test binary. It works well for small utilities, compact libraries, and CLI-oriented projects where the test suite is still narrow enough that extra hierarchy would add more noise than value.
+
+The second pattern is a category-based structure:
+
+```text
+tests/
+├── unit/
+└── integration/
+```
+
+This structure separates tests by intent rather than by source file location. `unit/` usually contains isolated logic tests with minimal external dependency, while `integration/` contains broader tests that cross module boundaries, perform I/O, or rely on heavier runtime setup. This model aligns naturally with CI pipelines because unit and integration stages often have different runtime and failure expectations.
+
+The third pattern is a source-mirrored structure:
+
+```text
+src/
+├── engine/
+└── net/
+
+tests/
+├── engine/
+└── net/
+```
+
+Here the test tree mirrors the production tree. This is common in large or long-lived systems because it creates clearer ownership boundaries and makes it easier to map tests back to the corresponding production modules. It is especially useful when teams are organized around module boundaries rather than around one shared code pool.
+
+These patterns can be summarized briefly:
+
+| Pattern | Shape | Strength | Typical Usage |
+| ------- | ----- | -------- | ------------- |
+| Flat | `tests/test_x.cpp` | minimal overhead | small tools, small libraries |
+| Category-based | `tests/unit`, `tests/integration` | explicit test intent and CI alignment | modular applications, actively maintained repos |
+| Source-mirrored | `tests/<module>` matching `src/<module>` | ownership and traceability | large teams, long-lived systems |
+
+An important engineering clarification is that **directory structure does not define test execution behavior**. The filesystem can help humans organize test code, but it does not decide how tests are built, grouped, filtered, or scheduled.
+
+Execution semantics come from the build and test layers instead. `CMake` defines test targets and registration through mechanisms such as `add_test(...)`. `CTest` classifies and filters tests through names, labels, and preset configuration. CI systems then decide which subsets of those registered tests run in which pipeline stage. This is why two projects can have almost identical `tests/` directories but completely different execution behavior.
+
+That distinction is worth making explicit because developers often overestimate what a folder name means. A directory named `integration/` may suggest slower or broader tests, but that meaning only becomes operational when the build system and test runner encode it. The folder alone is only an organizational signal.
+
+For this article, the recommended default is the **category-based** structure:
+
+```text
+tests/
+├── unit/
+└── integration/
+```
+
+This is not because it is the only correct layout, but because it gives a good balance between scalability and simplicity. It scales better than a flat directory once the test suite grows, it avoids coupling test structure too tightly to the internal `src/` layout, and it maps naturally to CI-level separation when unit and integration tests need different execution policies. At the same time, it stays simple enough for local iteration and does not force a large-system ownership model onto a small or medium project.
+
+## Constraint Model
+
+Regardless of which test layout a project chooses, some constraints should remain invariant.
+
+Tests should be independent of the production include layout in the sense that they must not depend on accidental header placement or private build-directory leakage. Tests must be registered through the build system rather than discovered through ad hoc filesystem conventions alone. And tests should not rely on directory shape itself as the source of execution semantics. Layout helps organization; `CMake` and `CTest` define behavior.
+
+Taken together, this gives a clean separation of concerns:
+
+- filesystem layout is the organizational layer
+- `CMake` is the build graph definition layer
+- `CTest` is the execution classification layer
+
+These layers are intentionally decoupled. That decoupling leads to the principle that matters most for day-to-day engineering:
+
+> Test directory structure is an organizational convention; execution semantics are defined by CMake and CTest, not the filesystem.
 
 ---
 
