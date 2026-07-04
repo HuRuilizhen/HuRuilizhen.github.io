@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "A Productive C++ Development Environment Setting"
-description: "A Cpp Development Setup for Modern Developers"
+title: "A Productive C++ Development Environment"
+description: "A Modern C++ Development Setup for Productive Workflows"
 date: 2026-07-01
 feature_image: images/cpp.png
 tags: ['cpp', 'development', 'package-release', 'best-practices']
@@ -459,7 +459,7 @@ And the preset only needs to activate the project-level option:
 }
 ```
 
-The cleanest large-project approach is usually to isolate sanitizer behavior in a dedicated toolchain file, for example `cmake/toolchains/asan.cmake`, and let the preset select that toolchain. In that model, the preset is responsible for choosing a configuration such as `debug-asan`, while the toolchain file owns the actual compilation and linking policy. This keeps responsibilities cleaner:
+Another structured approach is to isolate sanitizer behavior in a dedicated file such as `cmake/toolchains/asan.cmake`, and let the preset select it. This can work well in a reusable template because the preset stays focused on configuration selection while the extra file holds the compilation policy. In that model, responsibilities are separated as follows:
 
 - the preset selects configuration
 - the toolchain defines compilation behavior
@@ -468,6 +468,7 @@ The cleanest large-project approach is usually to isolate sanitizer behavior in 
 That can be expressed with a very small dedicated file such as `cmake/toolchains/asan.cmake`:
 
 ```cmake
+# Minimal example: real projects may also need to cover shared/module linker flags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address,undefined")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
@@ -487,7 +488,7 @@ and a preset that selects it:
 }
 ```
 
-For a reusable project template or a blog post that is trying to teach a disciplined setup, this final model is usually the best recommendation. It scales naturally when additional variants such as `UBSAN`, `TSAN`, or `LSAN` need to be introduced later, and it keeps the preset readable instead of turning it into a raw flag container.
+For a reusable project template or a blog post that is trying to teach a disciplined setup, this model can be a useful advanced option. It scales naturally when additional variants such as `UBSAN`, `TSAN`, or `LSAN` need to be introduced later, and it keeps the preset readable instead of turning it into a raw flag container. However, for many ordinary projects, a project-level option plus target-based compile and link settings is still the more common default.
 
 Sanitizers work best when debug symbols are enabled and optimization is kept low, usually at `O0` or `O1`. They can still be used in other configurations, but highly optimized binaries are generally less pleasant to diagnose because the resulting runtime and stack traces become harder to interpret.
 
