@@ -28,14 +28,9 @@ In this post, we will explore how to build a productive C++ development environm
   - [Directory Semantics](#directory-semantics)
   - [Test Directory Organization](#test-directory-organization)
   - [Constraint Model](#constraint-model)
-- [Development Workflow](#development-workflow)
-  - [Configuration](#configuration)
-  - [Build](#build)
-  - [Run/Test](#runtest)
-  - [Debug](#debug)
 - [Debug Stack](#debug-stack)
   - [CLI Debugging](#cli-debugging)
-  - [Sanitizer](#sanitizer)
+  - [Sanitizers](#sanitizers)
   - [IDE Debugging](#ide-debugging)
 - [Integrate with AstroNvim](#integrate-with-astronvim)
 - [Reproducibility Layer](#reproducibility-layer)
@@ -220,6 +215,8 @@ A minimal preset file may look like this:
 
 The point of this file is not verbosity for its own sake. It turns configuration into versioned project state. Instead of every developer deciding locally where the build directory lives or whether compile commands should be exported, the project records those choices once and makes them reproducible.
 
+One useful way to think about presets is that they primarily handle **selection and orchestration**, not deep compilation policy. A preset chooses which build tree, generator, cache values, and workflow stages should be used. Lower-level compilation behavior, such as sanitizer instrumentation, is often cleaner when it is expressed through project options, target-level logic, or a dedicated toolchain file rather than by turning every preset into a bag of raw flags.
+
 ## Generators
 
 It is worth separating the concept of a **build system** from the concept of a **generator**, because they are related but not identical. `CMake` is a meta-build system: it reads `CMakeLists.txt` and preset configuration, resolves targets and cache variables, and then emits files for a concrete backend. That backend is called a generator. Officially, CMake supports command-line generators such as `Ninja` and Unix Makefiles, as well as IDE-oriented generators such as Visual Studio and Xcode project files, all documented in the [`cmake-generators(7)` manual](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html).
@@ -380,30 +377,153 @@ These layers are intentionally decoupled. That decoupling leads to the principle
 
 ---
 
-# Development Workflow
-
-## Configuration
-
-## Build
-
-## Run/Test
-
-## Debug
-
----
-
 # Debug Stack
 
 ## CLI Debugging
 
-## Sanitizer
+In practice, the debugging stack in this setup has three layers: the command-line debugger, runtime instrumentation, and the editor or IDE frontend. They are related, but they are not interchangeable. The command-line debugger controls program execution, sanitizers instrument runtime behavior, and the IDE only orchestrates those lower layers through a user interface.
+
+At the CLI layer, the primary debugger depends on platform conventions. On `macOS`, the practical default is `lldb`. On `Linux`, `gdb` remains the most common baseline, although `lldb` is also a viable option in many environments. The important point is not which debugger binary is more fashionable, but that the debugger operates directly on the compiled program and its symbols rather than on source files alone.
+
+Before going further, the most important requirement is that debugging needs a real debug build. At minimum, that means debug symbols must be enabled and aggressive optimization should be avoided. In a CMake-driven workflow, this typically means using a `Debug` preset or setting:
+
+```bash
+-DCMAKE_BUILD_TYPE=Debug
+```
+
+At the raw compiler level, the equivalent intent is usually expressed with flags such as:
+
+```bash
+-g -O0
+```
+
+Without symbols, backtraces lose fidelity and variable inspection becomes unreliable. With too much optimization, the debugger may still run, but source-level stepping, local variable visibility, and breakpoint behavior become much harder to interpret.
+
+A typical `lldb` workflow looks like this:
+
+```bash
+lldb ./build/debug/app
+```
+
+From there, only a small core command set is needed for day-to-day work:
+
+| Command | Purpose |
+| ------- | ------- |
+| `b main` | set a breakpoint |
+| `run` | start execution |
+| `bt` | show a stack trace |
+| `frame variable` | inspect local variables |
+| `next` | step over |
+| `step` | step into |
+| `continue` | resume execution |
+
+The key constraint is that the CLI debugger operates on the **compiled binary plus debug symbols**. It does not depend on IDE state, editor plugins, or active CMake runtime context after the build has already happened. In that sense, the debugger is downstream of the build system, not embedded inside it. However, debugger correctness still depends heavily on build-system decisions: symbols must actually be generated, `Debug` builds must avoid stripping them, and the build directory used for debugging must be the same one that produced the binary being inspected.
+
+## Sanitizers
+
+The second layer is runtime instrumentation. Sanitizers are not traditional debuggers; they are compiler-assisted runtime checks that modify the generated binary so that invalid behavior is detected at execution time. Their purpose is to catch classes of bugs that can be difficult to inspect manually in a debugger, especially memory misuse and undefined behavior.
+
+Two sanitizers are especially common in modern C++ workflows. `AddressSanitizer` (`ASAN`) is used to detect heap and stack memory errors such as use-after-free, out-of-bounds access, and similar corruption patterns. `UndefinedBehaviorSanitizer` (`UBSAN`) is used to detect invalid or undefined language semantics such as problematic integer overflow, invalid casts, or alignment violations. In practice, these two are often enabled together:
+
+```bash
+-fsanitize=address,undefined
+```
+
+There are several ways to express this in a CMake-based workflow. The most direct method is to inject the sanitizer flags through preset cache variables such as `CMAKE_C_FLAGS`, `CMAKE_CXX_FLAGS`, and `CMAKE_EXE_LINKER_FLAGS` in a preset like `debug-asan`. This works, and it is useful as an introductory setup because the preset becomes self-contained and no `CMakeLists.txt` changes are required. The downside is that raw flags become scattered through cache state, are harder to compose cleanly, and can end up polluting broader build configuration.
+
+A more project-oriented approach is to expose an explicit option such as `ENABLE_ASAN` in `CMakeLists.txt`, and then let a preset turn that option on. That model is closer to common engineering practice because the project declares sanitizer support intentionally rather than smuggling it in through ad hoc cache strings. It also composes better with multiple build profiles.
+
+A minimal example looks like this:
+
+```cmake
+option(ENABLE_ASAN "Enable AddressSanitizer" OFF)
+
+if(ENABLE_ASAN)
+  add_compile_options(-fsanitize=address,undefined)
+  add_link_options(-fsanitize=address,undefined)
+endif()
+```
+
+And the preset only needs to activate the project-level option:
+
+```json
+{
+  "name": "debug-asan",
+  "inherits": "debug",
+  "cacheVariables": {
+    "ENABLE_ASAN": "ON"
+  }
+}
+```
+
+The cleanest large-project approach is usually to isolate sanitizer behavior in a dedicated toolchain file, for example `cmake/toolchains/asan.cmake`, and let the preset select that toolchain. In that model, the preset is responsible for choosing a configuration such as `debug-asan`, while the toolchain file owns the actual compilation and linking policy. This keeps responsibilities cleaner:
+
+- the preset selects configuration
+- the toolchain defines compilation behavior
+- `CMakeLists.txt` defines the build graph
+
+That can be expressed with a very small dedicated file such as `cmake/toolchains/asan.cmake`:
+
+```cmake
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address,undefined")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
+```
+
+and a preset that selects it:
+
+```json
+{
+  "name": "debug-asan",
+  "generator": "Ninja",
+  "binaryDir": "${sourceDir}/build/debug-asan",
+  "toolchainFile": "cmake/toolchains/asan.cmake",
+  "cacheVariables": {
+    "CMAKE_BUILD_TYPE": "Debug"
+  }
+}
+```
+
+For a reusable project template or a blog post that is trying to teach a disciplined setup, this final model is usually the best recommendation. It scales naturally when additional variants such as `UBSAN`, `TSAN`, or `LSAN` need to be introduced later, and it keeps the preset readable instead of turning it into a raw flag container.
+
+Sanitizers work best when debug symbols are enabled and optimization is kept low, usually at `O0` or `O1`. They can still be used in other configurations, but highly optimized binaries are generally less pleasant to diagnose because the resulting runtime and stack traces become harder to interpret.
+
+Their execution model is also different from normal observation-based debugging. When a sanitizer detects a violation, the program typically aborts immediately and prints a diagnostic stack trace. This is not a recovery-oriented workflow. The binary is being instrumented so that illegal behavior becomes explicit as soon as it occurs.
+
+That leads to the main constraint of this layer: sanitizers are **not observational tools**. They change program behavior by injecting checks into the compiled binary. That is exactly why they are effective, but it is also why they should be understood as a distinct debugging layer rather than as a prettier form of logging or tracing.
+
+The most useful summary is therefore this: sanitizers should be treated primarily as a **toolchain-level concern**, not merely as a build preset concern. Presets select and orchestrate configurations; toolchains and project logic define how the binary is actually built.
 
 ## IDE Debugging
+
+The third layer is IDE integration. In this setup, IDE debugging should be understood as a frontend for the CLI debugger, not as an independent execution system. Whether the interface is `nvim-dap`, a graphical IDE, or another DAP-compatible frontend, the underlying execution still flows through a real debugger such as `lldb` or `gdb`.
+
+For a Neovim-based workflow, the typical components are `nvim-dap`, a debug adapter such as `lldb-vscode`, and the Debug Adapter Protocol itself. The execution chain can be summarized as:
+
+<div style="text-align: center;" class="mermaid">
+flowchart LR
+    A[IDE / Editor Frontend]
+    B[DAP]
+    C[lldb / gdb]
+    D[Binary]
+
+    A --> B --> C --> D
+</div>
+
+This separation is important because it keeps responsibility boundaries clear. The IDE does not compile the code, does not define build flags, and does not replace the debugger. It only launches and orchestrates the debugger with a structured configuration.
+
+In practice, the debugger frontend still needs a few concrete facts: the executable path, the working directory, and consistent source paths that match the debug symbols embedded in the binary. Editor-side project metadata such as `compile_commands.json` can help the surrounding development experience feel coherent, but actual source-level debug mapping depends primarily on the binary, its symbols, and path consistency between build and source trees.
+
+A typical configuration in a Neovim workflow therefore includes values such as:
+
+- `program`: `build/debug/app`
+- `cwd`: project root
+- `stopOnEntry`: optional
+
+The constraint of this layer is the same one repeated throughout the article: the IDE debugger does not define build semantics. It does not choose optimization flags, it does not generate symbols, and it does not replace the CLI debugger underneath. It is a control surface over `lldb` or `gdb`, nothing more and nothing less.
 
 ---
 
 # Integrate with AstroNvim
 
 ---
-
-# Reproducibility Layer
