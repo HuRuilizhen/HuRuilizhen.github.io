@@ -33,7 +33,10 @@ In this post, we will explore how to build a productive C++ development environm
   - [Sanitizers](#sanitizers)
   - [IDE Debugging](#ide-debugging)
 - [Integrate with AstroNvim](#integrate-with-astronvim)
-- [Reproducibility Layer](#reproducibility-layer)
+  - [clangd Integration](#clangd-integration)
+  - [Debugger Frontend Integration](#debugger-frontend-integration)
+  - [Community Pack and Lightweight Configuration](#community-pack-and-lightweight-configuration)
+  - [What AstroNvim Actually Needs](#what-astronvim-actually-needs)
 <!--toc:end-->
 
 ---
@@ -514,16 +517,82 @@ This separation is important because it keeps responsibility boundaries clear. T
 
 In practice, the debugger frontend still needs a few concrete facts: the executable path, the working directory, and consistent source paths that match the debug symbols embedded in the binary. Editor-side project metadata such as `compile_commands.json` can help the surrounding development experience feel coherent, but actual source-level debug mapping depends primarily on the binary, its symbols, and path consistency between build and source trees.
 
-A typical configuration in a Neovim workflow therefore includes values such as:
-
-- `program`: `build/debug/app`
-- `cwd`: project root
-- `stopOnEntry`: optional
-
-The constraint of this layer is the same one repeated throughout the article: the IDE debugger does not define build semantics. It does not choose optimization flags, it does not generate symbols, and it does not replace the CLI debugger underneath. It is a control surface over `lldb` or `gdb`, nothing more and nothing less.
-
 ---
 
 # Integrate with AstroNvim
 
+At this point, integrating the project with `AstroNvim` should not require redefining the toolchain. If the project already exports `compile_commands.json`, separates build directories cleanly, and exposes a predictable debug binary, then the editor only needs to consume that information. This is the reason I describe AstroNvim here as a frontend rather than as a build environment: it becomes useful only after the build system has already expressed the project correctly.
+
+## clangd Integration
+
+For C++ editing, the most important integration path is still `clangd`. AstroNvim does not need to understand `CMake` targets directly if `clangd` can already see the correct compilation database. In the [`async_logger`](https://github.com/HuRuilizhen/async_logger) example project, that contract is made explicit in two places.
+
+First, the project exports compile commands through `CMakePresets.json`. Second, the project includes a local `.clangd` file that points `clangd` to the active build directory:
+
+```yaml
+CompileFlags:
+  CompilationDatabase: build/debug
+```
+
+This small file matters because it removes ambiguity about which build tree the editor should treat as authoritative. In a project with multiple build directories, `clangd` should not be left to guess. The editor experience becomes much more stable when the project tells `clangd` exactly where the relevant compilation database lives.
+
+Once that is in place, AstroNvim can delegate normal code intelligence work to `clangd`: go-to-definition, completion, diagnostics, symbol navigation, and refactoring assistance. None of that requires the editor to define include paths or compile flags manually. The editor is only surfacing the model already produced by the build system.
+
+## Debugger Frontend Integration
+
+The same thin-frontend principle applies to debugging. AstroNvim does not create a separate debugging model for the project. It simply provides a UI over the debugger stack described in the previous section. As long as the project already has a valid debug build and a predictable executable path, the editor can launch the debugger without redefining anything fundamental.
+
+In the `async_logger` project, the build system already defines runtime output under `${CMAKE_BINARY_DIR}/bin`, and the presets define a deterministic build root such as `build/debug`. That means the editor-side debug configuration can stay simple: it only needs to know which binary to launch, which working directory to use, and whether stop-on-entry is desired. This is exactly the kind of integration that stays maintainable over time because the editor is consuming project state, not inventing it.
+
+## Community Pack and Lightweight Configuration
+
+One useful detail from the current setup is that the AstroNvim side is intentionally light. The active Neovim community imports include the C++ pack directly. In my current configuration, this lives in [`lua/community.lua`](https://github.com/HuRuilizhen/astronvim-configuration/blob/main/lua/community.lua), and the imported community modules come from the [AstroCommunity catalog](https://astronvim.github.io/astrocommunity/):
+
+```lua
+-- lua/community.lua
+return {
+  "AstroNvim/astrocommunity",
+  { import = "astrocommunity.pack.lua" },
+  { import = "astrocommunity.pack.cpp" }
+}
+```
+
+That is enough to bring in a reasonable baseline for the language ecosystem without turning the editor configuration into the place where project semantics are defined. In other words, the community pack helps with editor capability, but it does not replace the role of `CMake`, `clangd`, or the debugger itself.
+
+This distinction is worth preserving. Tool installation and editor conveniences belong to the editor layer. Compilation truth, test registration, and debug correctness belong to the project layer. The more these responsibilities remain separated, the easier the setup is to reason about and reproduce.
+
+## What AstroNvim Actually Needs
+
+Looking at the `async_logger` project, the editor integration works well because the project already satisfies a short list of requirements:
+
+- a valid `CMakePresets.json`
+- an exported `compile_commands.json`
+- a `.clangd` file that points to the intended compilation database
+- a deterministic build directory such as `build/debug`
+- a predictable binary output path for debugging
+
+After these conditions are met, AstroNvim has very little left to invent. It can attach `clangd`, surface diagnostics and navigation, and act as a DAP frontend for the debugger. That is the real integration story here: a good AstroNvim workflow for C++ is mostly a good CMake project with a thin editor frontend.
+
 ---
+
+Related Posts / Websites 👇
+
+📑 [GitHub - HuRuilizhen/async_logger](https://github.com/HuRuilizhen/async_logger)
+
+📑 [GitHub - HuRuilizhen/astronvim-configuration](https://github.com/HuRuilizhen/astronvim-configuration)
+
+📑 [AstroNvim - AstroCommunity](https://astronvim.github.io/astrocommunity/)
+
+📑 [GitHub - AstroCommunity C++ Pack](https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/pack/cpp)
+
+📑 [clangd - Configuration](https://clangd.llvm.org/config)
+
+📑 [CMake - cmake-presets(7)](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html)
+
+📑 [CMake - cmake-generators(7)](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html)
+
+📑 [CMake - ctest(1)](https://cmake.org/cmake/help/latest/manual/ctest.1.html)
+
+📑 [LLVM - LLDB Documentation](https://lldb.llvm.org/)
+
+📑 [GitHub - mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap)
